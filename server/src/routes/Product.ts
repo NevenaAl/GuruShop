@@ -73,6 +73,7 @@ router.get('/:id?',async (req:any, res:any) => {
     }
 })
 
+
 router.post('/:id?', upload.single('image'), async (req:any, res:any) => { 
     const productValidation = validateProductInput();
     let product;
