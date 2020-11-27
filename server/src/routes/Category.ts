@@ -7,6 +7,13 @@ import * as error from '../strings/errorMessages'
 import { processUpload } from '../handlers/fileHandler';
 import { Subcategory } from '../entity/Subcategory';
 import { Like } from 'typeorm';
+import { Http2ServerRequest } from 'http2';
+
+interface RestRequest {
+    req: express.Request,
+    params: any,
+    isAuth: Boolean
+}
 
 
 const router = express.Router();
@@ -92,7 +99,9 @@ router.get('/:id?',async (req:any, res:any) => {
 
   })
 
-  router.delete('/:id', async (req:any, res: any) =>{
+
+
+  router.delete('/:id', async (req:RestRequest, res: express.Response | any) =>{
     if(!req.isAuth){
         return res.send({
             category:null,

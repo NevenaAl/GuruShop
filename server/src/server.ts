@@ -4,26 +4,53 @@ import {config} from '../config/constants';
 import {User} from './entity/User';
 import isAuth from './handlers/checkAuth'
 import * as express from 'express';
-import {router as users} from './routes/User'
-import {router as category} from './routes/Category'
-import {router as subcategory} from './routes/Subcategory'
-import {router as product} from './routes/Product'
+import  { ApolloServer,gql, PubSub }  from 'apollo-server-express';
+import {json} from 'body-parser'
+import path = require("path");
+import * as http from 'http'
+import appUse from './routes/Index'
 
-console.clear()
+const typeDefs = gql`
+type Query {
+  hello: String
+}`;
+const resolvers = {
+  Query: {
+    hello: () => "Hello world",
+  },
+};
+
+console.clear();
+(async()=>{
+  
+const pubsub = new PubSub();
+
 const app = express();
 
+const server = new ApolloServer({ typeDefs, resolvers,
+  context(req){
+    return {
+      pubsub,
+      req
+    }
+} });
+
+app.use('/graphql',json())
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(isAuth);
-app.use('/users',users);
-app.use('/categories',category);
-app.use('/subcategories',subcategory);
-app.use('/products',product);
+app.use('/images',express.static(path.join(__dirname,'images')));
+appUse(app);
+server.applyMiddleware({app});
 
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
-createConnection().then(_ => {
-  app.listen(config.port, () => {
-    console.log(`Example app listening at http://localhost:${config.port}`)
-  })
-}).catch(error => console.log(error));
+await createConnection()
 
+httpServer.listen({port: config.port},()=>{
+  console.log(`Server listening at http://localhost:${config.port}${server.graphqlPath}`);
+  console.log(`WebSocket subscription ready at ws://localhost${config.port}${server.subscriptionsPath}`);
+})
+
+})()
