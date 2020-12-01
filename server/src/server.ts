@@ -9,16 +9,10 @@ import {json} from 'body-parser'
 import path = require("path");
 import * as http from 'http'
 import appUse from './routes/Index'
+import {importSchema} from 'graphql-import'
+import {resolvers} from './resolvers/rootResolver'
 
-const typeDefs = gql`
-type Query {
-  hello: String
-}`;
-const resolvers = {
-  Query: {
-    hello: () => "Hello world",
-  },
-};
+const typeDefs = importSchema(path.join(__dirname,"./schema/schema.graphql"));
 
 console.clear();
 (async()=>{

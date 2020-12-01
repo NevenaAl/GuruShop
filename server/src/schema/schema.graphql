@@ -1,0 +1,138 @@
+type Query {
+    hello: String!
+    users: [User!]
+    user(_id:String!): UserPayload!
+    categories:  [Category!]
+    category(_id:String!) : CategoryPayload!
+    products: [Product!]
+    product(_id:String!): ProductPayload!
+    subcategories:  [Subcategory!]
+    subcategory(_id:String!) : SubcategoryPayload!
+}
+
+type Mutation {
+    createUser(data: CreateUserInput!) : UserPayload!
+    updateUser(data: UpdateUserInput!) : UserPayload!
+    deleteUser(_id: String!) : UserPayload!
+    logInUser(data: LogInUserInput!) : LogInPayload!
+
+    createCategory(data: CreateCategoryInput!) : CategoryPayload!
+    updateCategory(data: UpdateCategoryInput!) : CategoryPayload!
+    deleteCategory(_id:String!) : CategoryPayload!
+}
+
+input CreateUserInput{
+    name: String!
+    surrname: String!
+    email: String!
+    password: String!
+}
+
+input UpdateUserInput{
+    _id: String!
+    name: String
+    surrname: String
+    email: String
+    password: String
+}
+
+input LogInUserInput {
+     email: String!
+     password: String!
+}
+
+input CreateCategoryInput{
+    name: String!
+    image: String!
+}
+
+input UpdateCategoryInput{
+    _id: String!
+    name: String!
+    image: String!
+}
+
+type UsersPayload {
+    usersPayload: [User!]
+    errors: [Error!]
+}
+
+type UserPayload {
+    userPayload: User
+    errors: [Error!]
+}
+
+type LogInPayload{
+    userPayload: User
+    errors: [Error!]
+    token: String
+}
+
+type CategoryPayload{
+    categoryPayload: Category
+    errors: [Error!]
+}
+
+type CategoriesPayload{
+    categoriesPayload: [Category!]
+    errors: [Error!]
+}
+
+type SubcategoryPayload{
+    subcategoryPayload: Subcategory
+    errors: [Error!]
+}
+
+type SubcategoriesPayload{
+    subcategoriesPayload: [Subcategory!]
+    errors: [Error!]
+}
+
+type ProductsPayload{
+    productsPayload: [Product!]
+    errors: [Error!]
+}
+
+type ProductPayload{
+    productPayload: Product
+    errors: [Error!]
+}
+
+type Error {
+    path: String!
+    message: String!
+}
+
+type User{
+    _id: String!
+    name: String!
+    surrname: String!
+    email: String!
+    password: String!
+    products: [Product!]
+}
+
+type Category{
+    _id: String!
+    name: String!
+    image: String!
+    subcategories: [Subcategory!]
+    products: [Product!]
+}
+
+type Subcategory{
+    _id: String!
+    name: String!
+    image: String!
+    category: Category!
+    products: [Product!]
+}
+
+type Product{
+    _id: String!
+    name: String!
+    image: String!
+    user: User!
+    category: Category!
+    subcategory: Subcategory!
+}

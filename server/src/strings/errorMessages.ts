@@ -68,3 +68,8 @@ export const productRelationsError = {
     path: "product",
     message : "No relations id passed for product"
 }
+
+export const categoryExistsError = { 
+    path: "category",
+    message : "Category with this name already exists"
+}
