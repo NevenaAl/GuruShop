@@ -14,7 +14,9 @@ export class Subcategory extends BaseEntity {
     @Column("text")
     image: string;
 
-    @ManyToOne (() => Category, category => category.subcategories)
+    @ManyToOne (() => Category, category => category.subcategories,{
+        onDelete: 'CASCADE',
+    })
     category: Category;
  
     @OneToMany(() => Product, product => product.category)

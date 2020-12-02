@@ -59,6 +59,11 @@ export const noCategoryFound = {
     message : "No category found with this id"
 }
 
+export const noSubcategoryFound = { 
+    path: "subcategory",
+    message : "No subcategory found with this id"
+}
+
 export const noProductFound = { 
     path: "product",
     message : "No product found with this id"
@@ -72,4 +77,14 @@ export const productRelationsError = {
 export const categoryExistsError = { 
     path: "category",
     message : "Category with this name already exists"
+}
+
+export const subcategoryExistsError = { 
+    path: "subcategory",
+    message : "Subcategory with this name already exists"
+}
+
+export const productExistsError = { 
+    path: "product",
+    message : "Product with this name already exists"
 }

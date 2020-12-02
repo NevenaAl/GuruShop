@@ -2,13 +2,13 @@ import { PubSub}  from "apollo-server-express"
 
 export interface Context {
     pubsub : PubSub;
-    request : any;
+    req : any;
 }
 
 export type Resolver = (
     parent: any,
     args: any,
-    contect: Context,
+    context: Context,
     info : any
  ) => any;
 

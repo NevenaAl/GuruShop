@@ -19,6 +19,14 @@ type Mutation {
     createCategory(data: CreateCategoryInput!) : CategoryPayload!
     updateCategory(data: UpdateCategoryInput!) : CategoryPayload!
     deleteCategory(_id:String!) : CategoryPayload!
+
+    createSubcategory(data: CreateSubcategoryInput!) : SubcategoryPayload!
+    updateSubcategory(data: UpdateSubcategoryInput!) : SubcategoryPayload!
+    deleteSubcategory(_id:String!) : SubcategoryPayload!
+
+    createProduct(data: CreateProductInput!) : ProductPayload!
+    updateProduct(data: UpdateProductInput!) :  ProductPayload!
+    deleteProduct(_id:String!) : ProductPayload!
 }
 
 input CreateUserInput{
@@ -48,8 +56,34 @@ input CreateCategoryInput{
 
 input UpdateCategoryInput{
     _id: String!
+    name: String
+    image: String
+}
+
+input CreateSubcategoryInput{
     name: String!
     image: String!
+    category_id: String!
+}
+
+input UpdateSubcategoryInput{
+    _id: String!
+    name: String
+    image: String
+    category_id: String
+}
+
+input CreateProductInput{
+    name: String!
+    image: String!
+    subcategory_id: String!
+}
+
+input UpdateProductInput{
+    _id: String!
+    name: String
+    image: String
+    subcategory_id: String
 }
 
 type UsersPayload {

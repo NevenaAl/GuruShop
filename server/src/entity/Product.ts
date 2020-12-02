@@ -18,9 +18,13 @@ export class Product extends BaseEntity {
     @ManyToOne (() => User, user => user.products)
     user: User;
 
-    @ManyToOne (() => Category, category => category.products)
+    @ManyToOne (() => Category, category => category.products,{
+        onDelete: 'CASCADE',
+    })
     category: Category;
 
-    @ManyToOne (() => Subcategory, subcategory => subcategory.products)
+    @ManyToOne (() => Subcategory, subcategory => subcategory.products,{
+        onDelete: 'CASCADE',
+    })
     subcategory: Subcategory;
 }

@@ -4,16 +4,12 @@ import { ResolverMap } from "../handlers/resolver-map";
 import * as error from '../strings/errorMessages';
 import { processUpload } from '../handlers/fileHandler';
 import * as yup from 'yup';
-import { ValidationError } from "yup";
+import {parseError} from '../handlers/errorHandler'
 
 const CategoryResolver: ResolverMap = {
     Query: {
         categories: async () => {
-            const categories = await Category.find({ relations: ["subcategories", "products"] });
-            if (categories.length == 0) {
-                return null;
-            }
-            return categories;
+            return await Category.find({ relations: ["subcategories", "products"] });
         },
         category: async (_, { _id }) => {
             const category = await Category.findOne(_id, { relations: ["subcategories", "products"] });
@@ -30,7 +26,13 @@ const CategoryResolver: ResolverMap = {
         }
     },
     Mutation: {
-        createCategory: async (_, { data }) => {
+        createCategory: async (_, { data },{req}) => {
+            if(!req.req.isAuth){
+                return {
+                    categoryPayload:null,
+                    errors : [error.authError]
+                }
+            }
             const { name, image } = data;
 
             const categoryValidation = validateCategoryInput();
@@ -64,7 +66,13 @@ const CategoryResolver: ResolverMap = {
             };
 
         },
-        updateCategory: async(_,{data}) =>{
+        updateCategory: async(_,{data},{req}) =>{
+            if(!req.req.isAuth){
+                return {
+                    categoryPayload:null,
+                    errors : [error.authError]
+                }
+            }
             const { _id, name, image } = data;
             let category;
             category = await Category.findOne(_id,{ relations: ["subcategories", "products"] });
@@ -75,7 +83,7 @@ const CategoryResolver: ResolverMap = {
                 }
             }
             let categoryNameExists = await Category.findOne({name:name})
-            if(categoryNameExists){
+            if(categoryNameExists && (categoryNameExists._id!= _id)){
                 return {
                     categoryPayload: null,
                     errors: [error.categoryExistsError]
@@ -90,7 +98,14 @@ const CategoryResolver: ResolverMap = {
                 errors: []
             };
         },
-        deleteCategory : async(_,{_id})=>{
+        deleteCategory : async(_,{_id},{req})=>{
+            if(!req.req.isAuth){
+                return {
+                    subcategoryPayload:null,
+                    errors : [error.authError]
+                }
+            }
+
             let category = await Category.findOne({ _id: _id});
             if (!category) {
                 return {
@@ -107,16 +122,7 @@ const CategoryResolver: ResolverMap = {
     }
 }
 
-const parseError = (err: ValidationError)=>{
-    const errors : Array <{path: string,message:string}> = [];
-    err.inner.forEach(e => {
-        errors.push({
-            path: e.path ? e.path: "",
-            message: e.message ? e.message : ""
-        })
-    });
-    return errors;
-}
+
 
 
 function validateCategoryInput(){

@@ -4,7 +4,7 @@ import * as error from '../strings/errorMessages'
 import * as bcrypt from 'bcryptjs'
 import * as yup from 'yup';
 import * as jwt from 'jsonwebtoken'
-import { ValidationError } from "yup";
+import {parseError} from '../handlers/errorHandler'
 
 const saltRounds = 10;
 const privateKey = "Gagseggyr747473fte3t63w2"
@@ -15,11 +15,7 @@ const UserResolver: ResolverMap = {
             return "Hello wolrd!"
         },
         users: async () => {
-            const users = await User.find({relations: ["products"]});
-            if (users.length==0) {
-                return null;
-            }
-            return users;
+            return await User.find({relations: ["products"]});
         },
         user: async(_,{_id})=>{
             const user = await User.findOne(_id,{relations: ["products"]});
@@ -154,16 +150,6 @@ const UserResolver: ResolverMap = {
             }
         }
     }
-}
-const parseError = (err: ValidationError) => {
-    const errors: Array<{ path: string, message: string }> = [];
-    err.errors.forEach(e => {
-        errors.push({
-            path: e.path ? e.path : "",
-            message: e.message ? e.message: ""
-        })
-    });
-    return errors;
 }
 
 function validateUserInput() {
