@@ -1,1 +1,9 @@
-<p>categories works!</p>
+<div *ngIf="loading">
+    Loading...
+  </div>
+  <div *ngIf="error">
+    Error :(
+  </div>
+  <div class="categories__row" *ngIf="categories">
+    <app-category *ngFor="let category of categories" [category] = "category"></app-category>
+  </div>

@@ -101,3 +101,39 @@ a:hover {
   .logIn-card__btn:hover {
     color: white;
     background-color: #673946; }
+
+.categoryCard {
+  background-color: rgba(21, 20, 24, 0.5);
+  border-radius: 5%; }
+  .categoryCard__title {
+    font-size: 3rem; }
+  .categoryCard h3 {
+    color: white; }
+  .categoryCard__row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; }
+
+a {
+  cursor: pointer; }
+
+#style-2::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent; }
+
+#style-2::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent; }
+
+#style-2::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #673946; }
+
+.categories__row {
+  width: 86.1vw;
+  margin: auto;
+  padding-top: 4rem;
+  padding-left: 7rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); }
