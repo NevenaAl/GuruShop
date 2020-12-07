@@ -1,0 +1,33 @@
+.header-nav {
+    line-height: 65px;
+    text-align: center;
+    transition: 0.2s; 
+}
+
+.header-container{
+    padding: 0.5rem;
+    display: flex ;
+    flex-direction: row ;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+        text-decoration: none;
+        font-size: 3rem;
+        padding: 1rem;
+        color: #fff;
+    }
+
+    &__image{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        width: 8opx;
+    }
+}
+
+
+a:hover {
+    color: #2A2140;
+}

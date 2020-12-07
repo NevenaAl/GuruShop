@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700");
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+  font-size: 62.5%; }
+
+.header-nav {
+  line-height: 65px;
+  text-align: center;
+  transition: 0.2s; }
+
+.header-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; }
+  .header-container__logo {
+    text-decoration: none;
+    font-size: 3rem;
+    padding: 1rem;
+    color: #fff; }
+  .header-container__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 8opx; }
+
+a:hover {
+  color: #2A2140; }
+
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  width: 13vw;
+  background-color: black;
+  opacity: 80%;
+  font-size: 1.5rem;
+  height: 100%; }
+  .sidenav__link {
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: white;
+    padding: 1rem 2rem; }
+  .sidenav__link:hover {
+    color: #2c2727;
+    cursor: pointer; }
+
+.logIn-card {
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 65%;
+  width: 30vw;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 4%; }
+  .logIn-card__header {
+    font-size: 6rem;
+    color: white; }
+  .logIn-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem; }
+  .logIn-card__input {
+    width: 29rem;
+    height: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5rem;
+    border: hidden;
+    padding-left: 1rem;
+    font-size: 2rem; }
+  .logIn-card__input:focus {
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important; }
+  .logIn-card__icon {
+    font-size: 3rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem; }
+  .logIn-card__btn {
+    color: white;
+    background-color: #2A2140;
+    width: 15rem;
+    height: 4rem;
+    border-radius: 10rem;
+    margin-top: 1rem;
+    margin: auto;
+    border: none;
+    font-size: 2rem; }
+  .logIn-card__btn:hover {
+    color: white;
+    background-color: #673946; }

@@ -1,0 +1,21 @@
+.sidenav{
+  display: flex;
+  flex-direction: column;
+  width: 13vw;
+  background-color: black;
+  opacity : 80%;
+  font-size: 1.5rem;
+  height: 100%;
+
+  &__link{
+    font-size: 2.5rem;
+    text-decoration: none;
+    color: white;
+    padding: 1rem 2rem;
+ }
+
+ &__link:hover{
+   color: rgb(44, 39, 39);
+   cursor: pointer;
+ }
+}
