@@ -88,3 +88,13 @@ export const productExistsError = {
     path: "product",
     message : "Product with this name already exists"
 }
+
+export const mailNotConfirmedError = { 
+    path: "user",
+    message : "You didn't confirm your email address"
+}
+
+export const noQuestionFound = { 
+    path: "question",
+    message : "No question found with this id"
+}

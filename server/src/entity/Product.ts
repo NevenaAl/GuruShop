@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany} from "typeorm";
 import { Category } from "./Category";
+import { Question } from "./Question";
 import { Subcategory } from "./Subcategory";
 import {User} from  './User'
 
@@ -27,4 +28,7 @@ export class Product extends BaseEntity {
         onDelete: 'CASCADE',
     })
     subcategory: Subcategory;
+
+    @OneToMany(() => Question, question => question.product)
+    questions: Question[];
 }

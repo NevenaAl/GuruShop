@@ -16,6 +16,9 @@ export class User extends BaseEntity {
     @Column("varchar",{length:255})
     surrname: string;
 
+    @Column("boolean")
+    isMailConfirmed: boolean = false;
+
     @Column("text")
     password: string;
     

@@ -4,7 +4,8 @@ import * as error from '../strings/errorMessages'
 import * as bcrypt from 'bcryptjs'
 import * as yup from 'yup';
 import * as jwt from 'jsonwebtoken'
-import {parseError} from '../handlers/errorHandler'
+import {parseError} from '../handlers/errorHandler';
+import {createConfirmationLink, sendConfirmationMail} from '../handlers/mailHandler';
 
 const saltRounds = 10;
 const privateKey = "Gagseggyr747473fte3t63w2"
@@ -32,7 +33,7 @@ const UserResolver: ResolverMap = {
         }
     },
     Mutation: {
-        createUser: async (_, { data }) => {
+        createUser: async (_, { data },{redis,url}) => {
             const { name, surrname, email, password } = data;
 
             const userValidation = validateUserInput();
@@ -63,6 +64,15 @@ const UserResolver: ResolverMap = {
             }
 
             await user.save();
+
+            const link = await createConfirmationLink(url,redis,user._id);
+            await sendConfirmationMail(link,user.email);
+
+            // if(checkConfirmationMail()){
+            //     user.isMailConfirmed = true;
+            //     await user.save();
+            // }
+
             return {
                 userPayload: user,
                 errors: null
@@ -134,6 +144,13 @@ const UserResolver: ResolverMap = {
             }else{
                 let correctPassword = await bcrypt.compare(password,user.password)
                 if(correctPassword){
+                    if(!user.isMailConfirmed){
+                        return{
+                            userPayload: null,
+                            token: null,
+                            errors: [error.mailNotConfirmedError]
+                        }
+                    }
                     let token = await jwt.sign({email: user.email, id: user._id},privateKey);
                     return {
                         userPayload: user,

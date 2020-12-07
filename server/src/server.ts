@@ -1,18 +1,30 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import {Any, createConnection} from "typeorm";
 import {config} from '../config/constants';
 import {User} from './entity/User';
 import isAuth from './handlers/checkAuth'
 import * as express from 'express';
-import  { ApolloServer,gql, PubSub }  from 'apollo-server-express';
+import  { ApolloServer, gql,PubSub}  from 'apollo-server-express';
+// import {PubSub} from 'graphql-subscriptions'
 import {json} from 'body-parser'
 import path = require("path");
-import * as http from 'http'
+import http = require("http");
+import {createServer} from 'http';
 import appUse from './routes/Index'
 import {importSchema} from 'graphql-import'
 import {resolvers} from './resolvers/rootResolver'
+import {redis} from './handlers/redis';
+import {checkMail} from './routes/CheckMail';
+import {SubscriptionServer} from 'subscriptions-transport-ws';
+import {execute,subscribe, GraphQLSchema} from 'graphql';
+const  {graphqlHTTP}  = require('express-graphql');
+const {makeExecutableSchema}  = require("graphql-tools")
 
-const typeDefs = importSchema(path.join(__dirname,"./schema/schema.graphql"));
+const typeDefs=importSchema(path.join(__dirname,"./schema/schema.graphql"));
+const myschema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
 
 console.clear();
 (async()=>{
@@ -25,15 +37,40 @@ const server = new ApolloServer({ typeDefs, resolvers,
   context(req){
     return {
       pubsub,
-      req
+      req,
+      redis,
+      url: req.req.protocol + "://" + req.req.get("host")
     }
 } });
 
 app.use('/graphql',json())
+app.use('/confirmMail/:id?',checkMail)
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(isAuth);
 app.use('/images',express.static(path.join(__dirname,'images')));
+
+
+
+const rootValue = {
+  Subscription: {
+    message: {
+      subscribe: () => {
+        console.log('inside')
+      }
+    }
+  }
+};
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: myschema,
+    rootValue: rootValue,
+    graphiql: { subscriptionEndpoint: `ws://localhost:${config.port}/subscriptions` },
+  }),
+);
+
 appUse(app);
 server.applyMiddleware({app});
 
@@ -42,7 +79,22 @@ server.installSubscriptionHandlers(httpServer);
 
 await createConnection()
 
+const mScheme = gql`
+  type Subscription {
+    commentAdded: String
+  }
+`;
+
 httpServer.listen({port: config.port},()=>{
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema: myschema
+  },{
+    server: httpServer,
+    path: '/subscriptions'
+  }
+  )
   console.log(`Server listening at http://localhost:${config.port}${server.graphqlPath}`);
   console.log(`WebSocket subscription ready at ws://localhost${config.port}${server.subscriptionsPath}`);
 })

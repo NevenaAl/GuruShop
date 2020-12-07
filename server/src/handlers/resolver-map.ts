@@ -1,8 +1,11 @@
 import { PubSub}  from "apollo-server-express"
+import {Redis} from 'ioredis';
 
 export interface Context {
     pubsub : PubSub;
     req : any;
+    redis: Redis;
+    url: String;
 }
 
 export type Resolver = (

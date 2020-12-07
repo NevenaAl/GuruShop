@@ -1,3 +1,5 @@
+scalar JSON
+
 type Query {
     hello: String!
     users: [User!]
@@ -8,6 +10,8 @@ type Query {
     product(_id:String!): ProductPayload!
     subcategories:  [Subcategory!]
     subcategory(_id:String!) : SubcategoryPayload!
+    questions: [Question!]
+    question(_id: String!) : QuestionPayload!
 }
 
 type Mutation {
@@ -27,6 +31,19 @@ type Mutation {
     createProduct(data: CreateProductInput!) : ProductPayload!
     updateProduct(data: UpdateProductInput!) :  ProductPayload!
     deleteProduct(_id:String!) : ProductPayload!
+
+    createQuestion(data: CreateQuestionInput!) : QuestionPayload!
+    updateQuestion(data: UpdateQuestionInput!) : QuestionPayload!
+    deleteQuestion(_id:String!) : QuestionPayload!
+}
+
+type Subscription{
+    message: SubscriptionPayload
+}
+
+type SubscriptionPayload{
+    mutation: String
+    data: Question
 }
 
 input CreateUserInput{
@@ -86,6 +103,16 @@ input UpdateProductInput{
     subcategory_id: String
 }
 
+input CreateQuestionInput {
+    message: String!
+    product_id: String!
+}
+
+input UpdateQuestionInput {
+    _id: String!
+    answer: JSON
+}
+
 type UsersPayload {
     usersPayload: [User!]
     errors: [Error!]
@@ -94,6 +121,7 @@ type UsersPayload {
 type UserPayload {
     userPayload: User
     errors: [Error!]
+    isMailConfirmed: Boolean
 }
 
 type LogInPayload{
@@ -137,6 +165,11 @@ type Error {
     message: String!
 }
 
+type QuestionPayload{
+    questionPayload: Question
+    errors: [Error!]
+}
+
 type User{
     _id: String!
     name: String!
@@ -144,6 +177,7 @@ type User{
     email: String!
     password: String!
     products: [Product!]
+    isMailConfirmed: Boolean!
 }
 
 type Category{
@@ -169,4 +203,18 @@ type Product{
     user: User!
     category: Category!
     subcategory: Subcategory!
+}
+
+type Question{
+    _id: String!
+    message: String!
+    author: String!
+    answers: JSON!
+    product: Product!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
 }
