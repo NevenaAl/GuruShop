@@ -18,18 +18,25 @@ export class LogInComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logIn(){
-    this.userService.logIn( this.email ,this.password)
+  logIn() {
+    this.userService.logIn(this.email, this.password)
       .subscribe(({ data }) => {
         console.log('got data', data);
         this.payload = data;
-        this.token = this.payload.logInUser.token;
-        localStorage.setItem('token', this.token);
-        this.userService.setLoggedUser(this.payload.logInUser);
-        }, (error) => {
+
+        if (this.payload.logInUser.errors == null) {
+          this.token = this.payload.logInUser.token;
+          localStorage.setItem('token', this.token);
+          this.userService.setLoggedUser(this.payload.logInUser.userPayload);
+          this.router.navigateByUrl('home');
+        }else{
+          alert(this.payload.logInUser.errors[0].message);
+        }
+
+      }, (error) => {
         console.log('there was an error sending the query', error);
       });
-      this.router.navigateByUrl('home');
+
   }
 
 }

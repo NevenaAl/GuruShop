@@ -118,6 +118,10 @@ export const MeQuery = gql`
     me{
       userPayload{
         name
+        surrname
+        _id
+        email
+        password
       }
       errors{
         message

@@ -17,7 +17,6 @@ export class UserService {
   error: any;
 
   constructor(private apollo: Apollo) {
-    //this.loadLoggedUser();
    }
 
   logIn(email: String, password: String){
@@ -40,9 +39,6 @@ export class UserService {
         //@ts-ignore
         let user = result.data.me.userPayload;
         this.setLoggedUser(user);
-        console.log(this.loggedUser);
-
-        console.log(this.loggedUser);
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -54,8 +50,6 @@ export class UserService {
       localStorage.clear();
     }
     this.loggedUser.next(user);
-    
-    console.log(this.loggedUser);
   }
 
   getLoggedUser() : Observable<User>{

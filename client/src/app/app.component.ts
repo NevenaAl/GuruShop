@@ -22,18 +22,6 @@ export class AppComponent implements OnInit  {
   }
   
   ngOnInit(): void {
-  //   this.apollo
-  //       .watchQuery({
-  //        query: query.MeQuery
-  //       })
-  //       .valueChanges.subscribe(result => {
-  //         //@ts-ignore
-  //         this.loggedUser = result.data.me.userPayload;
-  //         console.log(this.loggedUser);
-  //         this.userService.setLoggedUser(this.loggedUser);
-  //         this.loading = result.loading;
-  //         this.error = result.error;
-  //       });
      this.userService.loadLoggedUser();
      this.loggedUser = this.userService.getLoggedUser();
     }

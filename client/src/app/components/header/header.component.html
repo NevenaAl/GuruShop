@@ -10,7 +10,18 @@
         <div>
             <a *ngIf="!(loggedUser | async)" class="header-container__logo" routerLink="/signUp">Sign Up</a>
             <a *ngIf="!(loggedUser | async)"class="header-container__logo" routerLink="/logIn">Log In</a>
-            <a *ngIf="(loggedUser | async)"class="header-container__logo" (click)="logOut()">Log Out</a>
+            
+            <div class="dropdown header-container__logo" *ngIf="(loggedUser | async)" >
+                <a href="#" class=" dropbtn header-container__logo">{{userName +" "+ userSurname}}</a>
+                <div class="dropdown-content">
+                    <a class="header-container__logo" routerLink="/details">Details</a>
+                
+                    <a class="header-container__logo" routerLink="/newRentACar">Cart</a>
+                   
+                     <a class="header-container__logo" routerLink="/home">Favorites</a>
+                </div>
+            </div>
+            <a *ngIf="(loggedUser | async)" class="header-container__logo" (click)="logOut()">Log Out</a>
         </div>
         
     </div>

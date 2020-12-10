@@ -10,11 +10,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   loggedUser: Observable<User>;
+  userName: String;
+  userSurname: String;
   constructor(private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
-    console.log(this.loggedUser);
+    this.userService.getLoggedUser().subscribe(res=>{
+      this.userName = res.name;
+      this.userSurname = res.surrname;
+    });
+    
   }
 
 
