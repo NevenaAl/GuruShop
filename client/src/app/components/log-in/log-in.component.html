@@ -10,17 +10,17 @@
             <div>
                 <span><i class="fas fa-user logIn-card__icon"></i></span>
 
-                <input class="logIn-card__input" id="email" name="email" type="text" required placeholder="email">
+                <input class="logIn-card__input" id="email" name="email" [(ngModel)]="email" type="text" required placeholder="email">
             </div>
            
                 <div>
                     <span><i class="fas fa-key logIn-card__icon"></i></span>
                 
-                <input class="logIn-card__input" id="password" name="password" required type="password"
+                <input class="logIn-card__input" id="password" name="password" [(ngModel)]="password" required type="password"
                     placeholder="password">
             </div>
 
-            <input type="submit" value="Log in" class="logIn-card__btn">
+            <input type="submit" value="Log in" (click)="logIn()" class="logIn-card__btn">
 
         </form>
     

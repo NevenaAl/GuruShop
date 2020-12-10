@@ -1,16 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Category } from 'src/app/entities/Category';
+
 import { Apollo } from 'apollo-angular';
+import { Subcategory } from 'src/app/entities/Subcategory';
 import * as query from '../../../strings/queries'
 
 @Component({
-  selector: 'app-category-details',
-  templateUrl: './category-details.component.html'
+  selector: 'app-subcategory-details',
+  templateUrl: './subcategory-details.component.html'
 })
-export class CategoryDetailsComponent implements OnInit {
-  category: Category;
-  categoryId : string;
+export class SubcategoryDetailsComponent implements OnInit {
+  
+  subcategory: Subcategory;
+  subcategoryId : string;
   loading : boolean;
   error : any;
 
@@ -19,22 +21,23 @@ export class CategoryDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(
       (params: Params) =>{
-        this.categoryId = params['categoryId'];
+        this.subcategoryId = params['subcategoryId'];
         this.apollo
         .watchQuery({
-         query: query.CategoryQuery,
+         query: query.SubcategoryQuery,
          variables:{
-          _id:this.categoryId,
+          _id:this.subcategoryId,
            },
         })
         .valueChanges.subscribe(result => {
           //@ts-ignore
-          this.category = result.data.category.categoryPayload;
+          this.subcategory = result.data.subcategory.subcategoryPayload;
           this.loading = result.loading;
           this.error = result.error;
         });
       }
     ); 
   }
+  
 
 }

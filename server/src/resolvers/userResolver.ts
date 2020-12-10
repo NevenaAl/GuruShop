@@ -30,6 +30,19 @@ const UserResolver: ResolverMap = {
                 userPayload: user,
                 errors: null
             }
+        },
+        me: async(_,{data},{req})=>{
+            if(req.req.isAuth){
+                const user = await User.findOne(req.req.userId,{relations: ["products"]});
+                return{
+                    userPayload: user,
+                    errors: null
+                }
+            }
+            return{
+                userPayload:null,
+                errors: null
+            }
         }
     },
     Mutation: {

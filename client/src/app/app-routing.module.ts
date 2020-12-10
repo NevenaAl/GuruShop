@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
+import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
     path: "categories",
     children: [
       { path: "", component: CategoriesComponent },
-      { path: ":id", component: CategoryDetailsComponent }
+      { path: ":categoryId", component: CategoryDetailsComponent },
+      { path: ":categoryId/:subcategoryId", component: SubcategoryDetailsComponent }
     ]
   },
   {

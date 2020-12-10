@@ -18,7 +18,10 @@ import { HttpLinkModule, HttpLink } from "apollo-angular-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { CategoryComponent } from './components/category/category.component';
 import { CategoryDetailsComponent } from './components/category-details/category-details.component';
-
+import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { FormsModule } from '@angular/forms';
+import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,15 +34,20 @@ import { CategoryDetailsComponent } from './components/category-details/category
     SignUpComponent,
     LogInComponent,
     CategoryComponent,
-    CategoryDetailsComponent
+    CategoryDetailsComponent,
+    SubcategoryDetailsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule, 
     HttpClientModule,
     HttpLinkModule
   ],
-  providers: [{
+  providers: [
+    UserService,
+    {
     provide: APOLLO_OPTIONS,
     useFactory: (httpLink: HttpLink) => {
       return {

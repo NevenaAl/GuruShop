@@ -4,6 +4,7 @@ type Query {
     hello: String!
     users: [User!]
     user(_id:String!): UserPayload!
+    me: UserPayload!
     categories:  [Category!]
     category(_id:String!) : CategoryPayload!
     products: [Product!]

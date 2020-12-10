@@ -5,7 +5,7 @@ import {Category} from '../../entities/Category'
   templateUrl: './category.component.html'
 })
 export class CategoryComponent implements OnInit {
-  @Input() category : Category
+  @Input() category : any;
   constructor() { }
 
   ngOnInit(): void {
