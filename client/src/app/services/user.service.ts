@@ -29,7 +29,18 @@ export class UserService {
     });
   }
 
- 
+  signUp(name: String, surrname: String, email: String, password: String){
+    return this.apollo.mutate({
+      mutation: mutation.SignUpUserMutation,
+      variables: {
+        name,
+        surrname,
+        email,
+        password
+      }
+    });
+  }
+  
   loadLoggedUser() {
     this.apollo
       .watchQuery({
@@ -56,4 +67,5 @@ export class UserService {
     return this.loggedUser.asObservable();
   }
 
+ 
 }

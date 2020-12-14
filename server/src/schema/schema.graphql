@@ -122,7 +122,6 @@ type UsersPayload {
 type UserPayload {
     userPayload: User
     errors: [Error!]
-    isMailConfirmed: Boolean
 }
 
 type LogInPayload{

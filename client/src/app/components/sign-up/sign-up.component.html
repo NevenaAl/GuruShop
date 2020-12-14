@@ -1,37 +1,62 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<div class="logIn-card">
-    <div class="logIn-card__header">
+<div class="signUp-card">
+    <div class="signUp-card__header">
         <h3>Sign Up</h3>
     </div>
 
-    <form class="logIn-card__body">
+    <form [formGroup]="signUpFormGroup" (submit)="signUp()" class="signUp-card__body">
         <div>
             <span><i class="fas fa-user logIn-card__icon"></i></span>
-            <input class="logIn-card__input" id="name" name="name" type="text" required placeholder="name">
+            <input formControlName="name" class="signUp-card__input" id="name" name="name" [(ngModel)]="name" type="text"
+                required placeholder="name">
         </div>
+        <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('name').touched && signUpFormGroup.get('name').errors?.required">This
+            field is required.</p>
+            <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('name').touched && signUpFormGroup.get('name').errors?.minlength">Minimum 2 characters required.</p>
         <div>
-            <span><i class="fas fa-user logIn-card__icon"></i></span>
-            <input class="logIn-card__input" id="surrname" name="surrname" type="text" required placeholder="surname">
+            <span><i class="fas fa-user signUp-card__icon"></i></span>
+            <input formControlName="surrname" class="signUp-card__input" id="surrname" name="surrname"
+                [(ngModel)]="surrname" type="text" required placeholder="surname">
         </div>
-        
+        <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('surrname').touched && signUpFormGroup.get('surrname').errors?.required">This
+            field is required.</p>
+         <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('surrname').touched && signUpFormGroup.get('surrname').errors?.minlength">Minimum 2 characters required.</p>
 
         <div>
-            <span><i class="fas fa-envelope logIn-card__icon"></i></span>
-            <input class="logIn-card__input" id="email" name="email" type="text" required placeholder="email">
+            <span><i class="fas fa-envelope signUp-card__icon"></i></span>
+            <input formControlName="email" class="signUp-card__input" id="email" name="email" type="text"
+                [(ngModel)]="email" required placeholder="email">
         </div>
+        <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('email').touched && signUpFormGroup.get('email').errors?.required">This
+            field is required.</p>
+        <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('email').touched && signUpFormGroup.get('email').errors?.minlength">
+            Minimum 5 characters required.</p>
+        <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('email').touched && signUpFormGroup.get('email').errors?.email">
+            Email format not valid.</p>
 
-        <div>
-            <span><i class="fas fa-key logIn-card__icon"></i></span>
-            <input class="logIn-card__input" id="password" name="password" required type="password"
-                placeholder="password">
+        <div class="passwords" formGroupName="passwords">
+            <div>
+                <span><i class="fas fa-key signUp-card__icon"></i></span>
+                <input formControlName="password" class="signUp-card__input" id="password" name="password"
+                    [(ngModel)]="password" required type="password" placeholder="password">
+            </div>
+            <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('passwords.password').touched && signUpFormGroup.get('passwords.password').errors?.required">This
+                field is required.</p>
+              <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('passwords.password').touched && signUpFormGroup.get('passwords.password').errors?.minlength">Minimum
+                5 characters required.</p>
+
+            <div>
+                <span><i class="fas fa-key logIn-card__icon"></i></span>
+                <input formControlName="confirmPassword" class="logIn-card__input" id="password2" name="password" required
+                    type="password" placeholder="confirm password">
+            </div>
+            <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('passwords.confirmPassword').touched && signUpFormGroup.get('passwords.confirmPassword').errors?.required">This
+                field is required.</p>
+              <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('passwords.confirmPassword').touched && signUpFormGroup.get('passwords.confirmPassword').errors?.passwordMismatch">Confirm
+                Password does not match.</p>
         </div>
-        <div>
-            <span><i class="fas fa-key logIn-card__icon"></i></span>
-            <input class="logIn-card__input" id="password" name="password" required type="password"
-                placeholder="confirm password">
-        </div>
-        <input type="submit" value="Sign Up" class="logIn-card__btn">
+        <input type="submit" value="Sign Up" class="signUp-card__btn">
 
     </form>
 

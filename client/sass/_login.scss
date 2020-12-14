@@ -21,7 +21,13 @@
         justify-content: center;
         align-items: center;
         font-size: 5rem;
+
+        &__error{
+            color: red !important;
+            font-size: 1.5rem;
+        }
     }
+  
     &__input{
         width: 29rem;
         height: 4rem;
@@ -47,15 +53,34 @@
         width: 15rem;
         height: 4rem;
         border-radius: 10rem;
-        margin-top: 1rem;
-        margin: auto;
+        margin-top: 2rem;
         border: none;
         font-size: 2rem;
+        transition: all .2s;
     }
+   
+    &__btn:disabled:hover{
+        cursor: not-allowed;
+        background-color: #2A2140;
+     }
     &__btn:hover{
+        cursor: pointer;
         color: white;
         background-color: #673946;
     }
+  
+}
+.mailConfirmMessage{
+    font-size: 4rem;
+    color: black;
+}
+
+.proba{
+    display: grid;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
   
 

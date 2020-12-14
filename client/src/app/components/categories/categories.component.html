@@ -5,5 +5,5 @@
     Error :(
   </div>
   <div class="categories__row" *ngIf="categories">
-    <app-category *ngFor="let category of categories" [category] = "category"></app-category>
+    <app-category *ngFor="let category of categories" [type]="type" [category] = "category"></app-category>
   </div>

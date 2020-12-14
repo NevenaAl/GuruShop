@@ -32,6 +32,7 @@ export class SubcategoryDetailsComponent implements OnInit {
         .valueChanges.subscribe(result => {
           //@ts-ignore
           this.subcategory = result.data.subcategory.subcategoryPayload;
+          console.log(this.subcategory);
           this.loading = result.loading;
           this.error = result.error;
         });

@@ -1,4 +1,4 @@
-<a  [routerLink]="[category._id]">
+<a  [routerLink]="type=='category'? [category._id] : ['/products/',category._id]">
     <div class="categoryCard" style="width:300px">
         <div class="categoryCard__row">
             

@@ -20,8 +20,10 @@ import { CategoryComponent } from './components/category/category.component';
 import { CategoryDetailsComponent } from './components/category-details/category-details.component';
 import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
+import { ProductComponent } from './components/product/product.component';
+import { NotauthorizedComponent } from './components/notauthorized/notauthorized.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,14 +38,17 @@ import { UserService } from './services/user.service';
     CategoryComponent,
     CategoryDetailsComponent,
     SubcategoryDetailsComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ProductComponent,
+    NotauthorizedComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule, 
     HttpClientModule,
-    HttpLinkModule
+    HttpLinkModule,
+    ReactiveFormsModule
   ],
   providers: [
     UserService,

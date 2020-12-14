@@ -1,0 +1,52 @@
+
+.productCard {
+    background-color: rgba(21, 20, 24, 0.5);
+    border-radius: 5%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    &__title{
+        font-size: 3rem;
+    }
+    &__image{
+        width: 20rem !important;
+        height: 20rem !important;
+    }
+    h3{
+        color: white;;
+    }
+
+    &__row{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+}
+
+
+a{
+    cursor: pointer;
+}
+
+#style-2::-webkit-scrollbar-track
+{
+	
+	border-radius: 10px;
+	background-color: transparent;
+}
+
+#style-2::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: transparent;
+}
+
+#style-2::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    
+	background-color: #673946;
+}

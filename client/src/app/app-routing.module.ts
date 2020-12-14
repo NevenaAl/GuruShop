@@ -7,9 +7,11 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CategoryDetailsComponent } from './components/category-details/category-details.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogInComponent } from './components/log-in/log-in.component';
+import { NotauthorizedComponent } from './components/notauthorized/notauthorized.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
+import { UnauthenticatedGuard } from './guards/unauthenticated.guard';
 
 const routes: Routes = [
   {
@@ -22,12 +24,21 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: "signUp",
-    component: SignUpComponent
+    path: "notauthorized",
+    component: NotauthorizedComponent
   },
   {
+    path: "signUp",
+    component: SignUpComponent,
+    canActivate: [UnauthenticatedGuard]
+  },
+  
+  {
     path: "logIn",
-    component: LogInComponent
+    children:[
+      {path : "", component: LogInComponent, canActivate: [UnauthenticatedGuard]},
+      {path : ":confirm", component: LogInComponent, canActivate: [UnauthenticatedGuard]}
+    ]
   },
   {
     path: "categories",
@@ -35,6 +46,12 @@ const routes: Routes = [
       { path: "", component: CategoriesComponent },
       { path: ":categoryId", component: CategoryDetailsComponent },
       { path: ":categoryId/:subcategoryId", component: SubcategoryDetailsComponent }
+    ]
+  },
+  {
+    path: "products",
+    children: [
+      {path : ":subcategoryId", component: SubcategoryDetailsComponent }
     ]
   },
   {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { UserService } from 'src/app/services/user.service';
 
@@ -8,16 +9,32 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './log-in.component.html'
 })
 export class LogInComponent implements OnInit {
+  
+  logInFormGroup: FormGroup;
+  message: String = '';
+
   email: String = '';
   password: String = '';
   payload: any;
   token: string;
 
-  constructor(private router: Router,private userService: UserService) { }
+  constructor(private router: Router,private userService: UserService,private formBuilder: FormBuilder,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(
+      (params: Params) =>{
+        this.message = params['confirm'];
+    })
+    this.createForm();
   }
 
+  createForm() {
+    this.logInFormGroup = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+  
   logIn() {
     this.userService.logIn(this.email, this.password)
       .subscribe(({ data }) => {

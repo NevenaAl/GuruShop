@@ -19,6 +19,6 @@ export class Subcategory extends BaseEntity {
     })
     category: Category;
  
-    @OneToMany(() => Product, product => product.category)
+    @OneToMany(() => Product, product => product.subcategory)
     products: Product[];
 }

@@ -1,4 +1,4 @@
-.logIn-card{
+.signUp-card{
     height: 30%;
     display: flex;
     flex-direction: column;
@@ -21,6 +21,11 @@
         justify-content: center;
         align-items: center;
         font-size: 5rem;
+
+        &__error{
+            color: red !important;
+            font-size: 1.5rem;
+        }
     }
     &__input{
         width: 29rem;
@@ -52,9 +57,21 @@
         border: none;
         font-size: 2rem;
     }
+    &__btn:disabled:hover{
+        cursor: not-allowed;
+        background-color: #2A2140;
+     }
     &__btn:hover{
+        cursor: pointer;
         color: white;
         background-color: #673946;
+    }
+
+    .passwords{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }
   
