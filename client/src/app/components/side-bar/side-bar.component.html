@@ -1,12 +1,10 @@
-<!-- Side navigation -->
+
 <div class="sidenav">
-    <a class="sidenav__link" href="#">About</a>
-    <a class="sidenav__link" href="#">Services</a>
-    <a class="sidenav__link" href="#">Clients</a>
-    <a class="sidenav__link" href="#">Contact</a>
+    <a *ngIf="(loggedUser | async)"  class="sidenav__link" routerLink="/adminPanel/categories">Cateogires</a>
+    <a *ngIf="(loggedUser | async)" class="sidenav__link" routerLink="/adminPanel/subcategories">Subcategories</a>
+    <a *ngIf="(loggedUser | async)"  class="sidenav__link"routerLink="/adminPanel/products">Products</a>
   </div>
   
-  <!-- Page content -->
   <div class="main">
     ...
   </div>

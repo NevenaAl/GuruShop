@@ -46,3 +46,22 @@ export const SignUpUserMutation= gql`
     }
   }
 `;
+
+export const CreateCategoryMutation = gql`
+mutation CreateCategoryMutation($name: String!, $image: FileUpload!){
+ 
+ createCategory(data:{
+   name: $name
+   image: $image
+ }){
+   categoryPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;

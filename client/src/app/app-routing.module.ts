@@ -3,14 +3,15 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryDetailsComponent } from './components/category-details/category-details.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { NotauthorizedComponent } from './components/notauthorized/notauthorized.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
+import { AdminGuard } from './guards/admin.guard';
 import { UnauthenticatedGuard } from './guards/unauthenticated.guard';
 
 const routes: Routes = [
@@ -24,8 +25,9 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: "notauthorized",
-    component: NotauthorizedComponent
+    path: "adminPanel/:type",
+    component :AdminPanelComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: "signUp",

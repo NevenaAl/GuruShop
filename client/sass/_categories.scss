@@ -1,8 +1,9 @@
 .categories__row{
-    width: 86.1vw;
+    width: 100%;
     margin: auto;
-    padding-top: 4rem;
-    padding-left: 7rem;
+    padding: 6rem;
+    margin-top: -7rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(25rem,1fr));
+    grid-gap: 4rem;
 }

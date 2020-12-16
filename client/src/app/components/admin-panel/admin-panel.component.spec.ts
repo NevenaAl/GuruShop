@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotauthorizedComponent } from './notauthorized.component';
+import { AdminPanelComponent } from './admin-panel.component';
 
-describe('NotauthorizedComponent', () => {
-  let component: NotauthorizedComponent;
-  let fixture: ComponentFixture<NotauthorizedComponent>;
+describe('AdminPanelComponent', () => {
+  let component: AdminPanelComponent;
+  let fixture: ComponentFixture<AdminPanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NotauthorizedComponent ]
+      declarations: [ AdminPanelComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NotauthorizedComponent);
+    fixture = TestBed.createComponent(AdminPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

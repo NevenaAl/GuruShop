@@ -17,6 +17,48 @@
         align-items: center;
         padding: 1rem;
     }
+    &__editBtn{
+        color: white;
+        background-color: rgb(18, 18, 153);
+        width: 15rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+    }
+   
+    &__editBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color: rgb(18, 18, 153);
+     }
+    &__editBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(56, 56, 143);
+    }
+    &__deleteBtn{
+        color: white;
+        background-color: rgb(177, 29, 29);
+        width: 15rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+    }
+   
+    &__deleteBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color: rgb(177, 29, 29);
+     }
+    &__deleteBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color: rgb(190, 68, 68);
+    }
 }
 
 

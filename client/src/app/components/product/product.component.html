@@ -1,9 +1,10 @@
 <a  [routerLink]="[product._id]">
-    <div class="productCard" style="width:300px">
+    <div class="productCard">
             <img class="productCard__image" src="/assets/images/guru.png" alt="Card image" style="height: 85px;width: 85px;">   
         
             <h3 class="productCard__title">{{product.name}}</h3>
-            
+            <input *ngIf="(loggedUser | async)" type="submit" value="Edit" class="productCard__editBtn">
+            <input *ngIf="(loggedUser | async)" type="submit" value="Delete" class="productCard__deleteBtn">  
     </div>
 </a>
     

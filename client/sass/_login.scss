@@ -1,12 +1,26 @@
+.cardContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    width: 86vw;
+    margin-top: 2rem;
+}
+.mailConfirmMessage{
+    font-size: 4rem;
+    color: black;
+} 
+
 .logIn-card{
     height: 30%;
+    padding: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 65%;
     width: 30vw;
     background-color: rgba(0,0,0,0.5) !important;
     border-radius: 4%;
@@ -70,18 +84,5 @@
     }
   
 }
-.mailConfirmMessage{
-    font-size: 4rem;
-    color: black;
-}
-
-.proba{
-    display: grid;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-  
 
     

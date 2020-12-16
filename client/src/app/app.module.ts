@@ -23,7 +23,9 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { ProductComponent } from './components/product/product.component';
-import { NotauthorizedComponent } from './components/notauthorized/notauthorized.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CategoriesService } from './services/categories.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,7 @@ import { NotauthorizedComponent } from './components/notauthorized/notauthorized
     SubcategoryDetailsComponent,
     ProductDetailsComponent,
     ProductComponent,
-    NotauthorizedComponent
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -48,10 +50,12 @@ import { NotauthorizedComponent } from './components/notauthorized/notauthorized
     AppRoutingModule, 
     HttpClientModule,
     HttpLinkModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxDropzoneModule
   ],
   providers: [
     UserService,
+    CategoriesService,
     {
     provide: APOLLO_OPTIONS,
     useFactory: (httpLink: HttpLink) => {

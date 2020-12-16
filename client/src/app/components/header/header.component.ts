@@ -17,10 +17,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
     this.userService.getLoggedUser().subscribe(res=>{
+      if(res ==null){
+        return;
+      }
+
       this.userName = res.name;
       this.userSurname = res.surrname;
     });
-    
   }
 
 

@@ -1,0 +1,81 @@
+.adminPanel-wrapper{
+    width: 70vw;
+
+    &__row{
+     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem;
+    margin-left: 4rem;
+    padding: 2rem;
+    }
+
+    &__input{
+        width: 29rem;
+        height: 4rem;
+        margin-top: 2rem;
+        border-radius: 5rem;
+        padding-left: 1rem;
+        font-size: 2rem;
+        margin-left: 7rem;
+    }
+
+    &__addBtn{
+        color: white;
+        background-color:rgb(23, 201, 23);
+        width: 15rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+         margin-left: auto;
+         margin-left: 7rem;
+         margin-right: 2rem;
+    }
+
+    &__addBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color:rgb(23, 201, 23);
+     }
+
+     &__addBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(93, 230, 93);
+    }
+
+    &__showBtn{
+        color: white;
+        background-color:rgb(23, 201, 23);
+        width: 15rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+         margin-left: 1.5rem;
+         margin-left: 7rem;
+         margin-right: 2rem;
+         margin-bottom: 5rem;
+    }
+
+    &__showBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color:rgb(23, 201, 23);
+     }
+
+     &__showBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(93, 230, 93);
+    }
+}
+
+
+
+.image_dropzone{
+    width: 30rem;
+}

@@ -1,4 +1,5 @@
 scalar JSON
+scalar FileUpload
 
 type Query {
     hello: String!
@@ -69,7 +70,7 @@ input LogInUserInput {
 
 input CreateCategoryInput{
     name: String!
-    image: String!
+    image: FileUpload!
 }
 
 input UpdateCategoryInput{

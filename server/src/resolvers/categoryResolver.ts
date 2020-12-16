@@ -27,6 +27,7 @@ const CategoryResolver: ResolverMap = {
     },
     Mutation: {
         createCategory: async (_, { data },{req}) => {
+            console.log(data);
             if(!req.req.isAuth){
                 return {
                     categoryPayload:null,
@@ -45,13 +46,14 @@ const CategoryResolver: ResolverMap = {
                     errors: parseError(error)
                 }
             }
-            //let file = await processUpload(req.file, "categories");
+            
+            let file = await processUpload(image, "categories");
             category = await Category.findOne({name: name});
             
             if(!category){
                 category = new Category();
                 category.name = name;
-                category.image ="file";
+                category.image = file;
             }else{
                 return {
                     categoryPayload: null,

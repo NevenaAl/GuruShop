@@ -1,4 +1,4 @@
-<a  [routerLink]="type=='category'? [category._id] : ['/products/',category._id]">
+<a  [routerLink]="type=='category'? ['/categories/',category._id] : ['/products/',category._id]">
     <div class="categoryCard" style="width:300px">
         <div class="categoryCard__row">
             
@@ -7,6 +7,8 @@
             <h3 class="categoryCard__title">{{category.name}}</h3>
             
         </div>
+        <input *ngIf="(loggedUser | async)" type="submit" value="Edit" class="categoryCard__editBtn">
+        <input *ngIf="(loggedUser | async)" type="submit" value="Delete" class="categoryCard__deleteBtn">
     </div>
 </a>
     

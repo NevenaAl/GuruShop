@@ -1,0 +1,9 @@
+.products__row{
+    width: 100%;
+    margin: auto;
+    padding: 6rem;
+    margin-top: -7rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem,1fr));
+    grid-gap: 4rem;
+}

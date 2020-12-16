@@ -24,6 +24,8 @@ const storeUpload = async ({ buffer, mimetype }: any, savePath: string): Promise
     // );
 };
 export const processUpload = async (upload: any, savePath: string) => {
+    console.log(upload);
+    console.log(savePath);
     const { buffer, mimetype } = await upload;
     const id = await storeUpload({ buffer, mimetype }, savePath);
     return id;

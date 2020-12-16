@@ -19,9 +19,10 @@
                     <a class="header-container__logo" routerLink="/newRentACar">Cart</a>
                    
                      <a class="header-container__logo" routerLink="/home">Favorites</a>
+                     <a  class="header-container__logo" (click)="logOut()">Log Out</a>
                 </div>
             </div>
-            <a *ngIf="(loggedUser | async)" class="header-container__logo" (click)="logOut()">Log Out</a>
+            
         </div>
         
     </div>

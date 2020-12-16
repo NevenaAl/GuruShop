@@ -45,6 +45,7 @@ export class LogInComponent implements OnInit {
           this.token = this.payload.logInUser.token;
           localStorage.setItem('token', this.token);
           this.userService.setLoggedUser(this.payload.logInUser.userPayload);
+          //this.userService.loadLoggedUser();
           this.router.navigateByUrl('home');
         }else{
           alert(this.payload.logInUser.errors[0].message);

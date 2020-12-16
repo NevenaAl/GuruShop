@@ -19,6 +19,7 @@ import {SubscriptionServer} from 'subscriptions-transport-ws';
 import {execute,subscribe, GraphQLSchema} from 'graphql';
 const  {graphqlHTTP}  = require('express-graphql');
 const {makeExecutableSchema}  = require("graphql-tools")
+import * as cors from 'cors';
 
 const typeDefs=importSchema(path.join(__dirname,"./schema/schema.graphql"));
 
@@ -40,6 +41,7 @@ const server = new ApolloServer({ typeDefs, resolvers,
     }
 } });
 
+app.use(cors());
 app.use('/graphql',json())
 app.use('/confirmMail/:id?',checkMail)
 app.use(express.json());
