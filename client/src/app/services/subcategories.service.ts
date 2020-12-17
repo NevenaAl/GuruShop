@@ -2,21 +2,23 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import * as mutation from '../../strings/mutations'
 
-import * as Scalars from '../../strings/scalar';
-
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesService {
+export class SubcategoriesService {
 
   constructor(private apollo:Apollo) { }
   
-  createCategory(name: String,image: any){
+  createSubcategory(name: String,image: any,category_id: String){
+    console.log(name);
+    console.log(category_id);
+    console.log(image);
     return this.apollo.mutate({
-      mutation: mutation.CreateCategoryMutation,
+      mutation: mutation.CreateSubcategoryMutation,
       variables: {
         name,
-        image
+        image,
+        category_id
       },
       context:{
         useMultipart: true

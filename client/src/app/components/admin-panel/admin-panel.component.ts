@@ -8,6 +8,10 @@ import { Product } from 'src/app/entities/Product';
 import { Subcategory } from 'src/app/entities/Subcategory';
 import { CategoriesService } from 'src/app/services/categories.service';
 import * as query from '../../../strings/queries';
+import * as mutaions from '../../../strings/mutations'
+import { SubcategoriesService } from 'src/app/services/subcategories.service';
+import { ProductsService } from 'src/app/services/products.service';
+import { AnyTxtRecord } from 'dns';
 
 @Component({
   selector: 'app-admin-panel',
@@ -25,8 +29,10 @@ export class AdminPanelComponent implements OnInit {
   categories: Array<Category>;
   subcategories: Array<Subcategory>;
   products: Array<Product>;
+  selectedCategory : any;
+  selectedSubcategory : any;
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo,private categoriesService: CategoriesService, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private apollo: Apollo,private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService, private productsService: ProductsService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(
@@ -45,6 +51,7 @@ export class AdminPanelComponent implements OnInit {
     this.loadCategories();
     this.loadSubcategories();
     this.loadProducts();
+
   }
 
   loadCategories(){
@@ -55,6 +62,7 @@ export class AdminPanelComponent implements OnInit {
       .valueChanges.subscribe(result => {
         //@ts-ignore
         this.categories = result.data.categories;
+        this.selectedCategory = this.categories[0]._id;
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -68,6 +76,7 @@ export class AdminPanelComponent implements OnInit {
       .valueChanges.subscribe(result => {
         //@ts-ignore
         this.subcategories = result.data.subcategories;
+        this.selectedSubcategory = this.subcategories[0]._id;
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -75,7 +84,6 @@ export class AdminPanelComponent implements OnInit {
   }
 
   loadProducts(){
-    this.cardType = 'product';
     this.apollo
       .watchQuery({
         query: query.ProductsQuery
@@ -94,35 +102,26 @@ export class AdminPanelComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.name);
-    console.log(this.files[0]);
-
-    // this.categoriesService.createCategory(this.name,this.files[0]) 
-    // .subscribe(({ data }) => {
-    //   console.log('got data', data);
-    //   //this.payload = data;
-    // });
-    let formData:FormData = new FormData();
-    formData.append('image', this.files[0],this.files[0].name);
-    formData.append('name', this.name);
-    let headers = new HttpHeaders();
-    /** In Angular 5, including the header Content-Type can invalidate your request */
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
-    headers.append('Access-Control-Allow-Origin', '*');
-
-    let options = { headers: headers };
-
-    this.http.post("http://localhost:3000/categories", formData, options)
-            .subscribe(
-                data => console.log('success'),
-                error => console.log(error)
-            )
-
+    if (this.type == "categories") {
+      this.categoriesService.createCategory(this.name, this.files[0]) 
+      .subscribe(({ data }) => {
+         console.log('got data', data);
+      });
+    } else if (this.type == "subcategories") {
+      this.subcategoriesService.createSubcategory(this.name, this.files[0],this.selectedCategory) 
+      .subscribe(({ data }) => {
+         console.log('got data', data);
+      });
+    } else {
+      this.productsService.createProduct(this.name, this.files,this.selectedSubcategory) 
+      .subscribe(({ data }) => {
+         console.log('got data', data);
+      });
+    }
+   
   }
 
   onSelect(event) {
-    console.log(event);
     this.files.push(...event.addedFiles);
 
     const formData = new FormData();
@@ -133,8 +132,9 @@ export class AdminPanelComponent implements OnInit {
   }
 
   onRemove(event) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
-
+  getSelectedCategory(event){
+    this.selectedCategory = event;
+  }
 }

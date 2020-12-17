@@ -6,6 +6,7 @@ import * as error from '../strings/errorMessages'
 import * as yup from 'yup';
 import { ValidationError } from "yup";
 import {parseError} from "../handlers/errorHandler"
+import { processUpload } from "../handlers/fileHandler";
 
 const SubcategoryResolver: ResolverMap = {
     Query: {
@@ -48,14 +49,14 @@ const SubcategoryResolver: ResolverMap = {
                     errors: parseError(error)
                 }
             }
-            //let file = await processUpload(req.file, "categories");
+            let file = await processUpload(image, "subcategories");
             subcategory = await Subcategory.findOne({name: name});
             
             if(!subcategory){
                 let category = await Category.findOne(category_id);
                 subcategory = new Subcategory();
                 subcategory.name = name;
-                subcategory.image ="file";
+                subcategory.image = file;
                 subcategory.category = category;
             }else{
                 return {

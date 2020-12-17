@@ -65,3 +65,44 @@ mutation CreateCategoryMutation($name: String!, $image: FileUpload!){
  }
 }
 `;
+
+
+export const CreateSubcategoryMutation = gql`
+mutation CreateSubcategoryMutation($name: String!, $image: FileUpload!, $category_id: String!){
+ 
+ createSubcategory(data:{
+   name: $name
+   image: $image
+   category_id: $category_id
+ }){
+   subcategoryPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;
+
+export const CreateProductMutation = gql`
+mutation CreateProductMutation($name: String!, $image: [FileUpload!], $subcategory_id: String!){
+ 
+ createProduct(data:{
+   name: $name
+   image: $image
+   subcategory_id: $subcategory_id
+ }){
+   productPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;

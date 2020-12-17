@@ -9,17 +9,13 @@ import  { ApolloServer, gql,PubSub}  from 'apollo-server-express';
 import {json} from 'body-parser'
 import path = require("path");
 import http = require("http");
-import {createServer} from 'http';
 import appUse from './routes/Index'
 import {importSchema} from 'graphql-import'
 import {resolvers} from './resolvers/rootResolver'
 import {redis} from './handlers/redis';
 import {checkMail} from './routes/CheckMail';
-import {SubscriptionServer} from 'subscriptions-transport-ws';
-import {execute,subscribe, GraphQLSchema} from 'graphql';
-const  {graphqlHTTP}  = require('express-graphql');
-const {makeExecutableSchema}  = require("graphql-tools")
 import * as cors from 'cors';
+import { graphqlUploadExpress } from "graphql-upload";
 
 const typeDefs=importSchema(path.join(__dirname,"./schema/schema.graphql"));
 
@@ -32,6 +28,7 @@ const pubsub = new PubSub();
 const app = express();
 
 const server = new ApolloServer({ typeDefs, resolvers,
+  uploads: false,
   context(req){
     return {
       pubsub,
@@ -42,8 +39,9 @@ const server = new ApolloServer({ typeDefs, resolvers,
 } });
 
 app.use(cors());
-app.use('/graphql',json())
-app.use('/confirmMail/:id?',checkMail)
+app.use('/graphql',json());
+app.use('/confirmMail/:id?',checkMail);
+app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(isAuth);

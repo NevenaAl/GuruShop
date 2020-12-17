@@ -9,8 +9,8 @@
     </ngx-dropzone-preview>
   </ngx-dropzone>
   <input class="adminPanel-wrapper__input" [(ngModel)]="name"  id="name" name="name" required type="text" placeholder="name">
-  <select class="adminPanel-wrapper__input" *ngIf="type=='subcategories'">
-    <option *ngFor="let category of categories" value="{{category.name}}">{{category.name}}</option>
+  <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input" *ngIf="type=='subcategories'">
+    <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
   </select>
   <select class="adminPanel-wrapper__input" *ngIf="type=='products'">
     <option *ngFor="let subcategory of subcategories" value="{{subcategory.name}}">{{subcategory.name}}</option>

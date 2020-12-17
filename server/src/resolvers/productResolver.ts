@@ -7,6 +7,7 @@ import { ValidationError } from "yup";
 import { Subcategory } from "../entity/Subcategory";
 import { Category } from "../entity/Category";
 import {parseError} from "../handlers/errorHandler"
+import { processUpload } from "../handlers/fileHandler";
 
 const ProductResolver: ResolverMap = {
     Query:{
@@ -37,7 +38,13 @@ const ProductResolver: ResolverMap = {
                 }
             }
 
-            const {name, image, subcategory_id} = data;
+            const {name, image, subcategory_id} = await data;
+
+            await Promise.all(image.map((i:any) => {
+                return i.promise;
+            }));
+
+            console.log(image);
             const productValidation = validateProductInput();
             let product;
             try {
@@ -48,7 +55,9 @@ const ProductResolver: ResolverMap = {
                     errors: parseError(error)
                 }
             }
-            //let file = await processUpload(req.file, "categories");
+            
+            const images = await Promise.all(image? image.map(element => processUpload(element,"products")): '');
+            const urls = (await images).join(',');
             product = await Product.findOne({name: name});
             
             if(!product){
@@ -58,7 +67,7 @@ const ProductResolver: ResolverMap = {
 
                 product = new Product();
                 product.name = name;
-                product.image ="file";
+                product.image = urls;
                 product.subcategory = subcategory;
                 product.category = category;
                 product.user = user;

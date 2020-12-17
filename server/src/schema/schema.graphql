@@ -81,7 +81,7 @@ input UpdateCategoryInput{
 
 input CreateSubcategoryInput{
     name: String!
-    image: String!
+    image: FileUpload!
     category_id: String!
 }
 
@@ -94,7 +94,7 @@ input UpdateSubcategoryInput{
 
 input CreateProductInput{
     name: String!
-    image: String!
+    image: [FileUpload!]
     subcategory_id: String!
 }
 
