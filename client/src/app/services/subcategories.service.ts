@@ -10,9 +10,6 @@ export class SubcategoriesService {
   constructor(private apollo:Apollo) { }
   
   createSubcategory(name: String,image: any,category_id: String){
-    console.log(name);
-    console.log(category_id);
-    console.log(image);
     return this.apollo.mutate({
       mutation: mutation.CreateSubcategoryMutation,
       variables: {
@@ -24,5 +21,29 @@ export class SubcategoriesService {
         useMultipart: true
       }
     });
+  }
+
+  editSubcategory(_id: String, name: String,image: any,category_id: String){
+    return this.apollo.mutate({
+      mutation: mutation.EditSubcategoryMutation,
+      variables: {
+        _id,
+        name,
+        image,
+        category_id
+      },
+      context:{
+        useMultipart: true
+      }
+    });
+  }
+  
+  deleteSubcategory(_id: String){
+    return this.apollo.mutate({
+      mutation: mutation.DeleteSubcategoryMutation,
+      variables:{
+        _id
+      }
+    })
   }
 }

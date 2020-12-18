@@ -23,4 +23,27 @@ export class CategoriesService {
       }
     });
   }
+ 
+  editCategory(_id: String, name: String,image: any){
+    return this.apollo.mutate({
+      mutation: mutation.EditCategoryMutation,
+      variables: {
+        _id,
+        name,
+        image
+      },
+      context:{
+        useMultipart: true
+      }
+    });
+  }
+
+  deleteCategory(_id: String){
+    return this.apollo.mutate({
+      mutation: mutation.DeleteCategoryMutation,
+      variables:{
+        _id
+      }
+    })
+  }
 }

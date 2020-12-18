@@ -27,7 +27,6 @@ const CategoryResolver: ResolverMap = {
     },
     Mutation: {
         createCategory: async (_, { data },{req}) => {
-            //console.log(data);
             if(!req.req.isAuth){
                 return {
                     categoryPayload:null,

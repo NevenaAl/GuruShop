@@ -106,3 +106,108 @@ mutation CreateProductMutation($name: String!, $image: [FileUpload!], $subcatego
  }
 }
 `;
+export const  EditCategoryMutation = gql`
+mutation EditCategoryMutation($_id: String!, $name: String, $image: FileUpload){
+ 
+ updateCategory(data:{
+   _id: $_id
+   name: $name
+   image: $image
+ }){
+   categoryPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;
+
+
+export const EditSubcategoryMutation = gql`
+mutation EditSubcategoryMutation($_id: String, $name: String, $image: FileUpload, $category_id: String){
+ 
+ updateSubcategory(data:{
+   _id: $_id
+   name: $name
+   image: $image
+   category_id: $category_id
+ }){
+   subcategoryPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;
+
+export const EditProductMutation = gql`
+mutation EditProductMutation($_id:String, $name: String, $image: [FileUpload], $subcategory_id: String){
+ 
+ updateProduct(data:{
+   _id: $_id
+   name: $name
+   image: $image
+   subcategory_id: $subcategory_id
+ }){
+   productPayload{
+     _id
+     name
+     image
+   }
+   errors{
+     message
+   }
+ }
+}
+`;
+
+export const DeleteSubcategoryMutation = gql`
+mutation DeleteSubcategoryMutation($_id: String!){
+ 
+  deleteSubcategory(_id:$_id){
+    subcategoryPayload{
+      name
+    }
+    errors{
+      message
+    }
+  }
+}
+`;
+
+export const DeleteCategoryMutation = gql`
+mutation DeleteCategoryMutation($_id: String!){
+ 
+  deleteCategory(_id:$_id){
+    categoryPayload{
+      name
+    }
+    errors{
+      message
+    }
+  }
+}
+`;
+
+
+export const DeleteProductMutation = gql`
+mutation DeleteProductMutation($_id: String!){
+ 
+  deleteProduct(_id:$_id){
+    productPayload{
+      name
+    }
+    errors{
+      message
+    }
+  }
+}
+`;

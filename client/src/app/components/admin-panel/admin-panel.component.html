@@ -2,34 +2,47 @@
 <div class="adminPanel-wrapper">
   
 <div *ngIf="addClicked" class="adminPanel-wrapper__row">
-  <ngx-dropzone class="image_dropzone" (change)="onSelect($event)">
+  <ngx-dropzone [multiple]="type=='products'" [maxFileSize]="1000000000"  accept="image/jpeg,image/jpg,image/png" class="image_dropzone" (change)="onSelect($event)">
     <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
-    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"  *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
       <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-    </ngx-dropzone-preview>
+    </ngx-dropzone-image-preview>
   </ngx-dropzone>
   <input class="adminPanel-wrapper__input" [(ngModel)]="name"  id="name" name="name" required type="text" placeholder="name">
   <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input" *ngIf="type=='subcategories'">
     <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
   </select>
-  <select class="adminPanel-wrapper__input" *ngIf="type=='products'">
-    <option *ngFor="let subcategory of subcategories" value="{{subcategory.name}}">{{subcategory.name}}</option>
+  <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input" *ngIf="type=='products'">
+    <option *ngFor="let subcategory of subcategories" value="{{subcategory._id}}">{{subcategory.name}}</option>
   </select>
-  <input class="adminPanel-wrapper__addBtn" type="submit" (click)="submit()" value="+ Add new">
+  <input class="adminPanel-wrapper__addBtn" type="submit" (click)="submitAddForm()" value="+ Add new">
 </div>
 
-<input *ngIf="!addClicked" class="adminPanel-wrapper__showBtn" type="submit" (click)="showForm()" value="+ Add new">
+<input *ngIf="!addClicked" class="adminPanel-wrapper__showBtn" type="submit" (click)="showAddForm()" value="+ Add new">
 
 <div class="categories__row" *ngIf="type=='categories'">
-  <app-category *ngFor="let category of categories" [type]="cardType" [category]="category"></app-category>
+  <div *ngFor="let category of categories">
+    <app-category  [type]="cardType" [category]="category"></app-category>
+    <input name="{{category._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick($event.target.name)"  value="Edit" class="categoryCard__editBtn">
+    <input name="{{category._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="deleteClick($event.target.name)" value="Delete" class="categoryCard__deleteBtn">  
+  </div>
 </div>
 
 <div class="categories__row" *ngIf="type=='subcategories'">
-  <app-category *ngFor="let subcategory of subcategories" [type]="cardType" [category]="subcategory"></app-category>
+  <div *ngFor="let subcategory of subcategories">
+    <app-category  [type]="cardType" [category]="subcategory"></app-category>
+    <input name="{{subcategory._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick($event.target.name)"  value="Edit" class="categoryCard__editBtn">
+    <input name="{{subcategory._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="deleteClick($event.target.name)" value="Delete" class="categoryCard__deleteBtn">  
+  </div>
+  
 </div>
 
 <div class="products__row" *ngIf="type=='products'">
-  <app-product *ngFor="let product of products" [product]="product"></app-product>
+  <div *ngFor="let product of products" >
+    <app-product [product]="product"></app-product>
+    <input name="{{product._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick($event.target.name)"  value="Edit" class="categoryCard__editBtn">
+    <input name="{{product._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="deleteClick($event.target.name)" value="Delete" class="categoryCard__deleteBtn">  
+ </div>
 </div>
 
 

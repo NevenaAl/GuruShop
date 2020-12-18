@@ -44,7 +44,6 @@ const ProductResolver: ResolverMap = {
                 return i.promise;
             }));
 
-            console.log(image);
             const productValidation = validateProductInput();
             let product;
             try {

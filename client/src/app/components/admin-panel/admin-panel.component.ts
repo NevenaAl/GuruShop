@@ -11,7 +11,11 @@ import * as query from '../../../strings/queries';
 import * as mutaions from '../../../strings/mutations'
 import { SubcategoriesService } from 'src/app/services/subcategories.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { AnyTxtRecord } from 'dns';
+import { Observable } from 'rxjs'
+import { User } from 'src/app/entities/User';
+import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-admin-panel',
@@ -25,18 +29,21 @@ export class AdminPanelComponent implements OnInit {
   cardType: String;
   loading: boolean;
   error: any;
-  addClicked: boolean= false;
+  addClicked: boolean = false;
   categories: Array<Category>;
   subcategories: Array<Subcategory>;
   products: Array<Product>;
-  selectedCategory : any;
-  selectedSubcategory : any;
+  selectedCategory: any;
+  selectedSubcategory: any;
+  loggedUser: Observable<User>;
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo,private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService, private productsService: ProductsService) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService, private productsService: ProductsService) { }
 
   ngOnInit(): void {
+    this.loggedUser = this.userService.getLoggedUser();
     this.route.params.subscribe(
       (params: Params) => {
+        this.addClicked=false;
         this.type = params['type'];
         if (this.type == "categories") {
           this.cardType = 'category';
@@ -47,17 +54,18 @@ export class AdminPanelComponent implements OnInit {
         }
 
       })
-  
+
     this.loadCategories();
     this.loadSubcategories();
     this.loadProducts();
 
   }
 
-  loadCategories(){
-  this.apollo
+  loadCategories() {
+    this.apollo
       .watchQuery({
-        query: query.CategoriesQuery
+        query: query.CategoriesQuery,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.subscribe(result => {
         //@ts-ignore
@@ -68,10 +76,11 @@ export class AdminPanelComponent implements OnInit {
       });
   }
 
-  loadSubcategories(){
-     this.apollo
+  loadSubcategories() {
+    this.apollo
       .watchQuery({
-        query: query.SubcategoriesQuery
+        query: query.SubcategoriesQuery,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.subscribe(result => {
         //@ts-ignore
@@ -83,10 +92,11 @@ export class AdminPanelComponent implements OnInit {
 
   }
 
-  loadProducts(){
+  loadProducts() {
     this.apollo
       .watchQuery({
-        query: query.ProductsQuery
+        query: query.ProductsQuery,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.subscribe(result => {
         //@ts-ignore
@@ -96,36 +106,158 @@ export class AdminPanelComponent implements OnInit {
       });
   }
 
-  showForm(){
-    console.log(this.cardType);
+  showAddForm() {
     this.addClicked = true;
   }
 
-  submit(){
+  submitAddForm() {
     if (this.type == "categories") {
-      this.categoriesService.createCategory(this.name, this.files[0]) 
-      .subscribe(({ data }) => {
-         console.log('got data', data);
-      });
+      this.categoriesService.createCategory(this.name, this.files[0])
+        .subscribe(({ data }) => {
+          console.log('got data', data);
+          this.loadCategories();
+        });
     } else if (this.type == "subcategories") {
-      this.subcategoriesService.createSubcategory(this.name, this.files[0],this.selectedCategory) 
-      .subscribe(({ data }) => {
-         console.log('got data', data);
-      });
+      this.subcategoriesService.createSubcategory(this.name, this.files[0], this.selectedCategory)
+        .subscribe(({ data }) => {
+          console.log('got data', data);
+          this.loadSubcategories();
+        });
     } else {
-      this.productsService.createProduct(this.name, this.files,this.selectedSubcategory) 
-      .subscribe(({ data }) => {
-         console.log('got data', data);
-      });
+      this.productsService.createProduct(this.name, this.files, this.selectedSubcategory)
+        .subscribe(({ data }) => {
+          console.log('got data', data);
+          this.loadProducts();
+        });
     }
-   
+    this.addClicked = false;
+  }
+
+  deleteClick(event) {
+    let text;
+    if (this.type == 'categories') {
+      text = "This category and it's subcategories and products will be deleted";
+    } else if (this.type == 'subcategories') {
+      text = 'This subcategory and its products will be deleted';
+      this.deleteSubcategory(event);
+    } else if (this.type == 'products') {
+      text = 'This product will be deleted';
+      this.deleteProduct(event);
+    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel'
+    }).then((result => {
+      if (result.value) {
+        if (this.type == 'categories') {
+          this.deleteCategory(event);
+        } else if (this.type == 'subcategories') {
+          this.deleteSubcategory(event);
+        } else if (this.type == 'products') {
+          this.deleteProduct(event);
+        }
+
+        Swal.fire(
+          'Deleted!'
+        )
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled'
+        )
+      }
+    }))
+
+  }
+
+  deleteCategory(_id: String) {
+    this.categoriesService.deleteCategory(_id)
+      .subscribe(({ data }) => {
+        console.log('got data', data);
+        this.loadCategories();
+      });
+
+  }
+
+  deleteSubcategory(_id: String) {
+    this.subcategoriesService.deleteSubcategory(_id)
+      .subscribe(({ data }) => {
+        console.log('got data', data);
+        this.loadSubcategories();
+      });
+  }
+
+  deleteProduct(_id: String) {
+    this.productsService.deleteProduct(_id)
+      .subscribe(({ data }) => {
+        console.log('got data', data);
+        this.loadProducts();
+      });
+  }
+
+  editCategory(_id: String){
+    // this.categoriesService.editCategory(_id)
+    // .subscribe(({ data }) => {
+    //   console.log('got data', data);
+    //   this.loadCategories();
+    // });
+  }
+
+  editSubcategory(_id: String){
+    // this.subcategoriesService.editSubcategory(_id)
+    // .subscribe(({ data }) => {
+    //   console.log('got data', data);
+    //   this.loadSubcategories();
+    // });
+  }
+
+  editProduct(_id: String){
+    // this.productsService.editProduct(_id)
+    // .subscribe(({ data }) => {
+    //   console.log('got data', data);
+    //   this.loadProducts();
+    // });
+  }
+
+  editClick(event) {
+    Swal.fire({
+      title: 'Edit',
+      showCancelButton: true,
+      confirmButtonText: 'Edit',
+      cancelButtonText: 'Cancel',
+      html: "<p>blaa</p>"
+    }).then((result => {
+      if (result.value) {
+        if (this.type == 'categories') {
+          this.editCategory(event);
+        } else if (this.type == 'subcategories') {
+          this.editSubcategory(event);
+        } else if (this.type == 'products') {
+          this.editProduct(event);
+        }
+
+        Swal.fire(
+          'Deleted!'
+        )
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled'
+        )
+      }
+    }))
   }
 
   onSelect(event) {
+    if(this.type!='products'){
+      this.files = [];
+    }
     this.files.push(...event.addedFiles);
 
     const formData = new FormData();
-
+    
     for (var i = 0; i < this.files.length; i++) {
       formData.append("file[]", this.files[i]);
     }
@@ -134,7 +266,12 @@ export class AdminPanelComponent implements OnInit {
   onRemove(event) {
     this.files.splice(this.files.indexOf(event), 1);
   }
-  getSelectedCategory(event){
+
+  getSelectedCategory(event) {
     this.selectedCategory = event;
+  }
+
+  getSelectedSubcategory(event) {
+    this.selectedSubcategory = event;
   }
 }
