@@ -63,7 +63,7 @@ const CategoryResolver: ResolverMap = {
             await category.save();
             return {
                 categoryPayload: category,
-                errors: []
+                errors: null
             };
 
         },
@@ -96,7 +96,7 @@ const CategoryResolver: ResolverMap = {
             await category.save();
             return {
                 categoryPayload: category,
-                errors: []
+                errors: null
             };
         },
         deleteCategory : async(_,{_id},{req})=>{

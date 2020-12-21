@@ -57,7 +57,7 @@
               <p class="signUp-card__body__error" *ngIf="signUpFormGroup.get('passwords.confirmPassword').touched && signUpFormGroup.get('passwords.confirmPassword').errors?.passwordMismatch">Confirm
                 Password does not match.</p>
         </div>
-        <input type="submit" value="Sign Up" class="signUp-card__btn">
+        <input type="submit" value="Sign Up" [disabled]="signUpFormGroup.invalid"  class="signUp-card__btn">
 
     </form>
 

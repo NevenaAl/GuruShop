@@ -24,6 +24,7 @@ export const SubcategoryQuery = gql`
       _id
       name
       image
+      category_id
       products{
         name
         image
@@ -39,6 +40,7 @@ export const CategoriesQuery = gql`
     categories{
       name
       _id
+      image
     }
   }`;
 
@@ -48,6 +50,10 @@ query SubcategoriesQuery
   subcategories{
     name
     _id
+    image
+    category{
+      _id
+    }
   }
 }`;
 
@@ -57,6 +63,13 @@ query ProductsQuery
   products{
     name
     _id
+    image
+    subcategory{
+      _id
+    }
+    category{
+      _id
+    }
   }
 }`;
 

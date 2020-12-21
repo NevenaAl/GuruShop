@@ -80,7 +80,7 @@ const ProductResolver: ResolverMap = {
             await product.save();
             return {
                 productPayload: product,
-                errors: []
+                errors: null
             };
 
         },
@@ -119,7 +119,7 @@ const ProductResolver: ResolverMap = {
             await product.save();
             return {
                 productPayload: product,
-                errors: []
+                errors: null
             };
         },
         deleteProduct : async(_,{_id},{req})=>{

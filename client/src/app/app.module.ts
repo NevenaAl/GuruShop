@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { CommonModule } from "@angular/common";
+
 
 import { AppComponent } from './app.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
@@ -26,6 +26,8 @@ import { ProductComponent } from './components/product/product.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CategoriesService } from './services/categories.service';
+import { SimpleModalModule } from 'ngx-simple-modal';
+import { ModalComponentComponent } from './components/modal-component/modal-component.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,8 @@ import { CategoriesService } from './services/categories.service';
     SubcategoryDetailsComponent,
     ProductDetailsComponent,
     ProductComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    ModalComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,11 @@ import { CategoriesService } from './services/categories.service';
     HttpClientModule,
     HttpLinkModule,
     ReactiveFormsModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    SimpleModalModule.forRoot({container:document.body})
+  ],
+  entryComponents: [
+    ModalComponentComponent
   ],
   providers: [
     UserService,

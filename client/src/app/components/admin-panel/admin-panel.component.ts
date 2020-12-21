@@ -15,7 +15,9 @@ import { Observable } from 'rxjs'
 import { User } from 'src/app/entities/User';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2'
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SimpleModalService } from "ngx-simple-modal";
+import { ModalComponentComponent } from '../modal-component/modal-component.component'
 
 @Component({
   selector: 'app-admin-panel',
@@ -23,6 +25,8 @@ import Swal from 'sweetalert2'
 })
 
 export class AdminPanelComponent implements OnInit {
+  
+  addNewElementFormGroup: FormGroup;
   files: File[] = [];
   name: string;
   type: String;
@@ -36,11 +40,16 @@ export class AdminPanelComponent implements OnInit {
   selectedCategory: any;
   selectedSubcategory: any;
   loggedUser: Observable<User>;
+  errorMessage: String="";
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService, private productsService: ProductsService) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, 
+     private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService,
+     private productsService: ProductsService,private formBuilder: FormBuilder,
+     private simpleModalService:SimpleModalService) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
+    this.createForm();
     this.route.params.subscribe(
       (params: Params) => {
         this.addClicked=false;
@@ -59,6 +68,27 @@ export class AdminPanelComponent implements OnInit {
     this.loadSubcategories();
     this.loadProducts();
 
+  }
+
+  editClick(event) {
+    console.log(event);
+    let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
+          title: 'Edit',
+          elementType: this.type,
+          element: event,
+          categories: this.categories,
+          subcategories: this.subcategories,
+        })
+        .subscribe((res)=>{
+            console.log(res);
+        });
+}
+
+  createForm() {
+    this.addNewElementFormGroup = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2)]]
+    
+    });
   }
 
   loadCategories() {
@@ -111,26 +141,74 @@ export class AdminPanelComponent implements OnInit {
   }
 
   submitAddForm() {
+    if(this.files.length==0){
+      this.errorMessage = "Image is required!";
+      return;
+    }
+    this.errorMessage = "";
     if (this.type == "categories") {
       this.categoriesService.createCategory(this.name, this.files[0])
         .subscribe(({ data }) => {
           console.log('got data', data);
-          this.loadCategories();
+          //@ts-ignore
+          let error = data.createCategory.errors;
+          if(error!=null){
+           Swal.fire({
+             title: 'Error',
+             text: error[0].message,
+              icon: 'warning'
+            })
+           }else{
+            this.addClicked = false;
+            this.name = "";
+            this.createForm();
+            this.files = [];
+            this.loadCategories();
+           } 
         });
     } else if (this.type == "subcategories") {
       this.subcategoriesService.createSubcategory(this.name, this.files[0], this.selectedCategory)
         .subscribe(({ data }) => {
           console.log('got data', data);
-          this.loadSubcategories();
+          //@ts-ignore
+          let error = data.createSubcategory.errors;
+          if(error!=null){
+           Swal.fire({
+             title: 'Error',
+             text: error[0].message,
+              icon: 'warning'
+            })
+           }else{
+            this.addClicked = false;
+            this.name = "";
+            this.createForm();
+            this.files = [];
+            this.selectedCategory = this.categories[0]._id;
+            this.loadSubcategories();
+           } 
         });
     } else {
       this.productsService.createProduct(this.name, this.files, this.selectedSubcategory)
         .subscribe(({ data }) => {
           console.log('got data', data);
-          this.loadProducts();
+          //@ts-ignore
+          let error = data.createProduct.errors;
+          if(error!=null){
+           Swal.fire({
+             title: 'Error',
+             text: error[0].message,
+              icon: 'warning'
+            })
+           }else{
+            this.addClicked = false;
+            this.name = "";
+            this.createForm();
+            this.files = [];
+            this.selectedSubcategory = this.subcategories[0]._id;
+            this.loadProducts();
+           } 
         });
     }
-    this.addClicked = false;
   }
 
   deleteClick(event) {
@@ -222,35 +300,8 @@ export class AdminPanelComponent implements OnInit {
     // });
   }
 
-  editClick(event) {
-    Swal.fire({
-      title: 'Edit',
-      showCancelButton: true,
-      confirmButtonText: 'Edit',
-      cancelButtonText: 'Cancel',
-      html: "<p>blaa</p>"
-    }).then((result => {
-      if (result.value) {
-        if (this.type == 'categories') {
-          this.editCategory(event);
-        } else if (this.type == 'subcategories') {
-          this.editSubcategory(event);
-        } else if (this.type == 'products') {
-          this.editProduct(event);
-        }
 
-        Swal.fire(
-          'Deleted!'
-        )
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled'
-        )
-      }
-    }))
-  }
-
-  onSelect(event) {
+  onFileSelect(event) {
     if(this.type!='products'){
       this.files = [];
     }
@@ -261,9 +312,10 @@ export class AdminPanelComponent implements OnInit {
     for (var i = 0; i < this.files.length; i++) {
       formData.append("file[]", this.files[i]);
     }
+    this.errorMessage ="";
   }
 
-  onRemove(event) {
+  onFileRemove(event) {
     this.files.splice(this.files.indexOf(event), 1);
   }
 

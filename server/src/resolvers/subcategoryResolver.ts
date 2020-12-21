@@ -68,7 +68,7 @@ const SubcategoryResolver: ResolverMap = {
             await subcategory.save();
             return {
                 subcategoryPayload: subcategory,
-                errors: []
+                errors: null
             };
 
         },
@@ -106,7 +106,7 @@ const SubcategoryResolver: ResolverMap = {
             await subcategory.save();
             return {
                 subcategoryPayload: subcategory,
-                errors: []
+                errors: null
             };
         },
         deleteSubcategory : async(_,{_id},{req})=>{

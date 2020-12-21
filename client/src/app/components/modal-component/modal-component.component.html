@@ -1,0 +1,44 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" 
+        class="adminPanel-wrapper__row">
+        <div>
+          <ngx-dropzone [multiple]="elementType=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
+            class="image_dropzone" (change)="onFileSelect($event)">
+            <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+              [removable]="true" (removed)="onFileRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone>
+          <p class="signUp-card__body__error">{{errorMessage}}</p>
+        </div>
+    
+        <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
+          type="text" placeholder="name">
+        <p class="signUp-card__body__error"
+          *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">This
+          field is required.</p>
+        <p class="signUp-card__body__error"
+          *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">Minimum
+          2 characters required.</p>
+        <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
+          *ngIf="elementType=='subcategories'">
+          <option *ngFor="let category of categories" [selected] = "category._id==element.category._id" value="{{category._id}}">{{category.name}}</option>
+        </select>
+        <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input"
+          *ngIf="elementType=='products'">
+          <option *ngFor="let subcategory of subcategories" [selected] = "subcategory._id==element.subcategory._id"  value="{{subcategory._id}}">{{subcategory.name}}</option>
+        </select>
+       
+  
+    <div class="modal-footer">
+      <button type="button" class="adminPanel-wrapper__addBtn" (click)="onCancel()" >Cancel</button>
+      <input type="submit" [disabled]="addNewElementFormGroup.invalid" class="adminPanel-wrapper__addBtn" value="Save" (click)="onSave()">
+    </div>
+</form>
+</div>
+  </div>
