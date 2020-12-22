@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SimpleModalComponent } from "ngx-simple-modal";
@@ -22,12 +23,14 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   element: object;
   categories: any;
   subcategories: any;
-  addNewElementFormGroup: FormGroup;
   files: File[] = [];
+  addNewElementFormGroup: FormGroup; 
   name: string;
-  selectedCategory: any;
-  selectedSubcategory: any;
+  selectedCategory: any = null;
+  selectedSubcategory: any = null;
   errorMessage: String="";
+  image: String;
+  showNgxDropzone = false;
   
   constructor(private formBuilder: FormBuilder) {
     super();
@@ -38,17 +41,28 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     //@ts-ignore
     this.name = this.element.name;
     //@ts-ignore
-    console.log(this.element.category._id);
+    this.image =this.element.image;
   }
 
   onSave() {
-    this.result = new Array;
+    this.result ={
+      oldImages: this.image,
+      newImages: this.files,
+      newName: this.name,
+      newSelectedCategory: this.selectedCategory,
+      newSelectedSubcategory: this.selectedSubcategory
+    }
     this.close();
   }
   
   onCancel(){
     this.result =null;
     this.close();
+  }
+
+  deleteImage(){
+    this.showNgxDropzone = true;
+    this.image = "";
   }
 
   createForm() {
@@ -63,12 +77,6 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
       this.files = [];
     }
     this.files.push(...event.addedFiles);
-
-    const formData = new FormData();
-    
-    for (var i = 0; i < this.files.length; i++) {
-      formData.append("file[]", this.files[i]);
-    }
     this.errorMessage ="";
   }
 
@@ -84,5 +92,4 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     this.selectedSubcategory = event;
   }
 
-  submitAddForm() {}
 }

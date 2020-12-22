@@ -61,14 +61,13 @@ const storeUpload = async ({ createReadStream, mimetype }: any, savePath: string
     );
 };
 export const processUpload = async (upload: any, savePath: string) => {
-    //console.log(upload);
-   // console.log("beeeeeeeeeeee");
     const { file } = await upload;
     const {  createReadStream, mimetype } = await file;
     const { id } = await storeUpload({ createReadStream, mimetype }, savePath);
     return id;
 };
 export const processDelete = async (filename: string) => {
+    console.log(filename);
     await unlink(`src/images/${filename}`, (err: ErrnoException | null) => {
         if(err) {
             console.log(err)

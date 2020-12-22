@@ -500,3 +500,24 @@ a {
   height: 50rem;
   max-width: none !important;
   margin: 20rem auto; }
+
+.img-wrap {
+  position: relative;
+  height: 15rem;
+  width: 15rem; }
+
+.img-wrap .image {
+  height: 15rem;
+  width: 15rem;
+  border: dotted gray 0.1rem; }
+
+.img-wrap .close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+  font-size: 2rem; }
+
+.image_dropzone_edit {
+  width: 15rem;
+  height: 15rem !important; }

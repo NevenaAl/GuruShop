@@ -128,7 +128,7 @@ mutation EditCategoryMutation($_id: String!, $name: String, $image: FileUpload){
 
 
 export const EditSubcategoryMutation = gql`
-mutation EditSubcategoryMutation($_id: String, $name: String, $image: FileUpload, $category_id: String){
+mutation EditSubcategoryMutation($_id: String!, $name: String, $image: FileUpload, $category_id: String){
  
  updateSubcategory(data:{
    _id: $_id

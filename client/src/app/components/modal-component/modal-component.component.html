@@ -1,19 +1,25 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <div class="modal-content">
     <div class="modal-header">
       <h4>{{title}}</h4>
     </div>
-    <div class="modal-body">
-        <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" 
-        class="adminPanel-wrapper__row">
+        <form [formGroup]="addNewElementFormGroup" (submit)="onSave()">
+          <div class="adminPanel-wrapper__row">
+        
         <div>
-          <ngx-dropzone [multiple]="elementType=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
-            class="image_dropzone" (change)="onFileSelect($event)">
+          <ngx-dropzone *ngIf="showNgxDropzone" [multiple]="elementType=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
+            class="image_dropzone_edit" (change)="onFileSelect($event)">
             <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
             <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
               [removable]="true" (removed)="onFileRemove(f)">
               <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
             </ngx-dropzone-image-preview>
           </ngx-dropzone>
+          <div  *ngIf="!showNgxDropzone" class="img-wrap">
+            <a (click)="deleteImage()"><i class="fas fa-times close"></i></a>
+            <img class="image" src="http://localhost:3000/images/{{image}}">
+        </div>
           <p class="signUp-card__body__error">{{errorMessage}}</p>
         </div>
     
@@ -33,12 +39,11 @@
           *ngIf="elementType=='products'">
           <option *ngFor="let subcategory of subcategories" [selected] = "subcategory._id==element.subcategory._id"  value="{{subcategory._id}}">{{subcategory.name}}</option>
         </select>
-       
-  
+      </div>
+  <br>
     <div class="modal-footer">
-      <button type="button" class="adminPanel-wrapper__addBtn" (click)="onCancel()" >Cancel</button>
-      <input type="submit" [disabled]="addNewElementFormGroup.invalid" class="adminPanel-wrapper__addBtn" value="Save" (click)="onSave()">
+      <button type="button" class="categoryCard__deleteBtn" (click)="onCancel()" >Cancel</button>
+      <input type="submit" [disabled]="addNewElementFormGroup.invalid" class="categoryCard__editBtn" value="Save">
     </div>
 </form>
-</div>
   </div>

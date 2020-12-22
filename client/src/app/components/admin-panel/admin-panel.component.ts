@@ -71,18 +71,22 @@ export class AdminPanelComponent implements OnInit {
   }
 
   editClick(event) {
-    console.log(event);
     let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
           title: 'Edit',
           elementType: this.type,
           element: event,
           categories: this.categories,
-          subcategories: this.subcategories,
+          subcategories: this.subcategories
         })
-        .subscribe((res)=>{
-            console.log(res);
+        .subscribe((newValues)=>{
+            if(this.type=="categories"){
+              this.editCategory(event,newValues);
+            }
+            if(this.type=="subcategories"){
+              this.editSubcategory(event,newValues);
+            }
         });
-}
+  }
 
   createForm() {
     this.addNewElementFormGroup = this.formBuilder.group({
@@ -217,10 +221,8 @@ export class AdminPanelComponent implements OnInit {
       text = "This category and it's subcategories and products will be deleted";
     } else if (this.type == 'subcategories') {
       text = 'This subcategory and its products will be deleted';
-      this.deleteSubcategory(event);
     } else if (this.type == 'products') {
       text = 'This product will be deleted';
-      this.deleteProduct(event);
     }
     Swal.fire({
       title: 'Are you sure?',
@@ -276,20 +278,38 @@ export class AdminPanelComponent implements OnInit {
       });
   }
 
-  editCategory(_id: String){
-    // this.categoriesService.editCategory(_id)
-    // .subscribe(({ data }) => {
-    //   console.log('got data', data);
-    //   this.loadCategories();
-    // });
+  editCategory(category,newValues){
+    if(category.name==newValues.newName){
+      newValues.newName=null;
+    }
+    if(newValues.newImages.length==0){
+      newValues.newImages=null;
+    }else{
+      newValues.newImages = newValues.newImages[0];
+    }
+
+    this.categoriesService.editCategory(category._id,newValues.newName,newValues.newImages)
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      this.loadCategories();
+    });
   }
 
-  editSubcategory(_id: String){
-    // this.subcategoriesService.editSubcategory(_id)
-    // .subscribe(({ data }) => {
-    //   console.log('got data', data);
-    //   this.loadSubcategories();
-    // });
+  editSubcategory(subcategory,newValues){
+    if(subcategory.name==newValues.newName){
+      newValues.newName=null;
+    }
+    if(newValues.newImages.length==0){
+      newValues.newImages=null;
+    }else{
+      newValues.newImages = newValues.newImages[0];
+    }
+
+    this.subcategoriesService.editSubcategory(subcategory._id,newValues.newName,newValues.newImages,newValues.newSelectedCategory)
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      this.loadSubcategories();
+    });
   }
 
   editProduct(_id: String){
@@ -307,11 +327,6 @@ export class AdminPanelComponent implements OnInit {
     }
     this.files.push(...event.addedFiles);
 
-    const formData = new FormData();
-    
-    for (var i = 0; i < this.files.length; i++) {
-      formData.append("file[]", this.files[i]);
-    }
     this.errorMessage ="";
   }
 

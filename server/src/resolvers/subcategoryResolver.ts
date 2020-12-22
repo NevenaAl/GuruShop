@@ -6,7 +6,7 @@ import * as error from '../strings/errorMessages'
 import * as yup from 'yup';
 import { ValidationError } from "yup";
 import {parseError} from "../handlers/errorHandler"
-import { processUpload } from "../handlers/fileHandler";
+import { processDelete, processUpload } from "../handlers/fileHandler";
 
 const SubcategoryResolver: ResolverMap = {
     Query: {
@@ -97,10 +97,13 @@ const SubcategoryResolver: ResolverMap = {
                     errors: [error.subcategoryExistsError]
                 }
             }
-            //let file = await processUpload(req.file, "categories");
+            let file = image? await processUpload(image, "subcategories") :null;
+            if(file){
+                await processDelete(subcategory.image);
+            }
             let category = await Category.findOne(category_id);
             subcategory.name = name || subcategory.name;
-            subcategory.image = "file" || subcategory.image;
+            subcategory.image = file || subcategory.image;
             subcategory.category = category;
 
             await subcategory.save();
@@ -124,6 +127,7 @@ const SubcategoryResolver: ResolverMap = {
                     errors: [error.noSubcategoryFound]
                 }
             }
+            await processDelete(subcategory.image);
             await subcategory.remove();
             return {
                 subcategoryPayload: subcategory,

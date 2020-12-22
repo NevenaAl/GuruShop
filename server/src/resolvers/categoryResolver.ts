@@ -2,7 +2,7 @@ import { Category } from "../entity/Category";
 import { Product } from "../entity/Product"
 import { ResolverMap } from "../handlers/resolver-map";
 import * as error from '../strings/errorMessages';
-import { processUpload } from '../handlers/fileHandler';
+import { processDelete, processUpload } from '../handlers/fileHandler';
 import * as yup from 'yup';
 import {parseError} from '../handlers/errorHandler'
 
@@ -72,6 +72,7 @@ const CategoryResolver: ResolverMap = {
                 return {
                     categoryPayload:null,
                     errors : [error.authError]
+
                 }
             }
             const { _id, name, image } = data;
@@ -90,9 +91,12 @@ const CategoryResolver: ResolverMap = {
                     errors: [error.categoryExistsError]
                 }
             }
-            //let file = await processUpload(req.file, "categories");
+            let file = image? await processUpload(image, "categories") :null;
+            if(file){
+                await processDelete(category.image);
+            }
             category.name = name || category.name;
-            category.image = "file" || category.image;
+            category.image = file || category.image;
             await category.save();
             return {
                 categoryPayload: category,
@@ -114,6 +118,7 @@ const CategoryResolver: ResolverMap = {
                     errors: [error.noCategoryFound]
                 }
             }
+            await processDelete(category.image);
             await category.remove();
             return {
                 categoryPayload: category,
