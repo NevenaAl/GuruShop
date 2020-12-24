@@ -149,12 +149,13 @@ mutation EditSubcategoryMutation($_id: String!, $name: String, $image: FileUploa
 `;
 
 export const EditProductMutation = gql`
-mutation EditProductMutation($_id:String, $name: String, $image: [FileUpload], $subcategory_id: String){
+mutation EditProductMutation($_id:String!, $name: String, $newImages: [FileUpload], $deletedImages: String, $subcategory_id: String){
  
  updateProduct(data:{
    _id: $_id
    name: $name
-   image: $image
+   newImages: $newImages
+   deletedImages: $deletedImages
    subcategory_id: $subcategory_id
  }){
    productPayload{

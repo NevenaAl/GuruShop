@@ -101,7 +101,8 @@ input CreateProductInput{
 input UpdateProductInput{
     _id: String!
     name: String
-    image: String
+    newImages: [FileUpload]
+    deletedImages: String
     subcategory_id: String
 }
 

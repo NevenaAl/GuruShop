@@ -23,13 +23,14 @@ export class ProductsService {
     });
   }
 
-  editProduct(_id: String,name: String,image: any[],subcategory_id: String){
+  editProduct(_id: String,name: String,newImages: any,deletedImages: any,subcategory_id: String){
     return this.apollo.mutate({
       mutation: mutation.EditProductMutation,
       variables: {
         _id,
         name,
-        image,
+        newImages,
+        deletedImages,
         subcategory_id
       },
       context:{

@@ -29,7 +29,8 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   selectedCategory: any = null;
   selectedSubcategory: any = null;
   errorMessage: String="";
-  image: String;
+  images: String[];
+  deletedImages: String ="";
   showNgxDropzone = false;
   
   constructor(private formBuilder: FormBuilder) {
@@ -41,12 +42,12 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     //@ts-ignore
     this.name = this.element.name;
     //@ts-ignore
-    this.image =this.element.image;
+    this.images =this.element.image.split(',').filter(x=> !!x);
   }
 
   onSave() {
     this.result ={
-      oldImages: this.image,
+      deletedImages: this.deletedImages,
       newImages: this.files,
       newName: this.name,
       newSelectedCategory: this.selectedCategory,
@@ -60,9 +61,14 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     this.close();
   }
 
-  deleteImage(){
+  deleteImage(image){
     this.showNgxDropzone = true;
-    this.image = "";
+    this.images.forEach((element,index)=>{
+      if(element==image) {
+        this.images.splice(index,1);
+        this.deletedImages+=image + ',';
+      }
+   });
   }
 
   createForm() {

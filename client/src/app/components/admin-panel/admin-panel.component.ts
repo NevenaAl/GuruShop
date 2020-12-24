@@ -30,12 +30,13 @@ export class AdminPanelComponent implements OnInit {
   files: File[] = [];
   name: string;
   type: String;
-  cardType: String;
+  cardType: String ="";
   loading: boolean;
   error: any;
   addClicked: boolean = false;
   categories: Array<Category>;
   subcategories: Array<Subcategory>;
+  filteredSubcategories: Array<Subcategory> = new Array<Subcategory>();
   products: Array<Product>;
   selectedCategory: any;
   selectedSubcategory: any;
@@ -49,7 +50,6 @@ export class AdminPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
-    this.createForm();
     this.route.params.subscribe(
       (params: Params) => {
         this.addClicked=false;
@@ -59,9 +59,11 @@ export class AdminPanelComponent implements OnInit {
         } else if (this.type == "subcategories") {
           this.cardType = 'subcategory';
         } else {
-          this.cardType = 'product;'
+          this.cardType = 'product';
         }
 
+        this.createForm();
+        this.filteredSubcategories = this.subcategories;
       })
 
     this.loadCategories();
@@ -79,19 +81,27 @@ export class AdminPanelComponent implements OnInit {
           subcategories: this.subcategories
         })
         .subscribe((newValues)=>{
+          if(newValues){
             if(this.type=="categories"){
               this.editCategory(event,newValues);
             }
             if(this.type=="subcategories"){
+              console.log(newValues);
               this.editSubcategory(event,newValues);
             }
+            if(this.type=="products"){
+              this.editProduct(event,newValues);
+            }
+          }
         });
   }
 
   createForm() {
     this.addNewElementFormGroup = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]]
-    
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      categorySelection : [null, this.cardType=="subcategory"? [Validators.required]: []],
+      subcategorySelection : [null,this.cardType=="product"? [Validators.required]: []]
+      
     });
   }
 
@@ -105,6 +115,7 @@ export class AdminPanelComponent implements OnInit {
         //@ts-ignore
         this.categories = result.data.categories;
         this.selectedCategory = this.categories[0]._id;
+       // this.addNewElementFormGroup.controls.categorySelection.setValue(this.categories[0]._id || null);
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -120,6 +131,8 @@ export class AdminPanelComponent implements OnInit {
         //@ts-ignore
         this.subcategories = result.data.subcategories;
         this.selectedSubcategory = this.subcategories[0]._id;
+        //this.addNewElementFormGroup.controls.subcategorySelection.setValue(this.filteredSubcategories[0]._id || null);
+        this.filteredSubcategories = this.subcategories;
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -312,12 +325,19 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
-  editProduct(_id: String){
-    // this.productsService.editProduct(_id)
-    // .subscribe(({ data }) => {
-    //   console.log('got data', data);
-    //   this.loadProducts();
-    // });
+  editProduct(product, newValues){
+    if(product.name==newValues.newName){
+      newValues.newName=null;
+    }
+    if(newValues.newImages.length==0){
+      newValues.newImages=null;
+    }
+
+    this.productsService.editProduct(product._id,newValues.newName,newValues.newImages, newValues.deletedImages,newValues.newSelectedSubcategory)
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      this.loadProducts();
+    });
   }
 
 
@@ -336,6 +356,8 @@ export class AdminPanelComponent implements OnInit {
 
   getSelectedCategory(event) {
     this.selectedCategory = event;
+    this.filteredSubcategories = this.categories.find(x=>x._id==this.selectedCategory).subcategories;
+    console.log(this.filteredSubcategories);
   }
 
   getSelectedSubcategory(event) {

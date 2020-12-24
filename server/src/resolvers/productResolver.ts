@@ -7,7 +7,7 @@ import { ValidationError } from "yup";
 import { Subcategory } from "../entity/Subcategory";
 import { Category } from "../entity/Category";
 import {parseError} from "../handlers/errorHandler"
-import { processUpload } from "../handlers/fileHandler";
+import { processDelete, processUpload } from "../handlers/fileHandler";
 
 const ProductResolver: ResolverMap = {
     Query:{
@@ -92,7 +92,13 @@ const ProductResolver: ResolverMap = {
                 }
             }
 
-            const { _id, name, image, subcategory_id } = data;
+            const { _id, name, newImages, deletedImages, subcategory_id } = data;
+            if(newImages!=null){
+                await Promise.all(newImages.map((i:any) => {
+                    return i.promise;
+                }));
+            }
+
             let product;
             product = await Product.findOne(_id,{ relations: ["user","category", "subcategory"] });
             if (!product) {
@@ -102,20 +108,38 @@ const ProductResolver: ResolverMap = {
                 }
             }
             let productNameExists = await Product.findOne({name:name})
-            if(productNameExists && (productNameExists._id != _id)){
+            if(productNameExists){
                 return {
                     productPayload: null,
                     errors: [error.productExistsError]
                 }
             }
-            //let file = await processUpload(req.file, "categories");
-            let subcategory = await Subcategory.findOne(subcategory_id);
-            let category = await Category.findOne(subcategory.category._id);
-            product.name = name || product.name;
-            product.image = "file" || product.image;
-            product.subcategory = subcategory;
-            product.category = category;
+            
+            if(deletedImages){
+                product.image += ',';
+            
+                const deletedImagesArray = deletedImages.split(',').filter(x=> !!x);
+                deletedImagesArray.forEach(async element => {
+                    await processDelete(element);
+                });
+                deletedImagesArray.forEach(image => {
+                    product.image = product.image.replace(image+',',"");
+                });
+                
+            }
+           
+            const images = await Promise.all(newImages? newImages.map(element => processUpload(element,"products")): '');
+            const urls = newImages? (await images).join(',') + ',' + product.image : null;
 
+            
+            let subcategory = await Subcategory.findOne({_id:subcategory_id},{relations:["category"]});
+            let category = subcategory? await Category.findOne({_id:subcategory.category._id}): null;
+               
+            product.name = name || product.name;
+            product.image = urls || product.image;
+            product.subcategory = subcategory || product.subcategory;
+            product.category = category || product.category;
+           
             await product.save();
             return {
                 productPayload: product,
@@ -137,6 +161,10 @@ const ProductResolver: ResolverMap = {
                     errors: [error.noProductFound]
                 }
             }
+            let imagesArray = product.image.split(',').filter(x=> !!x);
+            imagesArray.forEach(async element => {
+                await processDelete(element);
+            });
             await product.remove();
             return {
                 productPayload: product,

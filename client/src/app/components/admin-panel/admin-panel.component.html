@@ -21,14 +21,20 @@
     <p class="signUp-card__body__error"
       *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">Minimum
       2 characters required.</p>
-    <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
-      *ngIf="type=='subcategories'">
-      <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
+    <select formControlName ="categorySelection" (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
+      *ngIf="type=='subcategories' || type=='products'">
+      <option *ngFor="let category of categories"  value="{{category._id}}">{{category.name}}</option>
     </select>
-    <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input"
+    <p class="signUp-card__body__error"
+    *ngIf="type=='subcategories' && addNewElementFormGroup.get('categorySelection').touched && addNewElementFormGroup.get('categorySelection').errors?.required">This
+    field is required.</p>
+    <select  formControlName ="subcategorySelection" (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input"
       *ngIf="type=='products'">
-      <option *ngFor="let subcategory of subcategories" value="{{subcategory._id}}">{{subcategory.name}}</option>
+      <option *ngFor="let subcategory of filteredSubcategories"  value="{{subcategory._id}}">{{subcategory.name}}</option>
     </select>
+    <p class="signUp-card__body__error"
+    *ngIf=" type=='products' && addNewElementFormGroup.get('subcategorySelection').touched && addNewElementFormGroup.get('subcategorySelection').errors?.required">This
+    field is required.</p>
     <input class="adminPanel-wrapper__addBtn" [disabled]="addNewElementFormGroup.invalid" type="submit"
       value="+ Add new">
   </form>

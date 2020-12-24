@@ -41,6 +41,10 @@ export const CategoriesQuery = gql`
       name
       _id
       image
+      subcategories{
+        _id
+        name
+      }
     }
   }`;
 

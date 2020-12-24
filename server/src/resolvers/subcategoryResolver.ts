@@ -101,10 +101,12 @@ const SubcategoryResolver: ResolverMap = {
             if(file){
                 await processDelete(subcategory.image);
             }
-            let category = await Category.findOne(category_id);
+            
+            let category = await Category.findOne({ _id: category_id});
+           
             subcategory.name = name || subcategory.name;
             subcategory.image = file || subcategory.image;
-            subcategory.category = category;
+            subcategory.category = category || subcategory.category;
 
             await subcategory.save();
             return {
