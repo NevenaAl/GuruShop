@@ -8,6 +8,9 @@ export class User extends BaseEntity {
     _id: string;
 
     @Column("varchar",{length:255})
+    role: string = "user";
+
+    @Column("varchar",{length:255})
     email: string;
 
     @Column("varchar",{length:255})

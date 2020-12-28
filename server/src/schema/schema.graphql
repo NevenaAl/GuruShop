@@ -61,6 +61,7 @@ input UpdateUserInput{
     surrname: String
     email: String
     password: String
+    role: String
 }
 
 input LogInUserInput {
@@ -180,6 +181,7 @@ type User{
     password: String!
     products: [Product!]
     isMailConfirmed: Boolean!
+    role: String!
 }
 
 type Category{

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <div class="adminPanel-wrapper">
   <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" *ngIf="addClicked"
     class="adminPanel-wrapper__row">
@@ -21,8 +23,9 @@
     <p class="signUp-card__body__error"
       *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">Minimum
       2 characters required.</p>
-    <select formControlName ="categorySelection" (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
+    <select formControlName ="categorySelection"  (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
       *ngIf="type=='subcategories' || type=='products'">
+      <option value="null" disabled="true" [selected]="true">Select category</option>
       <option *ngFor="let category of categories"  value="{{category._id}}">{{category.name}}</option>
     </select>
     <p class="signUp-card__body__error"
@@ -30,6 +33,7 @@
     field is required.</p>
     <select  formControlName ="subcategorySelection" (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input"
       *ngIf="type=='products'">
+      <option value="null" disabled="true" [selected]="true">Select subcategory</option>
       <option *ngFor="let subcategory of filteredSubcategories"  value="{{subcategory._id}}">{{subcategory.name}}</option>
     </select>
     <p class="signUp-card__body__error"
@@ -72,6 +76,35 @@
         value="Delete" class="categoryCard__deleteBtn">
     </div>
   </div>
+
+  <div *ngIf="type=='users'">
+
+     <table class="users-table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Name</th>
+          <th scope="col">Surname</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users;let i=index">
+          <th scope="row">{{i +1}}</th>
+          <td>{{user.name}}</td>
+          <td>{{user.surrname}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.role}}</td>
+          <td><button name="{{user._id}}" class="users-table__editBtn" (click)="editClick(user)"  value="Edit">Edit</button></td>
+          <td><button name="{{user._id}}"  class="users-table__deleteBtn" (click)="deleteClick($event.target.name)" value="Delete">Delete</button></td>
+        </tr>
+  
+      </tbody>
+    </table>
+    </div>
 
 
 </div>

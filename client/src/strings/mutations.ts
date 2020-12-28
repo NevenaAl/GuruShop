@@ -13,6 +13,7 @@ export const LogInUserMutation= gql`
         email
         password
         isMailConfirmed
+        role
       }
       errors{
         message
@@ -38,6 +39,7 @@ export const SignUpUserMutation= gql`
         email
         password
         isMailConfirmed
+        role
       }
       errors{
         message
@@ -204,6 +206,20 @@ mutation DeleteProductMutation($_id: String!){
  
   deleteProduct(_id:$_id){
     productPayload{
+      name
+    }
+    errors{
+      message
+    }
+  }
+}
+`;
+
+export const DeleteUserMutation = gql`
+mutation DeleteUserMutation($_id: String!){
+ 
+  deleteUser(_id:$_id){
+    userPayload{
       name
     }
     errors{

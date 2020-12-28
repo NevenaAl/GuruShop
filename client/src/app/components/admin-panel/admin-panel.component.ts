@@ -38,6 +38,7 @@ export class AdminPanelComponent implements OnInit {
   subcategories: Array<Subcategory>;
   filteredSubcategories: Array<Subcategory> = new Array<Subcategory>();
   products: Array<Product>;
+  users: Array<User>;
   selectedCategory: any;
   selectedSubcategory: any;
   loggedUser: Observable<User>;
@@ -58,8 +59,10 @@ export class AdminPanelComponent implements OnInit {
           this.cardType = 'category';
         } else if (this.type == "subcategories") {
           this.cardType = 'subcategory';
-        } else {
+        } else if (this.type == "products")  {
           this.cardType = 'product';
+        }else if (this.type == "users")  {
+          this.cardType = 'user';
         }
 
         this.createForm();
@@ -69,6 +72,7 @@ export class AdminPanelComponent implements OnInit {
     this.loadCategories();
     this.loadSubcategories();
     this.loadProducts();
+    this.loadUsers();
 
   }
 
@@ -115,7 +119,6 @@ export class AdminPanelComponent implements OnInit {
         //@ts-ignore
         this.categories = result.data.categories;
         this.selectedCategory = this.categories[0]._id;
-       // this.addNewElementFormGroup.controls.categorySelection.setValue(this.categories[0]._id || null);
         this.loading = result.loading;
         this.error = result.error;
       });
@@ -131,7 +134,6 @@ export class AdminPanelComponent implements OnInit {
         //@ts-ignore
         this.subcategories = result.data.subcategories;
         this.selectedSubcategory = this.subcategories[0]._id;
-        //this.addNewElementFormGroup.controls.subcategorySelection.setValue(this.filteredSubcategories[0]._id || null);
         this.filteredSubcategories = this.subcategories;
         this.loading = result.loading;
         this.error = result.error;
@@ -152,6 +154,21 @@ export class AdminPanelComponent implements OnInit {
         this.error = result.error;
       });
   }
+
+  loadUsers() {
+    this.apollo
+      .watchQuery({
+        query: query.UsersQuery,
+        fetchPolicy: 'network-only'
+      })
+      .valueChanges.subscribe(result => {
+        //@ts-ignore
+        this.users = result.data.users;
+        this.loading = result.loading;
+        this.error = result.error;
+      });
+  }
+
 
   showAddForm() {
     this.addClicked = true;
@@ -236,6 +253,8 @@ export class AdminPanelComponent implements OnInit {
       text = 'This subcategory and its products will be deleted';
     } else if (this.type == 'products') {
       text = 'This product will be deleted';
+    }else if (this.type == 'users') {
+      text = 'This user will be deleted';
     }
     Swal.fire({
       title: 'Are you sure?',
@@ -252,6 +271,8 @@ export class AdminPanelComponent implements OnInit {
           this.deleteSubcategory(event);
         } else if (this.type == 'products') {
           this.deleteProduct(event);
+        } else if (this.type == 'users') {
+          this.deleteUser(event);
         }
 
         Swal.fire(
@@ -288,6 +309,14 @@ export class AdminPanelComponent implements OnInit {
       .subscribe(({ data }) => {
         console.log('got data', data);
         this.loadProducts();
+      });
+  }
+
+  deleteUser(_id: String) {
+    this.userService.deleteUser(_id)
+      .subscribe(({ data }) => {
+        console.log('got data', data);
+        this.loadUsers();
       });
   }
 
@@ -357,7 +386,6 @@ export class AdminPanelComponent implements OnInit {
   getSelectedCategory(event) {
     this.selectedCategory = event;
     this.filteredSubcategories = this.categories.find(x=>x._id==this.selectedCategory).subcategories;
-    console.log(this.filteredSubcategories);
   }
 
   getSelectedSubcategory(event) {

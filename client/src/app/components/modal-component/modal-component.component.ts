@@ -20,7 +20,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
 
   title: string;
   elementType: String;
-  element: object;
+  element: any;
   categories: any;
   subcategories: any;
   files: File[] = [];
@@ -28,10 +28,14 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   name: string;
   selectedCategory: any = null;
   selectedSubcategory: any = null;
+  selectedRole: any = null;
   errorMessage: String="";
   images: String[];
   deletedImages: String ="";
   showNgxDropzone = false;
+  surrname: String;
+  email: String;
+  roles: String[] = ["admin","user"];
   
   constructor(private formBuilder: FormBuilder) {
     super();
@@ -41,8 +45,13 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     this.createForm();
     //@ts-ignore
     this.name = this.element.name;
-    //@ts-ignore
-    this.images =this.element.image.split(',').filter(x=> !!x);
+    if(this.elementType=="users"){
+      this.surrname= this.element.surrname;
+      this.email = this.element.email;
+    }else{
+      //@ts-ignore
+      this.images =this.element.image.split(',').filter(x=> !!x);
+    }
   }
 
   onSave() {
@@ -50,8 +59,11 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
       deletedImages: this.deletedImages,
       newImages: this.files,
       newName: this.name,
+      newSurrname: this.surrname,
+      newEmail: this.email,
       newSelectedCategory: this.selectedCategory,
-      newSelectedSubcategory: this.selectedSubcategory
+      newSelectedSubcategory: this.selectedSubcategory,
+      newSelectedRole : this.selectedRole
     }
     this.close();
   }
@@ -73,7 +85,9 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
 
   createForm() {
     this.addNewElementFormGroup = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]]
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      surrname: ['',this.elementType=="users"? [Validators.required, Validators.minLength(2)]:[]],
+      email: ['', this.elementType=="users"? [Validators.required, Validators.minLength(2)]: []]
     
     });
   }
@@ -98,4 +112,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     this.selectedSubcategory = event;
   }
 
+  getSelectedRole(event) {
+    this.selectedRole = event;
+  }
 }

@@ -81,11 +81,6 @@ const UserResolver: ResolverMap = {
             const link = await createConfirmationLink(url,redis,user._id);
             await sendConfirmationMail(link,user.email);
 
-            // if(checkConfirmationMail()){
-            //     user.isMailConfirmed = true;
-            //     await user.save();
-            // }
-
             return {
                 userPayload: user,
                 errors: null
@@ -146,7 +141,6 @@ const UserResolver: ResolverMap = {
 
         logInUser : async(_,{data}) =>{
             const { email, password } = data;
-
             let user = await User.findOne({email:email});
             if(!user){
                 return {

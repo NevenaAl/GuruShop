@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(localStorage.getItem('token') != null)
+      if(localStorage.getItem('role') == "admin")
           return true;
        else
          return this.router.parseUrl('/home');

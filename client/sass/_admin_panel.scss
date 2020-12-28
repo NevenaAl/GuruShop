@@ -1,3 +1,10 @@
+.edit_users_wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
+    margin: auto;
+    }
+
 .adminPanel-wrapper{
     width: 70vw;
 
@@ -6,8 +13,9 @@
         justify-content: space-between;
         align-items: center;
         margin: 2rem;
-        margin-left: 4rem;
+        //margin-left: 4rem;
         padding: 2rem;
+
     }
 
     &__imagesDrop{
@@ -20,13 +28,13 @@
     }
 
     &__input{
-        width: 29rem;
+        //width: 29rem;
         height: 4rem;
         margin-top: 2rem;
         border-radius: 5rem;
         padding-left: 1rem;
         font-size: 2rem;
-        margin-left: 7rem;
+        margin-left: 2rem;
     }
 
     &__addBtn{
@@ -93,4 +101,81 @@
 
 .image_dropzone{
     width: 30rem;
+}
+
+.users-table {
+    border-collapse: collapse;
+    margin: 10rem;
+    margin-left: 20rem;
+    font-size: 7rem;
+    font-family: sans-serif;
+    min-width: 120rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+    &__editBtn{
+        color: white;
+        background-color: rgb(18, 18, 153);
+        width: 10rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+    }
+   
+    &__editBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color: rgb(18, 18, 153);
+     }
+    &__editBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(56, 56, 143);
+    }
+
+    &__deleteBtn{
+        color: white;
+        background-color: rgb(177, 29, 29);
+        width: 10rem;
+        height: 4rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+    }
+   
+    &__deleteBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color: rgb(177, 29, 29);
+     }
+    &__deleteBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color: rgb(190, 68, 68);
+    }
+}
+
+.users-table thead tr {
+    background-color: #3167da;
+    color: #ffffff;
+    text-align: left;
+}
+
+.users-table th,
+.users-table td {
+    padding: 12px 15px;
+    width: 3rem;
+}
+.users-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.users-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.users-table tbody tr:last-of-type {
+    border-bottom: 2px solid #1a72d6;
 }

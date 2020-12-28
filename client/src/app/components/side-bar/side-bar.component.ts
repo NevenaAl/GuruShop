@@ -9,11 +9,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SideBarComponent implements OnInit {
   loggedUser: Observable<User>;
-  type: String;
+  role: String = "";
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.type = "categories";
     this.loggedUser = this.userService.getLoggedUser();
+    this.userService.getLoggedUser().subscribe(res=>{
+      if(res ==null){
+        return;
+      }
+
+      this.role = res.role;
+    });
   }
 }

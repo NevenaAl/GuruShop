@@ -56,6 +56,15 @@ export class UserService {
 
   }
   
+  deleteUser(_id: String){
+    return this.apollo.mutate({
+      mutation: mutation.DeleteUserMutation,
+      variables:{
+        _id
+      }
+    })
+  }
+
   setLoggedUser(user: any){
     if(user==null){
       localStorage.clear();

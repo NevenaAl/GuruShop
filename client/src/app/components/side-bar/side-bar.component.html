@@ -1,8 +1,10 @@
 
 <div class="sidenav">
-    <a *ngIf="(loggedUser | async)"  class="sidenav__link" routerLink="/adminPanel/categories">Cateogires</a>
-    <a *ngIf="(loggedUser | async)" class="sidenav__link" routerLink="/adminPanel/subcategories">Subcategories</a>
-    <a *ngIf="(loggedUser | async)"  class="sidenav__link"routerLink="/adminPanel/products">Products</a>
+    <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link" routerLink="/adminPanel/categories">Categories</a>
+    <a *ngIf="(loggedUser | async) && role=='admin'" class="sidenav__link" routerLink="/adminPanel/subcategories">Subcategories</a>
+    <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link"routerLink="/adminPanel/products">Products</a>
+    <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link"routerLink="/adminPanel/users">Users</a>
+
   </div>
   
   <div class="main">

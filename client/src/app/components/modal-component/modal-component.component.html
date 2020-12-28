@@ -5,11 +5,11 @@
     <h4>{{title}}</h4>
   </div>
   <form [formGroup]="addNewElementFormGroup" (submit)="onSave()">
-    <div class="adminPanel-wrapper__row">
+    <div  [ngClass]="elementType=='users' ? 'edit_users_wrapper' : 'adminPanel-wrapper__row'" >
 
-      <div class="adminPanel-wrapper__imagesDrop">
+      <div *ngIf="elementType!='users'" class="adminPanel-wrapper__imagesDrop">
 
-        <div class="adminPanel-wrapper__images" >
+        <div class="adminPanel-wrapper__images">
           <div *ngFor="let image of images">
             <div class="adminPanel-wrapper__row" *ngIf="!showNgxDropzone || elementType=='products'" class="img-wrap">
               <a (click)="deleteImage(image)"><i class="fas fa-times close"></i></a>
@@ -30,16 +30,49 @@
 
         <p class="signUp-card__body__error">{{errorMessage}}</p>
       </div>
-
-      <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
+      <div>
+        <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
         type="text" placeholder="name">
-      <p class="signUp-card__body__error"
+        <p class="signUp-card__body__error"
         *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">This
         field is required.</p>
       <p class="signUp-card__body__error"
         *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">
         Minimum
         2 characters required.</p>
+      </div>
+      <div>
+        <input *ngIf="elementType=='users'" class="adminPanel-wrapper__input" formControlName="surrname"
+        [(ngModel)]="surrname" id="surrname" name="surrname" required type="text" placeholder="surrname">
+        <p class="signUp-card__body__error"
+        *ngIf="addNewElementFormGroup.get('surrname').touched && addNewElementFormGroup.get('surrname').errors?.required">This
+        field is required.</p>
+      <p class="signUp-card__body__error"
+        *ngIf="addNewElementFormGroup.get('surrname').touched && addNewElementFormGroup.get('surrname').errors?.minlength">
+        Minimum
+        2 characters required.</p>
+      </div>
+      
+      <div>
+        <input *ngIf="elementType=='users'" class="adminPanel-wrapper__input" formControlName="email" [(ngModel)]="email"
+        id="email" name="email" required type="text" placeholder="email">
+        <p class="signUp-card__body__error"
+        *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.required">This
+        field is required.</p>
+      <p class="signUp-card__body__error"
+        *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.minlength">
+        Minimum
+        2 characters required.</p>
+      </div>
+      <div>
+
+        <select (change)="getSelectedRole($event.target.value)" class="adminPanel-wrapper__input"
+        *ngIf="elementType=='users'">
+        <option *ngFor="let role of roles" [selected]="role==element.role"
+          value="{{role}}">{{role}}</option>
+      </select>
+      </div>
+      
       <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
         *ngIf="elementType=='subcategories'">
         <option *ngFor="let category of categories" [selected]="category._id==element.category._id"

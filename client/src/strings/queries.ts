@@ -111,6 +111,7 @@ export const UsersQuery = gql`
       email
       password
       isMailConfirmed
+      role
     }
   }
 `;
@@ -125,6 +126,7 @@ export const UserQuery = gql`
         email
         password
         isMailConfirmed
+        role
       }
     }
   }
@@ -139,6 +141,8 @@ export const MeQuery = gql`
         _id
         email
         password
+        isMailConfirmed
+        role
       }
       errors{
         message
