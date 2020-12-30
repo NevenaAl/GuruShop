@@ -35,7 +35,7 @@ const CategoryResolver: ResolverMap = {
             }
             const { name, image } = data;
 
-            const categoryValidation = validateCategoryInput();
+            const categoryValidation = validateCategoryInput(data);
             let category;
             try {
                 await categoryValidation.validate(data, { abortEarly: false });
@@ -131,10 +131,17 @@ const CategoryResolver: ResolverMap = {
 
 
 
-function validateCategoryInput(){
-    let schema = yup.object().shape({
+function validateCategoryInput(data){
+    let sch_obj :any ={
         name : yup.string().min(2,error.nameTooShort).max(255,error.nameTooLong),
-    })
+    }
+    for(let i in sch_obj){
+        if(!data[i])
+            delete sch_obj[i];
+    }   
+
+    let schema = yup.object().shape(sch_obj);
+
     return schema;
 }
 

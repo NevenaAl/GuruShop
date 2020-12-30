@@ -14,6 +14,7 @@ type Query {
     subcategory(_id:String!) : SubcategoryPayload!
     questions: [Question!]
     question(_id: String!) : QuestionPayload!
+    reviews: [Review!]
 }
 
 type Mutation {
@@ -37,6 +38,9 @@ type Mutation {
     createQuestion(data: CreateQuestionInput!) : QuestionPayload!
     updateQuestion(data: UpdateQuestionInput!) : QuestionPayload!
     deleteQuestion(_id:String!) : QuestionPayload!
+
+    createReview(data: CreateReviewInput!): ReviewPayload!
+    deleteReview(_id:String!): ReviewPayload!
 }
 
 type Subscription{
@@ -96,6 +100,11 @@ input UpdateSubcategoryInput{
 input CreateProductInput{
     name: String!
     image: [FileUpload!]
+    price: Float!
+    description: String!
+    discount: Float!
+    amount: Int!
+    additionalInfo: JSON
     subcategory_id: String!
 }
 
@@ -104,7 +113,18 @@ input UpdateProductInput{
     name: String
     newImages: [FileUpload]
     deletedImages: String
+    price: Float
+    description: String
+    discount: Float
+    amount: Int
+    additionalInfo: JSON
     subcategory_id: String
+}
+
+input CreateReviewInput{
+    rate: Float!
+    comment: String!
+    product_id:  String!
 }
 
 input CreateQuestionInput {
@@ -173,6 +193,11 @@ type QuestionPayload{
     errors: [Error!]
 }
 
+type ReviewPayload{
+    reviewPayload: Review
+    errors: [Error!]
+}
+
 type User{
     _id: String!
     name: String!
@@ -204,9 +229,17 @@ type Product{
     _id: String!
     name: String!
     image: String!
+    price: Float!
+    description: String!
+    discount: Float!
+    amount: Float!
+    averageRate: Float!
+    reviews: [Review!]
+    additionalInfo: JSON
     user: User!
     category: Category!
     subcategory: Subcategory!
+    questions: [Question!]
 }
 
 type Question{
@@ -214,6 +247,14 @@ type Question{
     message: String!
     author: String!
     answers: JSON!
+    product: Product!
+}
+
+type Review{
+    _id: String!
+    author: String!
+    rate: Float!
+    comment: String!
     product: Product!
 }
 

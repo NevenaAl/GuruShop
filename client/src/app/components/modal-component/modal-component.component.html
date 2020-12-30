@@ -5,8 +5,8 @@
     <h4>{{title}}</h4>
   </div>
   <form [formGroup]="addNewElementFormGroup" (submit)="onSave()">
-    <div  [ngClass]="elementType=='users' ? 'edit_users_wrapper' : 'adminPanel-wrapper__row'" >
-
+    <!-- <div  [ngClass]="elementType=='users' ? 'edit_users_wrapper' : 'adminPanel-wrapper__row'" > -->
+    <div class="edit_users_wrapper">
       <div *ngIf="elementType!='users'" class="adminPanel-wrapper__imagesDrop">
 
         <div class="adminPanel-wrapper__images">
@@ -30,59 +30,60 @@
 
         <p class="signUp-card__body__error">{{errorMessage}}</p>
       </div>
-      <div>
+      <div class="input-error-div">
         <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
         type="text" placeholder="name">
-        <p class="signUp-card__body__error"
+        <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">This
         field is required.</p>
-      <p class="signUp-card__body__error"
+      <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">
         Minimum
         2 characters required.</p>
       </div>
-      <div>
-        <input *ngIf="elementType=='users'" class="adminPanel-wrapper__input" formControlName="surrname"
+      <div *ngIf="elementType=='users'" class="input-error-div">
+        <input class="adminPanel-wrapper__input" formControlName="surrname"
         [(ngModel)]="surrname" id="surrname" name="surrname" required type="text" placeholder="surrname">
-        <p class="signUp-card__body__error"
+        <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('surrname').touched && addNewElementFormGroup.get('surrname').errors?.required">This
         field is required.</p>
-      <p class="signUp-card__body__error"
+      <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('surrname').touched && addNewElementFormGroup.get('surrname').errors?.minlength">
         Minimum
         2 characters required.</p>
       </div>
       
-      <div>
-        <input *ngIf="elementType=='users'" class="adminPanel-wrapper__input" formControlName="email" [(ngModel)]="email"
+      <div *ngIf="elementType=='users'" class="input-error-div">
+        <input  class="adminPanel-wrapper__input" formControlName="email" [(ngModel)]="email"
         id="email" name="email" required type="text" placeholder="email">
-        <p class="signUp-card__body__error"
+        <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.required">This
         field is required.</p>
-      <p class="signUp-card__body__error"
+      <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.minlength">
         Minimum
         2 characters required.</p>
       </div>
-      <div>
+      <div *ngIf="elementType=='users'" class="input-error-div">
 
-        <select (change)="getSelectedRole($event.target.value)" class="adminPanel-wrapper__input"
-        *ngIf="elementType=='users'">
+        <select (change)="getSelectedRole($event.target.value)" class="adminPanel-wrapper__input">
         <option *ngFor="let role of roles" [selected]="role==element.role"
           value="{{role}}">{{role}}</option>
       </select>
       </div>
-      
-      <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input"
-        *ngIf="elementType=='subcategories'">
+      <div *ngIf="elementType=='subcategories'" class="input-error-div">
+        <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input">
         <option *ngFor="let category of categories" [selected]="category._id==element.category._id"
           value="{{category._id}}">{{category.name}}</option>
       </select>
-      <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input"
-        *ngIf="elementType=='products'">
+      </div>
+      <div *ngIf="elementType=='products'" class="input-error-div"> 
+        <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input">
         <option *ngFor="let subcategory of subcategories" [selected]="subcategory._id==element.subcategory._id"
           value="{{subcategory._id}}">{{subcategory.name}}</option>
       </select>
+      </div>
+     
     </div>
     <br>
     <div class="modal-footer">

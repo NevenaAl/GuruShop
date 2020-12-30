@@ -30,7 +30,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   selectedSubcategory: any = null;
   selectedRole: any = null;
   errorMessage: String="";
-  images: String[];
+  images: String[] = [];
   deletedImages: String ="";
   showNgxDropzone = false;
   surrname: String;
@@ -55,6 +55,10 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   }
 
   onSave() {
+    if(this.files.length==0 && this.images.length==0 && this.elementType!="users" ){
+      this.errorMessage = "Image is required!";
+      return;
+    }
     this.result ={
       deletedImages: this.deletedImages,
       newImages: this.files,

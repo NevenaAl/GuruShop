@@ -8,6 +8,7 @@ import { Subcategory } from "../entity/Subcategory";
 import { Category } from "../entity/Category";
 import {parseError} from "../handlers/errorHandler"
 import { processDelete, processUpload } from "../handlers/fileHandler";
+import { add } from "lodash";
 
 const ProductResolver: ResolverMap = {
     Query:{
@@ -15,7 +16,7 @@ const ProductResolver: ResolverMap = {
            return await Product.find({ relations: ["user","subcategory", "category"] });  
         },
         product: async(_,{_id})=>{
-            const product = await Product.findOne(_id, { relations: ["user","subcategory", "category"] });
+            const product = await Product.findOne(_id, { relations: ["user","subcategory", "category","reviews","questions"] });
             if (!product) {
                 return {
                     productPayload: null,
@@ -38,13 +39,13 @@ const ProductResolver: ResolverMap = {
                 }
             }
 
-            const {name, image, subcategory_id} = await data;
+            const {name, image, subcategory_id, price, description, discount, amount, additionalInfo} = await data;
 
             await Promise.all(image.map((i:any) => {
                 return i.promise;
             }));
 
-            const productValidation = validateProductInput();
+            const productValidation = validateProductInput(data);
             let product;
             try {
                 await productValidation.validate(data, { abortEarly: false });
@@ -70,6 +71,12 @@ const ProductResolver: ResolverMap = {
                 product.subcategory = subcategory;
                 product.category = category;
                 product.user = user;
+                product.price = price;
+                product.discount= discount;
+                product.description = description;
+                product.amount = amount;
+                product.additionalInfo = additionalInfo;
+                
             }else{
                 return {
                     productPayload: null,
@@ -92,7 +99,7 @@ const ProductResolver: ResolverMap = {
                 }
             }
 
-            const { _id, name, newImages, deletedImages, subcategory_id } = data;
+            const { _id, name, newImages, deletedImages, subcategory_id, price, description, discount, amount, additionalInfo } = data;
             if(newImages!=null){
                 await Promise.all(newImages.map((i:any) => {
                     return i.promise;
@@ -100,7 +107,7 @@ const ProductResolver: ResolverMap = {
             }
 
             let product;
-            product = await Product.findOne(_id,{ relations: ["user","category", "subcategory"] });
+            product = await Product.findOne(_id,{ relations: ["user","category", "subcategory","reviews","questions"] });
             if (!product) {
                 return {
                     productPayload: null,
@@ -139,6 +146,11 @@ const ProductResolver: ResolverMap = {
             product.image = urls || product.image;
             product.subcategory = subcategory || product.subcategory;
             product.category = category || product.category;
+            product.price = price || product.price;
+            product.description = description || product.description;
+            product.discount = discount || product.discount;
+            product.amount = amount || product.amount;
+            product.additionalInfo = additionalInfo || product.additionalInfo;
            
             await product.save();
             return {
@@ -175,10 +187,17 @@ const ProductResolver: ResolverMap = {
 }
 
 
-function validateProductInput(){
-    let schema = yup.object().shape({
+function validateProductInput(data){
+    let sch_obj :any ={
         name : yup.string().min(2,error.nameTooShort).max(255,error.nameTooLong),
-    })
+    }
+    for(let i in sch_obj){
+        if(!data[i])
+            delete sch_obj[i];
+    }   
+
+    let schema = yup.object().shape(sch_obj);
+
     return schema;
 }
 export {ProductResolver}

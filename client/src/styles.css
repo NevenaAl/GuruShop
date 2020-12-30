@@ -373,9 +373,18 @@ a {
 
 .edit_users_wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-gap: 1rem;
-  margin: auto; }
+  margin: 1rem;
+  margin-left: 6rem; }
+
+.input-error-div {
+  margin-top: 5rem;
+  height: 6rem; }
+  .input-error-div__paragraph {
+    padding: 2.5rem;
+    color: red !important;
+    font-size: 1.5rem; }
 
 .adminPanel-wrapper {
   width: 70vw; }

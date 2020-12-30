@@ -1,6 +1,7 @@
 import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany} from "typeorm";
 import { Category } from "./Category";
 import { Question } from "./Question";
+import { Review } from "./Review";
 import { Subcategory } from "./Subcategory";
 import {User} from  './User'
 
@@ -15,6 +16,24 @@ export class Product extends BaseEntity {
 
     @Column("text")
     image: string;
+
+    @Column("float")
+    price: number;
+
+    @Column("varchar",{length:255})
+    description: String;
+
+    @Column("float")
+    discount: number;
+
+    @Column("int")
+    amount: number;
+
+    @Column("text")
+    additionalInfo: JSON;
+
+    @Column("float")
+    averageRate: number = 0;
 
     @ManyToOne (() => User, user => user.products)
     user: User;
@@ -31,4 +50,7 @@ export class Product extends BaseEntity {
 
     @OneToMany(() => Question, question => question.product)
     questions: Question[];
+
+    @OneToMany(()=> Review, review => review.product)
+    reviews: Review[];
 }

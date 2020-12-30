@@ -38,7 +38,7 @@ const SubcategoryResolver: ResolverMap = {
 
             const { name, image, category_id } = data;
 
-            const subcategoryValidation = validateSubcategoryInput();
+            const subcategoryValidation = validateSubcategoryInput(data);
             let subcategory;
 
             try {
@@ -140,10 +140,17 @@ const SubcategoryResolver: ResolverMap = {
 }
 
 
-function validateSubcategoryInput(){
-    let schema = yup.object().shape({
+function validateSubcategoryInput(data){
+    let sch_obj :any ={
         name : yup.string().min(2,error.nameTooShort).max(255,error.nameTooLong),
-    })
+    }
+    for(let i in sch_obj){
+        if(!data[i])
+            delete sch_obj[i];
+    }   
+
+    let schema = yup.object().shape(sch_obj);
+
     return schema;
 }
 

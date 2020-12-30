@@ -49,7 +49,7 @@ const UserResolver: ResolverMap = {
         createUser: async (_, { data },{redis,url}) => {
             const { name, surrname, email, password } = data;
 
-            const userValidation = validateUserInput();
+            const userValidation = validateUserInput(data);
             try {
                 await userValidation.validate(data, { abortEarly: false });
             } catch (error) { 
@@ -89,9 +89,9 @@ const UserResolver: ResolverMap = {
         },
 
         updateUser : async  (_, { data })=>{
-            const { _id, name, surrname, email, password } = data;
+            const { _id, name, surrname, email, role } = data;
 
-            const userValidation = validateUserInput();
+            const userValidation = validateUserInput(data);
             try {
                 await userValidation.validate(data, { abortEarly: false });
             } catch (error) { 
@@ -102,7 +102,7 @@ const UserResolver: ResolverMap = {
                 }
             }
             let user;
-            let hashPassword = await bcrypt.hash(password, saltRounds);
+            //let hashPassword = await bcrypt.hash(password, saltRounds);
 
             user = await User.findOne(_id);
             if (!user) {
@@ -111,10 +111,11 @@ const UserResolver: ResolverMap = {
                     errors: [error.noUserFound]
                 }
             } else { 
-                user.name = name;
-                user.email = email;
-                user.surrname = surrname;
-                user.password = hashPassword;
+                user.name = name || user.name;
+                user.email = email || user.email;
+                user.surrname = surrname || user.surrname;
+                user.role = role || user.role;
+               // user.password = hashPassword;
             }
 
             await user.save();
@@ -176,14 +177,20 @@ const UserResolver: ResolverMap = {
     }
 }
 
-function validateUserInput() {
-    let schema = yup.object().shape({
-        email: yup.string().min(5, error.emailTooShort).max(255, error.emailTooLong).email(error.emailFormatError),
-        name: yup.string().min(2, error.nameTooShort).max(255, error.nameTooLong),
-        surrname: yup.string().min(2, error.surnameTooShort).max(255, error.surnameTooLong),
-        password: yup.string().min(5, error.passwordTooShort)
+function validateUserInput(data) {
+    let sch_obj: any = {
+        email:  yup.string().min(5, error.emailTooShort).max(255, error.emailTooLong).email(error.emailFormatError),
+        name:  yup.string().min(2, error.nameTooShort).max(255, error.nameTooLong),
+        surrname:  yup.string().min(2, error.surnameTooShort).max(255, error.surnameTooLong),
+        password:  yup.string().min(5, error.passwordTooShort) 
+    };
 
-    })
+    for(let i in sch_obj){
+        if(!data[i])
+            delete sch_obj[i];
+    }    
+
+    let schema = yup.object().shape(sch_obj)
     return schema;
 }
 

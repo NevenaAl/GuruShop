@@ -172,6 +172,28 @@ mutation EditProductMutation($_id:String!, $name: String, $newImages: [FileUploa
 }
 `;
 
+export const EditUserMutation = gql`
+mutation EditUserMutation($_id:String!, $name: String, $surrname: String, $email: String, $role: String){
+ 
+ updateUser(data:{
+   _id: $_id
+   name: $name
+   surrname: $surrname
+   email: $email
+   role: $role
+ }){
+   userPayload{
+     _id
+     name
+     email
+   }
+   errors{
+     message
+   }
+ }
+}
+`;
+
 export const DeleteSubcategoryMutation = gql`
 mutation DeleteSubcategoryMutation($_id: String!){
  

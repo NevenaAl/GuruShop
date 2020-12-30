@@ -56,6 +56,22 @@ export class UserService {
 
   }
   
+  editUser(_id: String,name: String,surrname: any,email: any,role: String){
+    return this.apollo.mutate({
+      mutation: mutation.EditUserMutation,
+      variables: {
+        _id,
+        name,
+        surrname,
+        email,
+        role
+      },
+      context:{
+        useMultipart: true
+      }
+    });
+  }
+
   deleteUser(_id: String){
     return this.apollo.mutate({
       mutation: mutation.DeleteUserMutation,

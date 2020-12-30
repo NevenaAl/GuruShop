@@ -96,6 +96,9 @@ export class AdminPanelComponent implements OnInit {
             if(this.type=="products"){
               this.editProduct(event,newValues);
             }
+            if(this.type=="users"){
+              this.editUser(event,newValues);
+            }
           }
         });
   }
@@ -369,6 +372,24 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
+  editUser(user, newValues){
+    if(user.name==newValues.newName){
+      newValues.newName=null;
+    }
+    if(user.surrname==newValues.newSurrname){
+      newValues.newSurrname=null;
+    }
+
+    if(user.email==newValues.newEmail){
+      newValues.newEmail=null;
+    }
+
+    this.userService.editUser(user._id,newValues.newName,newValues.newSurrname, newValues.newEmail,newValues.newSelectedRole)
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      this.loadUsers();
+    });
+  }
 
   onFileSelect(event) {
     if(this.type!='products'){

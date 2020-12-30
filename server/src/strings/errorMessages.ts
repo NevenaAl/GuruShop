@@ -14,6 +14,10 @@ export const passwordTooShort = {
     path: "password",
     message : "Password too short"
 }
+export const commentTooShort = { 
+    path: "review",
+    message : "Comment too short"
+}
 export const emailTooLong = { 
     path: "email",
     message : "Email too long"
@@ -25,6 +29,10 @@ export const nameTooLong = {
 export const surnameTooLong = { 
     path: "surname",
     message : "Surname too long"
+}
+export const commentTooLong = { 
+    path: "review",
+    message : "Comment too long"
 }
 export const emailFormatError = { 
     path: "email",
@@ -65,6 +73,11 @@ export const noSubcategoryFound = {
 }
 
 export const noProductFound = { 
+    path: "product",
+    message : "No product found with this id"
+}
+
+export const noReviewFound = { 
     path: "product",
     message : "No product found with this id"
 }
