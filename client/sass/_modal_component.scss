@@ -6,6 +6,51 @@
 }
 .modal-footer{
     height: 10rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    &__saveBtn{
+        color: white;
+        background-color:rgb(21, 46, 187);
+        width: 12rem;
+        height: 3rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+        margin-left: 1rem;
+    }
+
+    &__saveBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color:rgb(21, 46, 187);
+     }
+
+     &__saveBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(19, 5, 146);
+    }
+
+    &__cancelBtn{
+        color: white;
+        background-color:rgb(193, 190, 202);
+        width: 12rem;
+        height: 3rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 2rem;
+        transition: all .2s;
+    }
+
+     &__cancelBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(120, 120, 129);
+    }
 }
 .img-wrap {
     position: relative;

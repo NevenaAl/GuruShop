@@ -1,8 +1,20 @@
-<a  [routerLink]="[product._id]">
-    <div class="productCard">
-            <img class="productCard__image" src="http://localhost:3000/images/{{product.image.split(',')[0]}}" alt="Card image" style="height: 85px;width: 85px;">   
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<div class="productCard">
+    <div>
+        <a [routerLink]="[product._id]">
+            <img class="productCard__image" src="http://localhost:3000/images/{{product.image.split(',')[0]}}"
+                alt="Card image" style="height: 85px;width: 85px;">
             <h3 class="productCard__title">{{product.name}}</h3>
+
+        </a>
     </div>
-</a>
-    
-    
+
+    <div class="categoryCard__buttons">
+
+        <button name="{{product._id}}" *ngIf="(loggedUser | async)" (click)="editClick(product)"
+            title="Edit" class="categoryCard__editBtn"><i class="far fa-edit"></i></button>
+        <button name="{{product._id}}" *ngIf="(loggedUser | async)" 
+            (click)="deleteClick($event.target.name)" title="Delete" class="categoryCard__deleteBtn"><i class="far fa-trash-alt"></i></button>
+    </div>
+</div>

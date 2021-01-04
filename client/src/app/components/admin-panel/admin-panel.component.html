@@ -1,125 +1,155 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
   integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <div class="adminPanel-wrapper">
-  <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" *ngIf="addClicked"
-    class="edit_users_wrapper">
-    <div *ngIf="type!='users'">
-      <ngx-dropzone [multiple]="type=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
-        class="image_dropzone" (change)="onFileSelect($event)">
-        <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
-        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
-          [removable]="true" (removed)="onFileRemove(f)">
-          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-        </ngx-dropzone-image-preview>
-      </ngx-dropzone>
-      <p class="signUp-card__body__error">{{errorMessage}}</p>
-    </div>
+  <div class="adminPanel-wrapper__split">
+    <div>
 
-    <div class="input-error-div">
-      <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
-        type="text" placeholder="name">
-      <p class="input-error-div__paragraph"
-        *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">This
-        field is required.</p>
-      <p class="input-error-div__paragraph"
-        *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">
-        Minimum
-        2 characters required.</p>
-    </div>
-    <div *ngIf="type=='subcategories' || type=='products'" class="input-error-div">
-      <select formControlName="categorySelection" (change)="getSelectedCategory($event.target.value)"
-        class="adminPanel-wrapper__input" >
-        <option value="null" disabled="true" [selected]="true">Select category</option>
-        <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
-      </select>
-      <p class="input-error-div__paragraph"
-        *ngIf="type=='subcategories' && addNewElementFormGroup.get('categorySelection').touched && addNewElementFormGroup.get('categorySelection').errors?.required">
-        This
-        field is required.</p>
-    </div>
-    <div *ngIf="type=='products'" class="input-error-div">
-      <select formControlName="subcategorySelection" (change)="getSelectedSubcategory($event.target.value)"
-        class="adminPanel-wrapper__input" >
-        <option value="null" disabled="true" [selected]="true">Select subcategory</option>
-        <option *ngFor="let subcategory of filteredSubcategories" value="{{subcategory._id}}">{{subcategory.name}}
-        </option>
-      </select>
-      <p class="input-error-div__paragraph"
-        *ngIf=" type=='products' && addNewElementFormGroup.get('subcategorySelection').touched && addNewElementFormGroup.get('subcategorySelection').errors?.required">
-        This
-        field is required.</p>
-    </div>
-    <div class="input-error-div">
-      <input class="adminPanel-wrapper__addBtn" [disabled]="addNewElementFormGroup.invalid" type="submit"
-      value="+ Add new">
-    </div>
-    
-  </form>
+      <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" *ngIf="addClicked"
+        class="edit_users_wrapper">
+        <div *ngIf="type!='users'">
+          <ngx-dropzone [multiple]="type=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
+            class="image_dropzone" (change)="onFileSelect($event)">
+            <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+              [removable]="true" (removed)="onFileRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone>
+          <p class="signUp-card__body__error">{{errorMessage}}</p>
+        </div>
 
-  <input *ngIf="!addClicked && type!='users'" class="adminPanel-wrapper__showBtn" type="submit" (click)="showAddForm()"
-    value="+ Add new">
+        <div class="input-error-div">
+          <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name"
+            required type="text" placeholder="Name">
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">
+            This
+            field is required.</p>
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.minlength">
+            Minimum
+            2 characters required.</p>
+        </div>
+        <div *ngIf="type=='products'" class="textarea-error-div">
+          <textarea class="adminPanel-wrapper__textarea" formControlName="description" id="description" name="description"
+            required  placeholder="Description"></textarea>
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('description').touched && addNewElementFormGroup.get('description').errors?.required">
+            This
+            field is required.</p>
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('description').touched && addNewElementFormGroup.get('description').errors?.minlength">
+            Minimum
+            10 characters required.</p>
+        </div>
+        <div *ngIf="type=='subcategories' || type=='products'" class="input-error-div">
+          <select formControlName="categorySelection" (change)="getSelectedCategory($event.target.value)"
+            class="adminPanel-wrapper__input">
+            <option value="null" disabled="true" [selected]="true">Select category</option>
+            <option *ngFor="let category of categories" value="{{category._id}}">{{category.name}}</option>
+          </select>
+          <p class="input-error-div__paragraph"
+            *ngIf="type=='subcategories' && addNewElementFormGroup.get('categorySelection').touched && addNewElementFormGroup.get('categorySelection').errors?.required">
+            This
+            field is required.</p>
+        </div>
+        <div *ngIf="type=='products'" class="input-error-div">
+          <select formControlName="subcategorySelection" (change)="getSelectedSubcategory($event.target.value)"
+            class="adminPanel-wrapper__input">
+            <option value="null" disabled="true" [selected]="true">Select subcategory</option>
+            <option *ngFor="let subcategory of filteredSubcategories" value="{{subcategory._id}}">{{subcategory.name}}
+            </option>
+          </select>
+          <p class="input-error-div__paragraph"
+            *ngIf=" type=='products' && addNewElementFormGroup.get('subcategorySelection').touched && addNewElementFormGroup.get('subcategorySelection').errors?.required">
+            This
+            field is required.</p>
+        </div>
+        <div *ngIf="type=='products'"class="input-error-div">
+          <input class="adminPanel-wrapper__input" formControlName="price" id="price" name="price"
+            required type="number" placeholder="Price (RSD)">
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('price').touched && addNewElementFormGroup.get('price').errors?.required">
+            This
+            field is required.</p>
+        </div>
+        <div *ngIf="type=='products'" class="input-error-div">
+          <input class="adminPanel-wrapper__input" formControlName="discount" id="discount" name="discount"
+            required type="number" placeholder="Discount (%)">
+        </div>
+        <div *ngIf="type=='products'"class="input-error-div">
+          <input class="adminPanel-wrapper__input" formControlName="amount" id="price" name="amount"
+            required type="number" placeholder="Amount">
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewElementFormGroup.get('amount').touched && addNewElementFormGroup.get('amount').errors?.required">
+            This
+            field is required.</p>
+        </div>
+        <div class="input-error-div__btn">
+          <input class="adminPanel-wrapper__addBtn" [disabled]="addNewElementFormGroup.invalid" type="submit"
+            value="+ Add new">
+        </div>
 
-  <div class="categories__row" *ngIf="type=='categories'">
-    <div *ngFor="let category of categories">
-      <app-category [type]="cardType" [category]="category"></app-category>
-      <input name="{{category._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick(category)"
-        value="Edit" class="categoryCard__editBtn">
-      <input name="{{category._id}}" *ngIf="(loggedUser | async)" type="submit"
-        (click)="deleteClick($event.target.name)" value="Delete" class="categoryCard__deleteBtn">
+      </form>
+
+    </div>
+    <div class="adminPanel-wrapper__items">
+
+      <input *ngIf="!addClicked && type!='users'" class="adminPanel-wrapper__showBtn" type="submit"
+        (click)="showAddForm()" value="+ Add new">
+
+      <div class="categories__row" *ngIf="type=='categories'">
+        <div *ngFor="let category of categories">
+          <app-category (refreshCategories)="loadCategories()" [type]="cardType" [category]="category"></app-category>
+        </div>
+      </div>
+
+      <div class="categories__row" *ngIf="type=='subcategories'">
+        <div *ngFor="let subcategory of subcategories">
+          <app-category (refreshCategories)="loadCategories()" [type]="cardType" [category]="subcategory"></app-category>
+        </div>
+
+      </div>
+
+      <div class="products__row" *ngIf="type=='products'">
+        <div *ngFor="let product of products">
+          <app-product (refreshProducts)="loadProducts()" [product]="product"></app-product>
+        </div>
+      </div>
+
+      <div *ngIf="type=='users'">
+
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Name</th>
+              <th scope="col">Surname</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users;let i=index">
+              <th scope="row">{{i +1}}</th>
+              <td>{{user.name}}</td>
+              <td>{{user.surrname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.role}}</td>
+              <td><button name="{{user._id}}" class="users-table__editBtn" (click)="editClick(user)"
+                  value="Edit">Edit</button></td>
+              <td><button name="{{user._id}}" class="users-table__deleteBtn" (click)="deleteClick($event.target.name)"
+                  value="Delete">Delete</button></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
     </div>
   </div>
-
-  <div class="categories__row" *ngIf="type=='subcategories'">
-    <div *ngFor="let subcategory of subcategories">
-      <app-category [type]="cardType" [category]="subcategory"></app-category>
-      <input name="{{subcategory._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick(subcategory)"
-        value="Edit" class="categoryCard__editBtn">
-      <input name="{{subcategory._id}}" *ngIf="(loggedUser | async)" type="submit"
-        (click)="deleteClick($event.target.name)" value="Delete" class="categoryCard__deleteBtn">
-    </div>
-
-  </div>
-
-  <div class="products__row" *ngIf="type=='products'">
-    <div *ngFor="let product of products">
-      <app-product [product]="product"></app-product>
-      <input name="{{product._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="editClick(product)" value="Edit"
-        class="categoryCard__editBtn">
-      <input name="{{product._id}}" *ngIf="(loggedUser | async)" type="submit" (click)="deleteClick($event.target.name)"
-        value="Delete" class="categoryCard__deleteBtn">
-    </div>
-  </div>
-
-  <div *ngIf="type=='users'">
-
-    <table class="users-table">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Name</th>
-          <th scope="col">Surname</th>
-          <th scope="col">Email</th>
-          <th scope="col">Role</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users;let i=index">
-          <th scope="row">{{i +1}}</th>
-          <td>{{user.name}}</td>
-          <td>{{user.surrname}}</td>
-          <td>{{user.email}}</td>
-          <td>{{user.role}}</td>
-          <td><button name="{{user._id}}" class="users-table__editBtn" (click)="editClick(user)"
-              value="Edit">Edit</button></td>
-          <td><button name="{{user._id}}" class="users-table__deleteBtn" (click)="deleteClick($event.target.name)"
-              value="Delete">Delete</button></td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
-
 
 </div>

@@ -227,14 +227,12 @@ a:hover {
     align-items: center;
     padding: 1rem; }
   .categoryCard__editBtn {
-    color: white;
-    background-color: #121299;
-    width: 15rem;
+    color: black;
+    width: 4rem;
     height: 4rem;
-    border-radius: 10rem;
     margin-top: 2rem;
     border: none;
-    font-size: 2rem;
+    font-size: 3rem;
     transition: all .2s; }
   .categoryCard__editBtn:disabled:hover {
     cursor: not-allowed;
@@ -244,14 +242,12 @@ a:hover {
     color: white;
     background-color: #38388f; }
   .categoryCard__deleteBtn {
-    color: white;
-    background-color: #b11d1d;
-    width: 15rem;
+    color: black;
+    width: 4rem;
     height: 4rem;
-    border-radius: 10rem;
     margin-top: 2rem;
     border: none;
-    font-size: 2rem;
+    font-size: 3rem;
     transition: all .2s; }
   .categoryCard__deleteBtn:disabled:hover {
     cursor: not-allowed;
@@ -260,9 +256,14 @@ a:hover {
     cursor: pointer;
     color: white;
     background-color: #be4444; }
+  .categoryCard__buttons {
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row; }
 
 a {
-  cursor: pointer; }
+  cursor: pointer;
+  text-decoration: none; }
 
 #style-2::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -372,22 +373,29 @@ a {
   grid-gap: 4rem; }
 
 .edit_users_wrapper {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 1rem;
   margin: 1rem;
-  margin-left: 6rem; }
+  margin-left: 4rem; }
 
 .input-error-div {
-  margin-top: 5rem;
+  margin-top: 1rem;
   height: 6rem; }
   .input-error-div__paragraph {
-    padding: 2.5rem;
+    color: red !important;
+    font-size: 1.5rem; }
+  .input-error-div__btn {
+    margin-top: 5rem;
+    height: 6rem;
+    margin-left: 7.5rem; }
+
+.textarea-error-div {
+  margin-top: 1rem;
+  height: 13rem; }
+  .textarea-error-div__paragraph {
     color: red !important;
     font-size: 1.5rem; }
 
 .adminPanel-wrapper {
-  width: 70vw; }
+  width: 85vw; }
   .adminPanel-wrapper__row {
     display: flex;
     justify-content: space-between;
@@ -402,10 +410,18 @@ a {
   .adminPanel-wrapper__input {
     height: 4rem;
     margin-top: 2rem;
-    border-radius: 5rem;
+    border-radius: 2rem;
     padding-left: 1rem;
     font-size: 2rem;
-    margin-left: 2rem; }
+    border: 1px solid; }
+  .adminPanel-wrapper__textarea {
+    height: 10rem;
+    width: 25rem;
+    margin-top: 2rem;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    font-size: 2rem;
+    border: 1px solid; }
   .adminPanel-wrapper__addBtn {
     color: white;
     background-color: #17c917;
@@ -447,6 +463,12 @@ a {
     cursor: pointer;
     color: white;
     background-color: #5de65d; }
+  .adminPanel-wrapper__split {
+    display: flex;
+    flex-direction: row; }
+  .adminPanel-wrapper__items {
+    margin-top: 2rem;
+    flex-grow: 1; }
 
 .swal2-popup {
   font-size: 2.5rem !important; }
@@ -588,7 +610,42 @@ a {
   margin: 20rem auto; }
 
 .modal-footer {
-  height: 10rem; }
+  height: 10rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; }
+  .modal-footer__saveBtn {
+    color: white;
+    background-color: #152ebb;
+    width: 12rem;
+    height: 3rem;
+    border-radius: 10rem;
+    margin-top: 2rem;
+    border: none;
+    font-size: 2rem;
+    transition: all .2s;
+    margin-left: 1rem; }
+  .modal-footer__saveBtn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #152ebb; }
+  .modal-footer__saveBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #130592; }
+  .modal-footer__cancelBtn {
+    color: white;
+    background-color: #c1beca;
+    width: 12rem;
+    height: 3rem;
+    border-radius: 10rem;
+    margin-top: 2rem;
+    border: none;
+    font-size: 2rem;
+    transition: all .2s; }
+  .modal-footer__cancelBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #787881; }
 
 .img-wrap {
   position: relative;

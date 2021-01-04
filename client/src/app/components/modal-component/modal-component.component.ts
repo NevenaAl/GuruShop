@@ -1,15 +1,15 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Apollo } from 'apollo-angular';
 import { SimpleModalComponent } from "ngx-simple-modal";
 import { Category } from 'src/app/entities/Category';
+import * as query from '../../../strings/queries';
 
 export interface PromptModel {
   title:string;
   elementType: String;
   element:object;
-  categories: any;
-  subcategories: any;
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   email: String;
   roles: String[] = ["admin","user"];
   
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,private apollo: Apollo) {
     super();
   }
 
@@ -52,6 +52,9 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
       //@ts-ignore
       this.images =this.element.image.split(',').filter(x=> !!x);
     }
+
+    this.loadCategories();
+    this.loadSubcategories();
   }
 
   onSave() {
@@ -97,7 +100,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   }
 
   onFileSelect(event) {
-    if(this.elementType!='products'){
+    if(this.elementType!='product'){
       this.files = [];
     }
     this.files.push(...event.addedFiles);
@@ -118,5 +121,37 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
 
   getSelectedRole(event) {
     this.selectedRole = event;
+  }
+
+  loadCategories() {
+    this.apollo
+      .watchQuery({
+        query: query.CategoriesQuery,
+        fetchPolicy: 'network-only'
+      })
+      .valueChanges.subscribe(result => {
+        //@ts-ignore
+        this.categories = result.data.categories;
+        // this.selectedCategory = this.categories[0]._id;
+        // this.loading = result.loading;
+        // this.error = result.error;
+      });
+  }
+
+  loadSubcategories() {
+    this.apollo
+      .watchQuery({
+        query: query.SubcategoriesQuery,
+        fetchPolicy: 'network-only'
+      })
+      .valueChanges.subscribe(result => {
+        //@ts-ignore
+        this.subcategories = result.data.subcategories;
+        // this.selectedSubcategory = this.subcategories[0]._id;
+        // this.filteredSubcategories = this.subcategories;
+        // this.loading = result.loading;
+        // this.error = result.error;
+      });
+
   }
 }

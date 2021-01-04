@@ -1,24 +1,37 @@
 .edit_users_wrapper {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 1rem;
     margin: 1rem;
-    margin-left: 6rem;
+    margin-left: 4rem;
     }
 
 .input-error-div{
-    margin-top: 5rem;
+    margin-top: 1rem;
     height: 6rem;
 
     &__paragraph{
-        padding: 2.5rem;
+        color: red !important;
+        font-size: 1.5rem;
+    }
+
+    &__btn{
+        margin-top: 5rem;
+        height: 6rem;
+        margin-left: 7.5rem;
+    }
+}
+
+.textarea-error-div{
+    margin-top: 1rem;
+    height: 13rem;
+
+    &__paragraph{
         color: red !important;
         font-size: 1.5rem;
     }
 }
 
+
 .adminPanel-wrapper{
-    width: 70vw;
+    width: 85vw;
 
     &__row{
         display: flex;
@@ -40,13 +53,22 @@
     }
 
     &__input{
-        //width: 29rem;
         height: 4rem;
         margin-top: 2rem;
-        border-radius: 5rem;
+        border-radius: 2rem;
         padding-left: 1rem;
         font-size: 2rem;
-        margin-left: 2rem;
+        border: 1px solid;
+    }
+
+    &__textarea{
+        height: 10rem;
+        width: 25rem;
+        margin-top: 2rem;
+        border-radius: 2rem;
+        padding-left: 1rem;
+        font-size: 2rem;
+        border: 1px solid;
     }
 
     &__addBtn{
@@ -100,6 +122,16 @@
         cursor: pointer;
         color: white;
         background-color:rgb(93, 230, 93);
+    }
+
+    &__split{
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__items{
+        margin-top: 2rem;
+        flex-grow: 1;
     }
 }
 

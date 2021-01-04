@@ -19,14 +19,12 @@
         padding: 1rem;
     }
     &__editBtn{
-        color: white;
-        background-color: rgb(18, 18, 153);
-        width: 15rem;
+        color: black;
+        width: 4rem;
         height: 4rem;
-        border-radius: 10rem;
         margin-top: 2rem;
         border: none;
-        font-size: 2rem;
+        font-size: 3rem;
         transition: all .2s;
     }
    
@@ -40,14 +38,12 @@
         background-color:rgb(56, 56, 143);
     }
     &__deleteBtn{
-        color: white;
-        background-color: rgb(177, 29, 29);
-        width: 15rem;
+        color: black;
+        width: 4rem;
         height: 4rem;
-        border-radius: 10rem;
         margin-top: 2rem;
         border: none;
-        font-size: 2rem;
+        font-size: 3rem;
         transition: all .2s;
     }
    
@@ -60,11 +56,17 @@
         color: white;
         background-color: rgb(190, 68, 68);
     }
-}
 
+    &__buttons{
+        justify-content: flex-end;
+        display: flex;
+        flex-direction: row;
+    }
+}
 
 a{
     cursor: pointer;
+    text-decoration: none;
 }
 
 #style-2::-webkit-scrollbar-track

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import {RequestOptions} from '@angular/http'
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Category } from 'src/app/entities/Category';
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SimpleModalService } from "ngx-simple-modal";
 import { ModalComponentComponent } from '../modal-component/modal-component.component'
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-admin-panel',
@@ -46,8 +47,7 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, 
      private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService,
-     private productsService: ProductsService,private formBuilder: FormBuilder,
-     private simpleModalService:SimpleModalService) { }
+     private productsService: ProductsService,private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
@@ -76,38 +76,15 @@ export class AdminPanelComponent implements OnInit {
 
   }
 
-  editClick(event) {
-    let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
-          title: 'Edit',
-          elementType: this.type,
-          element: event,
-          categories: this.categories,
-          subcategories: this.subcategories
-        })
-        .subscribe((newValues)=>{
-          if(newValues){
-            if(this.type=="categories"){
-              this.editCategory(event,newValues);
-            }
-            if(this.type=="subcategories"){
-              console.log(newValues);
-              this.editSubcategory(event,newValues);
-            }
-            if(this.type=="products"){
-              this.editProduct(event,newValues);
-            }
-            if(this.type=="users"){
-              this.editUser(event,newValues);
-            }
-          }
-        });
-  }
-
   createForm() {
     this.addNewElementFormGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['',this.cardType=="product"? [Validators.required,Validators.minLength(10)]: []],
       categorySelection : [null, this.cardType=="subcategory"? [Validators.required]: []],
-      subcategorySelection : [null,this.cardType=="product"? [Validators.required]: []]
+      subcategorySelection : [null,this.cardType=="product"? [Validators.required]: []],
+      price: [null,this.cardType=="product"? [Validators.required]:[]],
+      amount: [null,this.cardType=="product"? [Validators.required]:[]],
+      discount: [null]
       
     });
   }
@@ -171,7 +148,6 @@ export class AdminPanelComponent implements OnInit {
         this.error = result.error;
       });
   }
-
 
   showAddForm() {
     this.addClicked = true;
@@ -248,128 +224,12 @@ export class AdminPanelComponent implements OnInit {
     }
   }
 
-  deleteClick(event) {
-    let text;
-    if (this.type == 'categories') {
-      text = "This category and it's subcategories and products will be deleted";
-    } else if (this.type == 'subcategories') {
-      text = 'This subcategory and its products will be deleted';
-    } else if (this.type == 'products') {
-      text = 'This product will be deleted';
-    }else if (this.type == 'users') {
-      text = 'This user will be deleted';
-    }
-    Swal.fire({
-      title: 'Are you sure?',
-      text: text,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel'
-    }).then((result => {
-      if (result.value) {
-        if (this.type == 'categories') {
-          this.deleteCategory(event);
-        } else if (this.type == 'subcategories') {
-          this.deleteSubcategory(event);
-        } else if (this.type == 'products') {
-          this.deleteProduct(event);
-        } else if (this.type == 'users') {
-          this.deleteUser(event);
-        }
-
-        Swal.fire(
-          'Deleted!'
-        )
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelled'
-        )
-      }
-    }))
-
-  }
-
-  deleteCategory(_id: String) {
-    this.categoriesService.deleteCategory(_id)
-      .subscribe(({ data }) => {
-        console.log('got data', data);
-        this.loadCategories();
-      });
-
-  }
-
-  deleteSubcategory(_id: String) {
-    this.subcategoriesService.deleteSubcategory(_id)
-      .subscribe(({ data }) => {
-        console.log('got data', data);
-        this.loadSubcategories();
-      });
-  }
-
-  deleteProduct(_id: String) {
-    this.productsService.deleteProduct(_id)
-      .subscribe(({ data }) => {
-        console.log('got data', data);
-        this.loadProducts();
-      });
-  }
-
   deleteUser(_id: String) {
     this.userService.deleteUser(_id)
       .subscribe(({ data }) => {
         console.log('got data', data);
         this.loadUsers();
       });
-  }
-
-  editCategory(category,newValues){
-    if(category.name==newValues.newName){
-      newValues.newName=null;
-    }
-    if(newValues.newImages.length==0){
-      newValues.newImages=null;
-    }else{
-      newValues.newImages = newValues.newImages[0];
-    }
-
-    this.categoriesService.editCategory(category._id,newValues.newName,newValues.newImages)
-    .subscribe(({ data }) => {
-      console.log('got data', data);
-      this.loadCategories();
-    });
-  }
-
-  editSubcategory(subcategory,newValues){
-    if(subcategory.name==newValues.newName){
-      newValues.newName=null;
-    }
-    if(newValues.newImages.length==0){
-      newValues.newImages=null;
-    }else{
-      newValues.newImages = newValues.newImages[0];
-    }
-
-    this.subcategoriesService.editSubcategory(subcategory._id,newValues.newName,newValues.newImages,newValues.newSelectedCategory)
-    .subscribe(({ data }) => {
-      console.log('got data', data);
-      this.loadSubcategories();
-    });
-  }
-
-  editProduct(product, newValues){
-    if(product.name==newValues.newName){
-      newValues.newName=null;
-    }
-    if(newValues.newImages.length==0){
-      newValues.newImages=null;
-    }
-
-    this.productsService.editProduct(product._id,newValues.newName,newValues.newImages, newValues.deletedImages,newValues.newSelectedSubcategory)
-    .subscribe(({ data }) => {
-      console.log('got data', data);
-      this.loadProducts();
-    });
   }
 
   editUser(user, newValues){

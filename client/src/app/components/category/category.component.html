@@ -1,14 +1,26 @@
-<a  [routerLink]="type=='category'? ['/categories/',category._id] : ['/products/',category._id]">
-    <div class="categoryCard">
-        <div class="categoryCard__row">
-            
-            <img class="rounded-circle" src="http://localhost:3000/images/{{category.image}}" alt="Card image" style="height: 85px;width: 85px;">   
-        
-            <h3 class="categoryCard__title">{{category.name}}</h3>
-            
-        </div>
-        
-    </div>
-</a>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<div class="categoryCard">
+    <div>
+        <a [routerLink]="type=='category'? ['/categories/',category._id] : ['/products/',category._id]">
 
-    
+            <div class="categoryCard__row">
+
+                <img class="rounded-circle" src="http://localhost:3000/images/{{category.image}}" alt="Card image"
+                    style="height: 85px;width: 85px;">
+
+                <h3 class="categoryCard__title">{{category.name}}</h3>
+
+            </div>
+
+        </a>
+    </div>
+    <div class="categoryCard__buttons">
+
+        <button name="{{category._id}}" title="Edit" *ngIf="(loggedUser | async)" (click)="editClick(category)"
+            class="categoryCard__editBtn"><i class="far fa-edit"></i></button>
+        <button name="{{category._id}}" title="Delete" *ngIf="(loggedUser | async)" (click)="deleteClick($event.target.name)"
+            value="Delete" class="categoryCard__deleteBtn"><i class="far fa-trash-alt"></i></button>
+
+    </div>
+</div>

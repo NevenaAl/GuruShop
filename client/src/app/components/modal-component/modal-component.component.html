@@ -11,14 +11,14 @@
 
         <div class="adminPanel-wrapper__images">
           <div *ngFor="let image of images">
-            <div class="adminPanel-wrapper__row" *ngIf="!showNgxDropzone || elementType=='products'" class="img-wrap">
+            <div class="adminPanel-wrapper__row" *ngIf="!showNgxDropzone || elementType=='product'" class="img-wrap">
               <a (click)="deleteImage(image)"><i class="fas fa-times close"></i></a>
               <img class="image" src="http://localhost:3000/images/{{image}}">
             </div>
           </div>
         </div>
 
-        <ngx-dropzone *ngIf="showNgxDropzone || elementType=='products' " [multiple]="elementType=='products'"
+        <ngx-dropzone *ngIf="showNgxDropzone || elementType=='product' " [multiple]="elementType=='product'"
           [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png" class="image_dropzone_edit"
           (change)="onFileSelect($event)">
           <ngx-dropzone-label>Drop your image here!</ngx-dropzone-label>
@@ -71,13 +71,13 @@
           value="{{role}}">{{role}}</option>
       </select>
       </div>
-      <div *ngIf="elementType=='subcategories'" class="input-error-div">
+      <div *ngIf="elementType=='subcategory'" class="input-error-div">
         <select (change)="getSelectedCategory($event.target.value)" class="adminPanel-wrapper__input">
         <option *ngFor="let category of categories" [selected]="category._id==element.category._id"
           value="{{category._id}}">{{category.name}}</option>
       </select>
       </div>
-      <div *ngIf="elementType=='products'" class="input-error-div"> 
+      <div *ngIf="elementType=='product'" class="input-error-div"> 
         <select (change)="getSelectedSubcategory($event.target.value)" class="adminPanel-wrapper__input">
         <option *ngFor="let subcategory of subcategories" [selected]="subcategory._id==element.subcategory._id"
           value="{{subcategory._id}}">{{subcategory.name}}</option>
@@ -87,8 +87,8 @@
     </div>
     <br>
     <div class="modal-footer">
-      <button type="button" class="categoryCard__deleteBtn" (click)="onCancel()">Cancel</button>
-      <input type="submit" [disabled]="addNewElementFormGroup.invalid" class="categoryCard__editBtn" value="Save">
+      <button type="button" class="modal-footer__cancelBtn" (click)="onCancel()">Cancel</button>
+      <input type="submit" [disabled]="addNewElementFormGroup.invalid" class="modal-footer__saveBtn" value="Save">
     </div>
   </form>
 </div>
