@@ -29,7 +29,6 @@ export class AdminPanelComponent implements OnInit {
   
   addNewElementFormGroup: FormGroup;
   files: File[] = [];
-  name: string;
   type: String;
   cardType: String ="";
   loading: boolean;
@@ -47,7 +46,8 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, 
      private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService,
-     private productsService: ProductsService,private formBuilder: FormBuilder) { }
+     private productsService: ProductsService,private formBuilder: FormBuilder,
+     private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.loggedUser = this.userService.getLoggedUser();
@@ -160,7 +160,7 @@ export class AdminPanelComponent implements OnInit {
     }
     this.errorMessage = "";
     if (this.type == "categories") {
-      this.categoriesService.createCategory(this.name, this.files[0])
+      this.categoriesService.createCategory(this.addNewElementFormGroup.controls.name.value, this.files[0])
         .subscribe(({ data }) => {
           console.log('got data', data);
           //@ts-ignore
@@ -173,14 +173,13 @@ export class AdminPanelComponent implements OnInit {
             })
            }else{
             this.addClicked = false;
-            this.name = "";
             this.createForm();
             this.files = [];
             this.loadCategories();
            } 
         });
     } else if (this.type == "subcategories") {
-      this.subcategoriesService.createSubcategory(this.name, this.files[0], this.selectedCategory)
+      this.subcategoriesService.createSubcategory(this.addNewElementFormGroup.controls.name.value, this.files[0], this.selectedCategory)
         .subscribe(({ data }) => {
           console.log('got data', data);
           //@ts-ignore
@@ -193,7 +192,6 @@ export class AdminPanelComponent implements OnInit {
             })
            }else{
             this.addClicked = false;
-            this.name = "";
             this.createForm();
             this.files = [];
             this.selectedCategory = this.categories[0]._id;
@@ -201,7 +199,7 @@ export class AdminPanelComponent implements OnInit {
            } 
         });
     } else {
-      this.productsService.createProduct(this.name, this.files, this.selectedSubcategory)
+      this.productsService.createProduct(this.addNewElementFormGroup.controls.name.value, this.files, this.addNewElementFormGroup.controls.description.value, +this.addNewElementFormGroup.controls.price.value, +this.addNewElementFormGroup.controls.discount.value,+this.addNewElementFormGroup.controls.amount.value,null, this.selectedSubcategory)
         .subscribe(({ data }) => {
           console.log('got data', data);
           //@ts-ignore
@@ -214,7 +212,6 @@ export class AdminPanelComponent implements OnInit {
             })
            }else{
             this.addClicked = false;
-            this.name = "";
             this.createForm();
             this.files = [];
             this.selectedSubcategory = this.subcategories[0]._id;
@@ -232,19 +229,26 @@ export class AdminPanelComponent implements OnInit {
       });
   }
 
+  editClick(event) {
+    let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
+          title: 'Edit user',
+          elementType: "users",
+          element: event
+        })
+        .subscribe((newValues)=>{
+          if(newValues){
+            this.editUser(event,newValues);
+          }
+        });
+  }
+  
   editUser(user, newValues){
-    if(user.name==newValues.newName){
-      newValues.newName=null;
-    }
-    if(user.surrname==newValues.newSurrname){
-      newValues.newSurrname=null;
+    for(let i in newValues){
+      if(user[i]==newValues[i])
+        newValues[i]=null
     }
 
-    if(user.email==newValues.newEmail){
-      newValues.newEmail=null;
-    }
-
-    this.userService.editUser(user._id,newValues.newName,newValues.newSurrname, newValues.newEmail,newValues.newSelectedRole)
+    this.userService.editUser(user._id,newValues.name,newValues.surrname, newValues.email,newValues.newSelectedRole)
     .subscribe(({ data }) => {
       console.log('got data', data);
       this.loadUsers();

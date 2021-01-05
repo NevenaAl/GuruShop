@@ -68,7 +68,12 @@ a:hover {
   background-color: black;
   opacity: 80%;
   font-size: 1.5rem;
-  height: 100%; }
+  position: relative;
+  transition: all 1s;
+  overflow: hidden; }
+  .sidenav__div {
+    display: flex;
+    height: 100%; }
   .sidenav__link {
     font-size: 2.5rem;
     text-decoration: none;
@@ -77,6 +82,23 @@ a:hover {
   .sidenav__link:hover {
     color: #2c2727;
     cursor: pointer; }
+
+.showSideBarBtn {
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+  border: none;
+  background-color: black;
+  opacity: 80%;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  outline: none;
+  position: absolute;
+  z-index: 1; }
+
+.fa-bars {
+  font-size: 4rem;
+  color: #319dcf; }
 
 .cardContainer {
   display: flex;
@@ -296,13 +318,15 @@ a {
   background-color: rgba(21, 20, 24, 0.5);
   border-radius: 1rem;
   display: grid;
-  width: 300px;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem; }
+  width: 300px; }
+  .productCard__row {
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; }
   .productCard__title {
     font-size: 3rem;
-    margin: auto; }
+    margin: auto;
+    text-align: center; }
   .productCard__image {
     width: 20rem !important;
     height: 20rem !important; }
@@ -374,7 +398,7 @@ a {
 
 .edit_users_wrapper {
   margin: 1rem;
-  margin-left: 4rem; }
+  margin-left: 6rem; }
 
 .input-error-div {
   margin-top: 1rem;
@@ -393,6 +417,9 @@ a {
   .textarea-error-div__paragraph {
     color: red !important;
     font-size: 1.5rem; }
+
+select {
+  width: 23rem; }
 
 .adminPanel-wrapper {
   width: 85vw; }
@@ -605,7 +632,7 @@ a {
 
 .modal-content {
   font-size: 5rem;
-  width: 110rem;
+  width: 70rem;
   max-width: none !important;
   margin: 20rem auto; }
 

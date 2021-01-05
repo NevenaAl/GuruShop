@@ -68,6 +68,11 @@ query ProductsQuery
     name
     _id
     image
+    price
+    description
+    amount
+    discount
+    additionalInfo
     subcategory{
       _id
     }
@@ -84,6 +89,10 @@ query ProductQuery ($_id: String!){
       _id
       name
       image
+      description
+      amount
+      discount
+      additionalInfo
       user{
         _id
       }

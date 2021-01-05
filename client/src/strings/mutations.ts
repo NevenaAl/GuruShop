@@ -90,17 +90,27 @@ mutation CreateSubcategoryMutation($name: String!, $image: FileUpload!, $categor
 `;
 
 export const CreateProductMutation = gql`
-mutation CreateProductMutation($name: String!, $image: [FileUpload!], $subcategory_id: String!){
+mutation CreateProductMutation($name: String!, $image: [FileUpload!], $description: String!, $price: Float!, $discount: Float, $amount:Int!, $additionalInfo: JSON, $subcategory_id: String!){
  
  createProduct(data:{
    name: $name
    image: $image
+   description: $description
+   price: $price
+   discount: $discount
+   amount: $amount
+   additionalInfo: $additionalInfo
    subcategory_id: $subcategory_id
  }){
    productPayload{
      _id
      name
      image
+     description
+     amount
+     discount
+     additionalInfo
+     price
    }
    errors{
      message
@@ -151,13 +161,18 @@ mutation EditSubcategoryMutation($_id: String!, $name: String, $image: FileUploa
 `;
 
 export const EditProductMutation = gql`
-mutation EditProductMutation($_id:String!, $name: String, $newImages: [FileUpload], $deletedImages: String, $subcategory_id: String){
+mutation EditProductMutation($_id:String!, $name: String, $newImages: [FileUpload], $deletedImages: String, $description: String, $price: Float, $discount: Float, $amount:Int, $additionalInfo: JSON, $subcategory_id: String){
  
  updateProduct(data:{
    _id: $_id
    name: $name
    newImages: $newImages
    deletedImages: $deletedImages
+   description: $description
+   price: $price
+   discount: $discount
+   amount: $amount
+   additionalInfo: $additionalInfo
    subcategory_id: $subcategory_id
  }){
    productPayload{

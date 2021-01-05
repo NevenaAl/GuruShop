@@ -9,12 +9,17 @@ export class ProductsService {
 
   constructor(private apollo:Apollo) { }
   
-  createProduct(name: String,image: any[],subcategory_id: String){
+  createProduct(name: String,image: any[],description: String, price: any, discount: any, amount: any, additionalInfo: JSON, subcategory_id: String){
     return this.apollo.mutate({
       mutation: mutation.CreateProductMutation,
       variables: {
         name,
         image,
+        description,
+        price,
+        discount,
+        amount,
+        additionalInfo,
         subcategory_id
       },
       context:{
@@ -23,7 +28,7 @@ export class ProductsService {
     });
   }
 
-  editProduct(_id: String,name: String,newImages: any,deletedImages: any,subcategory_id: String){
+  editProduct(_id: String,name: String,newImages: any,deletedImages: any,description: String, price: any, discount: any, amount: any, additionalInfo: JSON, subcategory_id: String){
     return this.apollo.mutate({
       mutation: mutation.EditProductMutation,
       variables: {
@@ -31,6 +36,11 @@ export class ProductsService {
         name,
         newImages,
         deletedImages,
+        description,
+        price,
+        discount,
+        amount,
+        additionalInfo,
         subcategory_id
       },
       context:{

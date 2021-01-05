@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit {
 
   editClick(event) {
     let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
-          title: 'Edit',
+          title: 'Edit '+this.type,
           elementType: this.type,
           element: event
         })
@@ -98,8 +98,9 @@ export class CategoryComponent implements OnInit {
   }
 
   editCategory(category,newValues){
-    if(category.name==newValues.newName){
-      newValues.newName=null;
+    for(let i in newValues){
+      if(category[i]==newValues[i])
+        newValues[i]=null
     }
     if(newValues.newImages.length==0){
       newValues.newImages=null;
@@ -107,7 +108,7 @@ export class CategoryComponent implements OnInit {
       newValues.newImages = newValues.newImages[0];
     }
 
-    this.categoriesService.editCategory(category._id,newValues.newName,newValues.newImages)
+    this.categoriesService.editCategory(category._id,newValues.name,newValues.newImages)
     .subscribe(({ data }) => {
       console.log('got data', data);
       this.refreshCategories.emit();

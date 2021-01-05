@@ -100,9 +100,9 @@ input UpdateSubcategoryInput{
 input CreateProductInput{
     name: String!
     image: [FileUpload!]
-    price: Float!
     description: String!
-    discount: Float!
+    price: Float!
+    discount: Float
     amount: Int!
     additionalInfo: JSON
     subcategory_id: String!

@@ -19,7 +19,7 @@
         </div>
 
         <div class="input-error-div">
-          <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name"
+          <input class="adminPanel-wrapper__input" formControlName="name" id="name" name="name"
             required type="text" placeholder="Name">
           <p class="input-error-div__paragraph"
             *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">
@@ -75,7 +75,7 @@
         </div>
         <div *ngIf="type=='products'" class="input-error-div">
           <input class="adminPanel-wrapper__input" formControlName="discount" id="discount" name="discount"
-            required type="number" placeholder="Discount (%)">
+             type="number" placeholder="Discount (%)">
         </div>
         <div *ngIf="type=='products'"class="input-error-div">
           <input class="adminPanel-wrapper__input" formControlName="amount" id="price" name="amount"

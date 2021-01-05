@@ -31,7 +31,7 @@
         <p class="signUp-card__body__error">{{errorMessage}}</p>
       </div>
       <div class="input-error-div">
-        <input class="adminPanel-wrapper__input" formControlName="name" [(ngModel)]="name" id="name" name="name" required
+        <input class="adminPanel-wrapper__input" formControlName="name" id="name" name="name" required
         type="text" placeholder="name">
         <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">This
@@ -43,7 +43,7 @@
       </div>
       <div *ngIf="elementType=='users'" class="input-error-div">
         <input class="adminPanel-wrapper__input" formControlName="surrname"
-        [(ngModel)]="surrname" id="surrname" name="surrname" required type="text" placeholder="surrname">
+         id="surrname" name="surrname" required type="text" placeholder="surrname">
         <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('surrname').touched && addNewElementFormGroup.get('surrname').errors?.required">This
         field is required.</p>
@@ -54,7 +54,7 @@
       </div>
       
       <div *ngIf="elementType=='users'" class="input-error-div">
-        <input  class="adminPanel-wrapper__input" formControlName="email" [(ngModel)]="email"
+        <input  class="adminPanel-wrapper__input" formControlName="email"
         id="email" name="email" required type="text" placeholder="email">
         <p class="input-error-div__paragraph"
         *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.required">This
@@ -63,6 +63,18 @@
         *ngIf="addNewElementFormGroup.get('email').touched && addNewElementFormGroup.get('email').errors?.minlength">
         Minimum
         2 characters required.</p>
+      </div>
+      <div *ngIf="elementType=='product'" class="textarea-error-div">
+        <textarea class="adminPanel-wrapper__textarea" formControlName="description" id="description" name="description"
+          required  placeholder="Description"></textarea>
+        <p class="input-error-div__paragraph"
+          *ngIf="addNewElementFormGroup.get('description').touched && addNewElementFormGroup.get('description').errors?.required">
+          This
+          field is required.</p>
+        <p class="input-error-div__paragraph"
+          *ngIf="addNewElementFormGroup.get('description').touched && addNewElementFormGroup.get('description').errors?.minlength">
+          Minimum
+          10 characters required.</p>
       </div>
       <div *ngIf="elementType=='users'" class="input-error-div">
 
@@ -83,7 +95,26 @@
           value="{{subcategory._id}}">{{subcategory.name}}</option>
       </select>
       </div>
-     
+      <div *ngIf="elementType=='product'"class="input-error-div">
+        <input class="adminPanel-wrapper__input" formControlName="price" id="price" name="price"
+          required type="number" placeholder="Price (RSD)">
+        <p class="input-error-div__paragraph"
+          *ngIf="addNewElementFormGroup.get('price').touched && addNewElementFormGroup.get('price').errors?.required">
+          This
+          field is required.</p>
+      </div>
+      <div *ngIf="elementType=='product'" class="input-error-div">
+        <input class="adminPanel-wrapper__input" formControlName="discount" id="discount" name="discount"
+           type="number" placeholder="Discount (%)">
+      </div>
+      <div *ngIf="elementType=='product'"class="input-error-div">
+        <input class="adminPanel-wrapper__input" formControlName="amount" id="price" name="amount"
+          required type="number" placeholder="Amount">
+        <p class="input-error-div__paragraph"
+          *ngIf="addNewElementFormGroup.get('amount').touched && addNewElementFormGroup.get('amount').errors?.required">
+          This
+          field is required.</p>
+      </div>
     </div>
     <br>
     <div class="modal-footer">

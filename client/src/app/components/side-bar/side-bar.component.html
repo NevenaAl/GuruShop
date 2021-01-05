@@ -1,12 +1,18 @@
-
-<div class="sidenav">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+  integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<div class="sidenav__div">
+  
+<div id="sidenav" class="sidenav">
     <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link" routerLink="/adminPanel/categories">Categories</a>
     <a *ngIf="(loggedUser | async) && role=='admin'" class="sidenav__link" routerLink="/adminPanel/subcategories">Subcategories</a>
     <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link"routerLink="/adminPanel/products">Products</a>
     <a *ngIf="(loggedUser | async) && role=='admin'"  class="sidenav__link"routerLink="/adminPanel/users">Users</a>
 
-  </div>
+</div>
   
-  <div class="main">
-    ...
-  </div>
+<div>
+  <button class="showSideBarBtn" (click)="onShowSideBar()"><i class="fas fa-bars"></i></button>
+</div>
+
+
+</div>

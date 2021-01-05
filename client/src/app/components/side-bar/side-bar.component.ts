@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class SideBarComponent implements OnInit {
   loggedUser: Observable<User>;
   role: String = "";
+  sidenav: any;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -21,5 +22,11 @@ export class SideBarComponent implements OnInit {
 
       this.role = res.role;
     });
+    this.sidenav = document.getElementById("sidenav") as HTMLElement;
+    this.sidenav.style.width = "0px";
+  }
+
+  onShowSideBar(){
+    this.sidenav.style.width =  this.sidenav.style.width =="13vw" ? "0px" : "13vw";
   }
 }

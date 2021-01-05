@@ -28,8 +28,9 @@ export class ProductComponent implements OnInit {
   }
 
   editClick(event) {
+    console.log(event);
     let disposable = this.simpleModalService.addModal(ModalComponentComponent, {
-          title: 'Edit',
+          title: 'Edit product',
           elementType: "product",
           element: event
         })
@@ -73,14 +74,17 @@ export class ProductComponent implements OnInit {
   }
 
   editProduct(product, newValues){
-    if(product.name==newValues.newName){
-      newValues.newName=null;
+    console.log(newValues);
+    for(let i in newValues){
+      if(product[i]==newValues[i])
+        newValues[i]=null;
     }
+    
     if(newValues.newImages.length==0){
       newValues.newImages=null;
     }
-
-    this.productsService.editProduct(product._id,newValues.newName,newValues.newImages, newValues.deletedImages,newValues.newSelectedSubcategory)
+    
+    this.productsService.editProduct(product._id,newValues.name,newValues.newImages, newValues.deletedImages, newValues.description,newValues.price, newValues.discount,newValues.amount,null,newValues.newSelectedSubcategory)
     .subscribe(({ data }) => {
       console.log('got data', data);
       this.refreshProducts.emit();

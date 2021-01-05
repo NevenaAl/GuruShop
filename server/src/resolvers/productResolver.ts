@@ -72,10 +72,10 @@ const ProductResolver: ResolverMap = {
                 product.category = category;
                 product.user = user;
                 product.price = price;
-                product.discount= discount;
+                product.discount= discount || 0;
                 product.description = description;
                 product.amount = amount;
-                product.additionalInfo = additionalInfo;
+                product.additionalInfo = additionalInfo || "";
                 
             }else{
                 return {
@@ -148,7 +148,7 @@ const ProductResolver: ResolverMap = {
             product.category = category || product.category;
             product.price = price || product.price;
             product.description = description || product.description;
-            product.discount = discount || product.discount;
+            product.discount = discount===null?  product.discount : discount;
             product.amount = amount || product.amount;
             product.additionalInfo = additionalInfo || product.additionalInfo;
            

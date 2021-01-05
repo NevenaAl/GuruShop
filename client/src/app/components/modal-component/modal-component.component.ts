@@ -25,7 +25,6 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   subcategories: any;
   files: File[] = [];
   addNewElementFormGroup: FormGroup; 
-  name: string;
   selectedCategory: any = null;
   selectedSubcategory: any = null;
   selectedRole: any = null;
@@ -33,8 +32,6 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   images: String[] = [];
   deletedImages: String ="";
   showNgxDropzone = false;
-  surrname: String;
-  email: String;
   roles: String[] = ["admin","user"];
   
   constructor(private formBuilder: FormBuilder,private apollo: Apollo) {
@@ -44,11 +41,7 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
   ngOnInit(): void {
     this.createForm();
     //@ts-ignore
-    this.name = this.element.name;
-    if(this.elementType=="users"){
-      this.surrname= this.element.surrname;
-      this.email = this.element.email;
-    }else{
+    if(this.elementType!="users"){
       //@ts-ignore
       this.images =this.element.image.split(',').filter(x=> !!x);
     }
@@ -65,9 +58,13 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
     this.result ={
       deletedImages: this.deletedImages,
       newImages: this.files,
-      newName: this.name,
-      newSurrname: this.surrname,
-      newEmail: this.email,
+      name: this.addNewElementFormGroup.controls.name.value,
+      description: this.addNewElementFormGroup.controls.description.value,
+      discount: this.addNewElementFormGroup.controls.discount.value || 0,
+      amount: this.addNewElementFormGroup.controls.amount.value,
+      price: this.addNewElementFormGroup.controls.price.value,
+      surrname: this.addNewElementFormGroup.controls.surrname.value,
+      email: this.addNewElementFormGroup.controls.email.value,
       newSelectedCategory: this.selectedCategory,
       newSelectedSubcategory: this.selectedSubcategory,
       newSelectedRole : this.selectedRole
@@ -92,9 +89,13 @@ export class ModalComponentComponent extends SimpleModalComponent<PromptModel, o
 
   createForm() {
     this.addNewElementFormGroup = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      surrname: ['',this.elementType=="users"? [Validators.required, Validators.minLength(2)]:[]],
-      email: ['', this.elementType=="users"? [Validators.required, Validators.minLength(2)]: []]
+      name: [this.element.name, [Validators.required, Validators.minLength(2)]],
+      surrname: [this.element.surrname || '',this.elementType=="users"? [Validators.required, Validators.minLength(2)]:[]],
+      email: [this.element.email || '', this.elementType=="users"? [Validators.required, Validators.minLength(2)]: []],
+      description: [this.element.description || '',this.elementType=="product"? [Validators.required,Validators.minLength(10)]: []],
+      price: [this.element.price || null,this.elementType=="product"? [Validators.required]:[]],
+      amount: [this.element.amount || null,this.elementType=="product"? [Validators.required]:[]],
+      discount: [this.element.discount || null]
     
     });
   }

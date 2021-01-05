@@ -1,6 +1,6 @@
 .edit_users_wrapper {
     margin: 1rem;
-    margin-left: 4rem;
+    margin-left: 6rem;
     }
 
 .input-error-div{
@@ -29,6 +29,9 @@
     }
 }
 
+select{
+    width: 23rem;
+}
 
 .adminPanel-wrapper{
     width: 85vw;
@@ -139,9 +142,6 @@
     font-size: 2.5rem !important;
   }
 
-//   .swal2-styled.swal2-confirm{
-//     background-color: #dc3545 !important;
-//   }
 
 .image_dropzone{
     width: 30rem;
