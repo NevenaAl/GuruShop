@@ -98,24 +98,8 @@
       <input *ngIf="!addClicked && type!='users'" class="adminPanel-wrapper__showBtn" type="submit"
         (click)="showAddForm()" value="+ Add new">
 
-      <div class="categories__row" *ngIf="type=='categories'">
-        <div *ngFor="let category of categories">
-          <app-category (refreshCategories)="loadCategories()" [type]="cardType" [category]="category"></app-category>
-        </div>
-      </div>
-
-      <div class="categories__row" *ngIf="type=='subcategories'">
-        <div *ngFor="let subcategory of subcategories">
-          <app-category (refreshCategories)="loadCategories()" [type]="cardType" [category]="subcategory"></app-category>
-        </div>
-
-      </div>
-
-      <div class="products__row" *ngIf="type=='products'">
-        <div *ngFor="let product of products">
-          <app-product (refreshProducts)="loadProducts()" [product]="product"></app-product>
-        </div>
-      </div>
+      <app-categories *ngIf="type=='categories' || type=='subcategories'" [type]="type"></app-categories>
+      <app-products *ngIf="type=='products'"></app-products>
 
       <div *ngIf="type=='users'">
 

@@ -74,6 +74,8 @@ a:hover {
   .sidenav__div {
     display: flex;
     height: 100%; }
+  .sidenav__categories {
+    padding-top: 1rem; }
   .sidenav__link {
     font-size: 2.5rem;
     text-decoration: none;

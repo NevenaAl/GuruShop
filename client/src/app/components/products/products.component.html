@@ -1,1 +1,5 @@
-<p>products works!</p>
+<div class="products__row">
+    <div *ngFor="let product of products">
+      <app-product (refreshProducts)="loadProducts()" [product]="product"></app-product>
+    </div>
+  </div>

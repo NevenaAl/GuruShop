@@ -10,35 +10,44 @@ import * as query from '../../../strings/queries'
   templateUrl: './categories.component.html'
 })
 export class CategoriesComponent implements OnInit {
-  @Input() subcategories: Array<any>;
+  @Input() categoriesInput: Array<any>;
+  @Input() type: String;
   categories: Array<any>;
-  loading = true;
-  error: any;
-  type: String;
+  subcategories: Array<any>;
 
   constructor(private apollo: Apollo) { }
 
   ngOnInit(): void {
-    if(this.subcategories){
-      this.type = "subcategory";
-      this.categories = this.subcategories;
-      this.loading=false;
-      this.error = null;
+    if(this.categoriesInput){
+      this.subcategories = this.categoriesInput;
     }else{
-      this.type = "category";
-      this.apollo
+      this.loadCategories();
+      this.loadSubcategories();
+    }
+   }
+
+   loadCategories() {
+    this.apollo
       .watchQuery({
-        query: query.CategoriesQuery
+        query: query.CategoriesQuery,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.subscribe(result => {
         //@ts-ignore
         this.categories = result.data.categories;
-        this.loading = result.loading;
-        this.error = result.error;
       });
-  
-    }
-   
   }
 
+  loadSubcategories() {
+    this.apollo
+      .watchQuery({
+        query: query.SubcategoriesQuery,
+        fetchPolicy: 'network-only'
+      })
+      .valueChanges.subscribe(result => {
+        //@ts-ignore
+        this.subcategories = result.data.subcategories;
+      });
+
+  }
 }
