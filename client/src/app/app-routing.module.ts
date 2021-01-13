@@ -11,7 +11,9 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { AdminGuard } from './guards/admin.guard';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { UnauthenticatedGuard } from './guards/unauthenticated.guard';
 
 const routes: Routes = [
@@ -33,6 +35,11 @@ const routes: Routes = [
     path: "signUp",
     component: SignUpComponent,
     canActivate: [UnauthenticatedGuard]
+  },
+  {
+    path: "userDetails",
+    component: UserDetailsComponent,
+    canActivate: [AuthenticatedGuard]
   },
   
   {

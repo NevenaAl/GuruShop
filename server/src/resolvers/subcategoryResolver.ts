@@ -36,7 +36,7 @@ const SubcategoryResolver: ResolverMap = {
                 }
             }
 
-            const { name, image, category_id } = data;
+            const { name, image, category_id, inputs } = data;
 
             const subcategoryValidation = validateSubcategoryInput(data);
             let subcategory;
@@ -58,6 +58,8 @@ const SubcategoryResolver: ResolverMap = {
                 subcategory.name = name;
                 subcategory.image = file;
                 subcategory.category = category;
+                subcategory.inputsIdentifier = name+ "_inputs";
+                subcategory.inputs = inputs;
             }else{
                 return {
                     subcategoryPayload: null,
@@ -80,7 +82,7 @@ const SubcategoryResolver: ResolverMap = {
                 }
             }
 
-            const { _id, name, image, category_id } = data;
+            const { _id, name, image, category_id, inputs } = data;
             let subcategory;
             subcategory = await Subcategory.findOne(_id,{ relations: ["category", "products"] });
 
@@ -107,6 +109,8 @@ const SubcategoryResolver: ResolverMap = {
             subcategory.name = name || subcategory.name;
             subcategory.image = file || subcategory.image;
             subcategory.category = category || subcategory.category;
+            subcategory.inputsIdentifier = subcategory.name + "_inputs";
+            subcategory.inputs = inputs || subcategory.inputs;
 
             await subcategory.save();
             return {

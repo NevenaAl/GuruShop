@@ -5,6 +5,7 @@ import { CategoryResolver } from './categoryResolver';
 import { SubcategoryResolver } from './subcategoryResolver';
 import {QuestionResolver } from './questionResolver';
 import { ReviewResolver } from './reviewResolver';
+import { InputsResolvers } from './inputsResolver';
 
 const merged = _.merge(
     UserResolver,
@@ -12,7 +13,8 @@ const merged = _.merge(
     CategoryResolver,
     SubcategoryResolver,
     QuestionResolver,
-    ReviewResolver
+    ReviewResolver,
+    InputsResolvers
 
 );
 

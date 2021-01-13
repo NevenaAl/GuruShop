@@ -28,6 +28,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CategoriesService } from './services/categories.service';
 import { SimpleModalModule } from 'ngx-simple-modal';
 import { ModalComponentComponent } from './components/modal-component/modal-component.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { ModalComponentComponent } from './components/modal-component/modal-comp
     ProductDetailsComponent,
     ProductComponent,
     AdminPanelComponent,
-    ModalComponentComponent
+    ModalComponentComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

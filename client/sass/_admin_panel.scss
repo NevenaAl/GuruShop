@@ -64,6 +64,12 @@ select{
         border: 1px solid;
     }
 
+    &__checkbox{
+        font-size: 2rem;
+        margin-top: 2rem;
+        padding-left: 1rem;
+    }
+
     &__textarea{
         height: 10rem;
         width: 25rem;
@@ -95,6 +101,53 @@ select{
      }
 
      &__addBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(93, 230, 93);
+    }
+
+    &__addInputBtn{
+        color: white;
+        background-color:rgb(23, 201, 23);
+        width: 13rem;
+        height: 3rem;
+        border-radius: 10rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 1.5rem;
+        transition: all .2s;
+    }
+
+    &__addInputBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color:rgb(23, 201, 23);
+     }
+
+     &__addInputBtn:hover{
+        cursor: pointer;
+        color: white;
+        background-color:rgb(93, 230, 93);
+    }
+
+    &__addInputValueBtn{
+        color: white;
+        background-color:rgb(23, 201, 23);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 10rem;
+        margin-left: 1rem;
+        margin-top: 2rem;
+        border: none;
+        font-size: 1.5rem;
+        transition: all .2s;
+    }
+
+    &__addInputValueBtn:disabled:hover{
+        cursor: not-allowed;
+        background-color:rgb(23, 201, 23);
+     }
+     
+    &__addInputValueBtn:hover{
         cursor: pointer;
         color: white;
         background-color:rgb(93, 230, 93);
@@ -136,6 +189,31 @@ select{
         margin-top: 2rem;
         flex-grow: 1;
     }
+}
+
+.input-list-values-div{
+    margin-left: 1rem;
+    margin-top: 1rem;
+    font-size: 4.5rem;
+    position: relative;
+
+    &__row{
+        display: flex;
+        flex-direction: row;
+    }
+}
+.formHeader{
+    margin-left: 8.5rem;
+    font-size: 2rem;
+}
+
+.fa-minus{
+    color: red;
+    font-size: 3.5rem;
+    margin-top: -0.5rem;
+    margin-left: 1rem;
+
+    cursor: pointer;
 }
 
 .swal2-popup {
@@ -199,6 +277,14 @@ select{
         color: white;
         background-color: rgb(190, 68, 68);
     }
+}
+
+.new-input-form{
+    margin-top: 1rem;
+    padding-left: 1rem;
+    padding-bottom: 1rem;
+    width: 30rem;
+    border: 1px solid gray;
 }
 
 .users-table thead tr {

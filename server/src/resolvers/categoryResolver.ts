@@ -33,8 +33,8 @@ const CategoryResolver: ResolverMap = {
                     errors : [error.authError]
                 }
             }
-            const { name, image } = data;
-
+            const { name, image, inputs } = data;
+            console.log(inputs);
             const categoryValidation = validateCategoryInput(data);
             let category;
             try {
@@ -53,6 +53,8 @@ const CategoryResolver: ResolverMap = {
                 category = new Category();
                 category.name = name;
                 category.image = file;
+                category.inputsIdentifier = name+ "_inputs";
+                category.inputs = inputs;
             }else{
                 return {
                     categoryPayload: null,
@@ -75,7 +77,7 @@ const CategoryResolver: ResolverMap = {
 
                 }
             }
-            const { _id, name, image } = data;
+            const { _id, name, image, inputs } = data;
             let category;
             category = await Category.findOne(_id,{ relations: ["subcategories", "products"] });
             if (!category) {
@@ -97,6 +99,8 @@ const CategoryResolver: ResolverMap = {
             }
             category.name = name || category.name;
             category.image = file || category.image;
+            category.inputsIdentifier = category.name+ "_inputs";
+            category.inputs = category.inputs || inputs;
             await category.save();
             return {
                 categoryPayload: category,

@@ -18,7 +18,7 @@ import Swal from 'sweetalert2'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SimpleModalService } from "ngx-simple-modal";
 import { ModalComponentComponent } from '../modal-component/modal-component.component'
-import { EventEmitter } from 'events';
+import {InputTypes} from '../../../strings/enums'
 
 @Component({
   selector: 'app-admin-panel',
@@ -28,12 +28,14 @@ import { EventEmitter } from 'events';
 export class AdminPanelComponent implements OnInit {
   
   addNewElementFormGroup: FormGroup;
+  addNewInputFormGroup : FormGroup;
   files: File[] = [];
   type: String;
   cardType: String ="";
   loading: boolean;
   error: any;
   addClicked: boolean = false;
+  addInputClicked: boolean = false;
   categories: Array<Category>;
   subcategories: Array<Subcategory>;
   filteredSubcategories: Array<Subcategory> = new Array<Subcategory>();
@@ -43,6 +45,12 @@ export class AdminPanelComponent implements OnInit {
   selectedSubcategory: any;
   loggedUser: Observable<User>;
   errorMessage: String="";
+  inputTypeListSelected = false;
+  inputs = new Array<any>();
+  inputValues = new Array<String>();
+  inputValueError: String = "";
+  myEnum = this.getENUM(InputTypes);
+
 
   constructor(private userService: UserService, private route: ActivatedRoute, private apollo: Apollo, 
      private categoriesService: CategoriesService, private subcategoriesService: SubcategoriesService,
@@ -86,6 +94,16 @@ export class AdminPanelComponent implements OnInit {
       amount: [null,this.cardType=="product"? [Validators.required]:[]],
       discount: [null]
       
+    });
+  }
+
+  createInputForm() {
+    this.addNewInputFormGroup = this.formBuilder.group({
+      inputName: ['', [Validators.required, Validators.minLength(2)]],
+      inputTypeSelection : [null, [Validators.required]],
+      inputListElement : ['',null],
+      required: [null],
+      searchable: [null]
     });
   }
 
@@ -153,6 +171,11 @@ export class AdminPanelComponent implements OnInit {
     this.addClicked = true;
   }
 
+  showAddInputForm(){
+    this.addInputClicked = true;
+    this.createInputForm();
+  }
+
   submitAddForm() {
     if(this.files.length==0){
       this.errorMessage = "Image is required!";
@@ -160,7 +183,7 @@ export class AdminPanelComponent implements OnInit {
     }
     this.errorMessage = "";
     if (this.type == "categories") {
-      this.categoriesService.createCategory(this.addNewElementFormGroup.controls.name.value, this.files[0])
+      this.categoriesService.createCategory(this.addNewElementFormGroup.controls.name.value, this.files[0],JSON.stringify(this.inputs))
         .subscribe(({ data }) => {
           console.log('got data', data);
           //@ts-ignore
@@ -173,13 +196,14 @@ export class AdminPanelComponent implements OnInit {
             })
            }else{
             this.addClicked = false;
+            this.inputs = [];
             this.createForm();
             this.files = [];
             this.loadCategories();
            } 
         });
     } else if (this.type == "subcategories") {
-      this.subcategoriesService.createSubcategory(this.addNewElementFormGroup.controls.name.value, this.files[0], this.selectedCategory)
+      this.subcategoriesService.createSubcategory(this.addNewElementFormGroup.controls.name.value, this.files[0], this.selectedCategory,JSON.stringify(this.inputs))
         .subscribe(({ data }) => {
           console.log('got data', data);
           //@ts-ignore
@@ -192,6 +216,7 @@ export class AdminPanelComponent implements OnInit {
             })
            }else{
             this.addClicked = false;
+            this.inputs = [];
             this.createForm();
             this.files = [];
             this.selectedCategory = this.categories[0]._id;
@@ -221,6 +246,39 @@ export class AdminPanelComponent implements OnInit {
     }
   }
 
+  submitAddInputForm(){
+    if(this.inputTypeListSelected && this.inputValues.length==0){
+      this.inputValueError = "Minimum 1 value required.";
+      return;
+    }
+    let newInput = {
+      inputValue: this.addNewInputFormGroup.controls.inputName.value,
+      inputName: this.addNewInputFormGroup.controls.inputName.value,
+      inputType: this.addNewInputFormGroup.controls.inputTypeSelection.value,
+      inputList: this.inputTypeListSelected? this.inputValues:null,
+      required: this.addNewInputFormGroup.controls.required.value ? true:false,
+      searchable: this.addNewInputFormGroup.controls.searchable.value ? true:false,
+    }
+
+    this.inputs.push(newInput);
+
+    this.addInputClicked = false;
+    this.inputValueError="";
+    this.inputValues =[];
+    this.createInputForm();
+
+  }
+
+  addInputValue(){
+    if(this.addNewInputFormGroup.controls.inputListElement.value.trim()!="")
+       this.inputValues.push(this.addNewInputFormGroup.controls.inputListElement.value);
+    this.addNewInputFormGroup.controls.inputListElement.reset();
+  }
+
+  deleteInputValueClick(value){
+    this.inputValues = this.inputValues.filter(x=>x!=value);
+  }
+  
   deleteUser(_id: String) {
     this.userService.deleteUser(_id)
       .subscribe(({ data }) => {
@@ -275,5 +333,26 @@ export class AdminPanelComponent implements OnInit {
 
   getSelectedSubcategory(event) {
     this.selectedSubcategory = event;
+  }
+
+  getSelectedInputType(event){
+    if(event=="DROPDOWN_LIST" || event=="CHECKBOX_LIST")
+      this.inputTypeListSelected = true;
+    else{
+      this.inputValues =[];
+      this.inputTypeListSelected= false;
+    }
+  }
+  
+  getENUM(ENUM:any): string[] {
+    let myEnum = [];
+    let objectEnum = Object.keys(ENUM);
+    const values = objectEnum.slice( 0 , objectEnum.length / 2 );
+    const keys = objectEnum.slice( objectEnum.length / 2 );
+
+    for (let i = 0 ; i < objectEnum.length/2 ; i++ ) {
+      myEnum.push( { key: keys[i], value: values[i] } ); 
+    }
+    return myEnum;
   }
 }

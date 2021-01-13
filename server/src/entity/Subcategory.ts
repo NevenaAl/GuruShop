@@ -14,6 +14,12 @@ export class Subcategory extends BaseEntity {
     @Column("text")
     image: string;
 
+    @Column("varchar",{length:255, nullable: true, unique: true})
+    inputsIdentifier: string;
+
+    @Column("text")
+    inputs: JSON;
+
     @ManyToOne (() => Category, category => category.subcategories,{
         onDelete: 'CASCADE',
     })

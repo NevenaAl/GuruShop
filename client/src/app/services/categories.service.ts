@@ -11,12 +11,13 @@ export class CategoriesService {
 
   constructor(private apollo:Apollo) { }
   
-  createCategory(name: String,image: any){
+  createCategory(name: String,image: any,inputs: any){
     return this.apollo.mutate({
       mutation: mutation.CreateCategoryMutation,
       variables: {
         name,
-        image
+        image,
+        inputs
       },
       context:{
         useMultipart: true

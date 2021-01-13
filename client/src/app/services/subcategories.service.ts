@@ -9,13 +9,14 @@ export class SubcategoriesService {
 
   constructor(private apollo:Apollo) { }
   
-  createSubcategory(name: String,image: any,category_id: String){
+  createSubcategory(name: String,image: any,category_id: String, inputs: any){
     return this.apollo.mutate({
       mutation: mutation.CreateSubcategoryMutation,
       variables: {
         name,
         image,
-        category_id
+        category_id,
+        inputs
       },
       context:{
         useMultipart: true

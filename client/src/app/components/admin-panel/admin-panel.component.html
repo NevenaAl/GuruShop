@@ -85,9 +85,63 @@
             This
             field is required.</p>
         </div>
+        <form [formGroup]="addNewInputFormGroup" (submit)="submitAddInputForm()" class="new-input-form" *ngIf="addInputClicked">
+          <h1 class="formHeader">Add input</h1>
+          <div class="input-error-div">
+            <input class="adminPanel-wrapper__input" formControlName="inputName" id="inputName" name="inputName"
+              required type="text" placeholder="Input name">
+            <p class="input-error-div__paragraph"
+              *ngIf="addNewInputFormGroup.get('inputName').touched && addNewInputFormGroup.get('inputName').errors?.required">
+              This
+              field is required.</p>
+            <p class="input-error-div__paragraph"
+              *ngIf="addNewInputFormGroup.get('inputName').touched && addNewInputFormGroup.get('inputName').errors?.minlength">
+              Minimum
+              2 characters required.</p>
+          </div>
+          <div class="input-error-div">
+          <select formControlName="inputTypeSelection" (change)="getSelectedInputType($event.target.value)"
+            class="adminPanel-wrapper__input">
+            <option value="null" disabled="true" [selected]="true">Select type</option>
+            <option *ngFor="let inputType of myEnum" value="{{inputType.key}}">{{inputType.key}}
+            </option>
+          </select>
+          <p class="input-error-div__paragraph"
+            *ngIf="addNewInputFormGroup.get('inputTypeSelection').touched && addNewInputFormGroup.get('inputTypeSelection').errors?.required">
+            This
+            field is required.</p>
+        </div>
+        <div *ngIf="inputTypeListSelected" class="input-error-div">
+          <input class="adminPanel-wrapper__input" formControlName="inputListElement"  id="inputListElement" name="inputListElement"
+            type="text" placeholder="Input value">
+            <button (click)="addInputValue()" class="adminPanel-wrapper__addInputValueBtn" type="button">+</button>
+       
+            
+          <p class="input-error-div__paragraph">{{inputValueError}}</p>
+            
+        </div>
+        <div class="input-list-values-div">
+          <div class="input-list-values-div__row" *ngFor="let value of inputValues">
+           <p>{{value}} </p>
+           <i class="fas fa-minus" (click)="deleteInputValueClick(value)"></i>
+          </div>
+        </div>
+        <div>
+          <input formControlName="required"  type="checkbox" value="Required"><span  class="adminPanel-wrapper__checkbox">Required</span>
+        </div>
+        <div>
+          <input formControlName="searchable" type="checkbox" value="Searchable"><span  class="adminPanel-wrapper__checkbox">Searchable</span>
+        </div>
+        <input class="adminPanel-wrapper__addInputBtn" [disabled]="addNewInputFormGroup.invalid" type="submit" style="margin-left: 10rem;" value="Add">
+
+      </form>
+        <div class="input-error-div">
+          <button *ngIf="!addInputClicked && (type=='categories' || type=='subcategories')" class="adminPanel-wrapper__addInputBtn" (click)="showAddInputForm()" type="button"
+            value="Add new input">+ Add new input</button>
+        </div>
         <div class="input-error-div__btn">
           <input class="adminPanel-wrapper__addBtn" [disabled]="addNewElementFormGroup.invalid" type="submit"
-            value="+ Add new">
+            value="Add">
         </div>
 
       </form>

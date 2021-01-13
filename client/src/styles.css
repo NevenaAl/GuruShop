@@ -2,6 +2,7 @@
 *,
 html,
 body {
+  outline: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -443,6 +444,10 @@ select {
     padding-left: 1rem;
     font-size: 2rem;
     border: 1px solid; }
+  .adminPanel-wrapper__checkbox {
+    font-size: 2rem;
+    margin-top: 2rem;
+    padding-left: 1rem; }
   .adminPanel-wrapper__textarea {
     height: 10rem;
     width: 25rem;
@@ -468,6 +473,41 @@ select {
     cursor: not-allowed;
     background-color: #17c917; }
   .adminPanel-wrapper__addBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #5de65d; }
+  .adminPanel-wrapper__addInputBtn {
+    color: white;
+    background-color: #17c917;
+    width: 13rem;
+    height: 3rem;
+    border-radius: 10rem;
+    margin-top: 2rem;
+    border: none;
+    font-size: 1.5rem;
+    transition: all .2s; }
+  .adminPanel-wrapper__addInputBtn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #17c917; }
+  .adminPanel-wrapper__addInputBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #5de65d; }
+  .adminPanel-wrapper__addInputValueBtn {
+    color: white;
+    background-color: #17c917;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10rem;
+    margin-left: 1rem;
+    margin-top: 2rem;
+    border: none;
+    font-size: 1.5rem;
+    transition: all .2s; }
+  .adminPanel-wrapper__addInputValueBtn:disabled:hover {
+    cursor: not-allowed;
+    background-color: #17c917; }
+  .adminPanel-wrapper__addInputValueBtn:hover {
     cursor: pointer;
     color: white;
     background-color: #5de65d; }
@@ -498,6 +538,26 @@ select {
   .adminPanel-wrapper__items {
     margin-top: 2rem;
     flex-grow: 1; }
+
+.input-list-values-div {
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-size: 4.5rem;
+  position: relative; }
+  .input-list-values-div__row {
+    display: flex;
+    flex-direction: row; }
+
+.formHeader {
+  margin-left: 8.5rem;
+  font-size: 2rem; }
+
+.fa-minus {
+  color: red;
+  font-size: 3.5rem;
+  margin-top: -0.5rem;
+  margin-left: 1rem;
+  cursor: pointer; }
 
 .swal2-popup {
   font-size: 2.5rem !important; }
@@ -547,6 +607,13 @@ select {
     cursor: pointer;
     color: white;
     background-color: #be4444; }
+
+.new-input-form {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+  width: 30rem;
+  border: 1px solid gray; }
 
 .users-table thead tr {
   background-color: #3167da;

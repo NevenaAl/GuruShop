@@ -15,6 +15,8 @@ type Query {
     questions: [Question!]
     question(_id: String!) : QuestionPayload!
     reviews: [Review!]
+
+    getAddListingInputs(categoryInputId: String, subcategoryInputId: String): JSON
 }
 
 type Mutation {
@@ -76,18 +78,21 @@ input LogInUserInput {
 input CreateCategoryInput{
     name: String!
     image: FileUpload!
+    inputs: JSON
 }
 
 input UpdateCategoryInput{
     _id: String!
     name: String
     image: FileUpload
+    inputs: JSON
 }
 
 input CreateSubcategoryInput{
     name: String!
     image: FileUpload!
     category_id: String!
+    inputs: JSON
 }
 
 input UpdateSubcategoryInput{
@@ -95,6 +100,7 @@ input UpdateSubcategoryInput{
     name: String
     image: FileUpload
     category_id: String
+    inputs: JSON
 }
 
 input CreateProductInput{
@@ -215,6 +221,8 @@ type Category{
     image: String!
     subcategories: [Subcategory!]
     products: [Product!]
+    inputsIdentifier: String
+    inputs: JSON
 }
 
 type Subcategory{
@@ -223,6 +231,8 @@ type Subcategory{
     image: String!
     category: Category!
     products: [Product!]
+    inputsIdentifier: String
+    inputs: JSON
 }
 
 type Product{

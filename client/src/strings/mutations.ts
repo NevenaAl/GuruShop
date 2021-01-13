@@ -50,11 +50,12 @@ export const SignUpUserMutation= gql`
 `;
 
 export const CreateCategoryMutation = gql`
-mutation CreateCategoryMutation($name: String!, $image: FileUpload!){
+mutation CreateCategoryMutation($name: String!, $image: FileUpload!,$inputs: JSON){
  
  createCategory(data:{
    name: $name
    image: $image
+   inputs: $inputs
  }){
    categoryPayload{
      _id
@@ -70,12 +71,13 @@ mutation CreateCategoryMutation($name: String!, $image: FileUpload!){
 
 
 export const CreateSubcategoryMutation = gql`
-mutation CreateSubcategoryMutation($name: String!, $image: FileUpload!, $category_id: String!){
+mutation CreateSubcategoryMutation($name: String!, $image: FileUpload!, $category_id: String!,$inputs: JSON){
  
  createSubcategory(data:{
    name: $name
    image: $image
    category_id: $category_id
+   inputs: $inputs
  }){
    subcategoryPayload{
      _id
