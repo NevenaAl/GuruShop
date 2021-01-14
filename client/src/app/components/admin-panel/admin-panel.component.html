@@ -85,6 +85,32 @@
             This
             field is required.</p>
         </div>
+        <div *ngIf="type=='products'" class="input-error-div">
+          <div *ngFor="let input of productSubcategoryInputs" >
+            <input *ngIf="input.type=='TEXT'" type="text" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
+            <input *ngIf="input.type=='NUMBER'" type="number" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
+            <textarea *ngIf="input.type=='MULTILINE_TEXT'" class="adminPanel-wrapper__input" placeholder="{{input.name}}"></textarea>
+
+            <div *ngIf="input.type=='CHECKBOX_LIST'">
+              <br>
+              <h1 class="formHeader">{{input.name}}</h1>
+             <div *ngFor="let value of input.list">
+              <input class="adminPanel-wrapper__checkbox" value="{{value}}" type="checkbox" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
+             </div>
+            </div>
+            <div *ngIf="input.type=='RADIO_LIST'">
+              <br>
+              <h1 class="formHeader">{{input.name}}</h1>
+              <div *ngFor="let value of input.list">
+                <input class="adminPanel-wrapper__checkbox" name="{{input.name}}" value="{{value}}" type="radio" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
+               </div>           
+            </div>
+            <select class="adminPanel-wrapper__input"  *ngIf="input.type=='DROPDOWN_LIST'">
+              <option value="null" disabled="true" [selected]="true">Select {{input.name}}</option>
+              <option  *ngFor="let value of input.list" value="{{value}}">{{value}}</option>
+            </select>
+          </div>
+        </div>
         <form [formGroup]="addNewInputFormGroup" (submit)="submitAddInputForm()" class="new-input-form" *ngIf="addInputClicked">
           <h1 class="formHeader">Add input</h1>
           <div class="input-error-div">

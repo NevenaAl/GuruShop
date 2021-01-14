@@ -4,6 +4,5 @@ export enum InputTypes{
     NUMBER = 2,
     DROPDOWN_LIST = 3,
     CHECKBOX_LIST = 4,
-    BOOL =  5,
-    IMAGES = 6
+    RADIO_LIST = 5
 }

@@ -7,6 +7,7 @@ export const CategoryQuery = gql`
       _id
       name
       image
+      inputs
       subcategories{
         name
         image
@@ -25,6 +26,7 @@ export const SubcategoryQuery = gql`
       name
       image
       category_id
+      inputs
       products{
         name
         image
@@ -41,6 +43,7 @@ export const CategoriesQuery = gql`
       name
       _id
       image
+      inputs
       subcategories{
         _id
         name
@@ -55,6 +58,7 @@ query SubcategoriesQuery
     name
     _id
     image
+    inputs
     category{
       _id
     }

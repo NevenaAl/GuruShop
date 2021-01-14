@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import {RequestOptions} from '@angular/http'
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Category } from 'src/app/entities/Category';
 import { Product } from 'src/app/entities/Product';
 import { Subcategory } from 'src/app/entities/Subcategory';
+import {InputModel} from 'src/app/entities/Input';
 import { CategoriesService } from 'src/app/services/categories.service';
 import * as query from '../../../strings/queries';
 import * as mutaions from '../../../strings/mutations'
@@ -49,6 +50,8 @@ export class AdminPanelComponent implements OnInit {
   inputs = new Array<any>();
   inputValues = new Array<String>();
   inputValueError: String = "";
+  productCategoryInputs = new Array<InputModel>();
+  productSubcategoryInputs = new Array<InputModel>();
   myEnum = this.getENUM(InputTypes);
 
 
@@ -75,6 +78,8 @@ export class AdminPanelComponent implements OnInit {
 
         this.createForm();
         this.filteredSubcategories = this.subcategories;
+        this.inputs = [];
+        this.addInputClicked = false;
       })
 
     this.loadCategories();
@@ -327,12 +332,31 @@ export class AdminPanelComponent implements OnInit {
   }
 
   getSelectedCategory(event) {
+    this.productCategoryInputs = [];
     this.selectedCategory = event;
-    this.filteredSubcategories = this.categories.find(x=>x._id==this.selectedCategory).subcategories;
+    let category = this.categories.find(x=>x._id==this.selectedCategory);
+    this.filteredSubcategories = category.subcategories;
+
+    if(category.inputs){
+        for(var input of JSON.parse(category.inputs)){           
+          let newInput = new InputModel(input.inputName,input.inputValue,input.inputType,input.required,input.searchable,input.inputList);
+          this.productCategoryInputs.push(newInput); 
+      }
+    }
   }
 
   getSelectedSubcategory(event) {
+    this.productSubcategoryInputs = [];
     this.selectedSubcategory = event;
+    let subcategory = this.subcategories.find(x=>x._id==this.selectedSubcategory);
+
+    if(subcategory.inputs){
+      for(var input of JSON.parse(subcategory.inputs)){           
+        let newInput = new InputModel(input.inputName,input.inputValue,input.inputType,input.required,input.searchable,input.inputList);
+        this.productSubcategoryInputs.push(newInput); 
+      }
+     }
+    this.productSubcategoryInputs = this.productSubcategoryInputs.concat(this.productCategoryInputs);
   }
 
   getSelectedInputType(event){

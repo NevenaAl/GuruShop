@@ -7,6 +7,8 @@ export class Category{
     image: String;
     subcategories : Array<Subcategory>;
     products: Array<Product>;
+    inputsIdentifier: String;
+    inputs: string;
 
     constructor(_id: String,name: String,image:String, subcategories: Array<Subcategory>= new Array<Subcategory>(),products: Array<Product> = new Array<Product>()){
         this._id = _id;
