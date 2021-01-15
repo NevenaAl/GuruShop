@@ -565,6 +565,9 @@ select {
 .image_dropzone {
   width: 30rem; }
 
+.formInputHeader {
+  font-size: 2.5rem; }
+
 .users-table {
   border-collapse: collapse;
   margin: 10rem;

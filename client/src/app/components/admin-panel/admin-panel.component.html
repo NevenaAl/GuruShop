@@ -6,6 +6,7 @@
 
       <form [formGroup]="addNewElementFormGroup" (submit)="submitAddForm()" *ngIf="addClicked"
         class="edit_users_wrapper">
+        <div>
         <div *ngIf="type!='users'">
           <ngx-dropzone [multiple]="type=='products'" [maxFileSize]="1000000000" accept="image/jpeg,image/jpg,image/png"
             class="image_dropzone" (change)="onFileSelect($event)">
@@ -20,7 +21,7 @@
 
         <div class="input-error-div">
           <input class="adminPanel-wrapper__input" formControlName="name" id="name" name="name"
-            required type="text" placeholder="Name">
+             type="text" placeholder="Name">
           <p class="input-error-div__paragraph"
             *ngIf="addNewElementFormGroup.get('name').touched && addNewElementFormGroup.get('name').errors?.required">
             This
@@ -32,7 +33,7 @@
         </div>
         <div *ngIf="type=='products'" class="textarea-error-div">
           <textarea class="adminPanel-wrapper__textarea" formControlName="description" id="description" name="description"
-            required  placeholder="Description"></textarea>
+              placeholder="Description"></textarea>
           <p class="input-error-div__paragraph"
             *ngIf="addNewElementFormGroup.get('description').touched && addNewElementFormGroup.get('description').errors?.required">
             This
@@ -67,7 +68,7 @@
         </div>
         <div *ngIf="type=='products'"class="input-error-div">
           <input class="adminPanel-wrapper__input" formControlName="price" id="price" name="price"
-            required type="number" placeholder="Price (RSD)">
+             type="number" placeholder="Price (RSD)">
           <p class="input-error-div__paragraph"
             *ngIf="addNewElementFormGroup.get('price').touched && addNewElementFormGroup.get('price').errors?.required">
             This
@@ -85,37 +86,37 @@
             This
             field is required.</p>
         </div>
-        <div *ngIf="type=='products'" class="input-error-div">
+        <form [formGroup]="productInputsForm" *ngIf="type=='products' && productSubcategoryInputs.length!=0">
           <div *ngFor="let input of productSubcategoryInputs" >
-            <input *ngIf="input.type=='TEXT'" type="text" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
-            <input *ngIf="input.type=='NUMBER'" type="number" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
-            <textarea *ngIf="input.type=='MULTILINE_TEXT'" class="adminPanel-wrapper__input" placeholder="{{input.name}}"></textarea>
+            <input formControlName="{{input.name}}" name="{{input.name}}" *ngIf="input.type=='TEXT'" type="text" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
+            <input formControlName="{{input.name}}" *ngIf="input.type=='NUMBER'" type="number" class="adminPanel-wrapper__input" placeholder="{{input.name}}">
+            <textarea formControlName="{{input.name}}" *ngIf="input.type=='MULTILINE_TEXT'" class="adminPanel-wrapper__input" placeholder="{{input.name}}"></textarea>
 
             <div *ngIf="input.type=='CHECKBOX_LIST'">
               <br>
-              <h1 class="formHeader">{{input.name}}</h1>
+              <h1 class="formInputHeader">{{input.name}}:</h1>
              <div *ngFor="let value of input.list">
-              <input class="adminPanel-wrapper__checkbox" value="{{value}}" type="checkbox" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
+              <input formControlName="{{value}}" class="adminPanel-wrapper__checkbox" value="{{value}}" type="checkbox" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
              </div>
             </div>
             <div *ngIf="input.type=='RADIO_LIST'">
               <br>
-              <h1 class="formHeader">{{input.name}}</h1>
+              <h1 class="formInputHeader">{{input.name}}:</h1>
               <div *ngFor="let value of input.list">
-                <input class="adminPanel-wrapper__checkbox" name="{{input.name}}" value="{{value}}" type="radio" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
+                <input formControlName="{{input.name}}" class="adminPanel-wrapper__checkbox" name="{{input.name}}" value="{{value}}" type="radio" ><span  class="adminPanel-wrapper__checkbox">{{value}}</span>
                </div>           
             </div>
-            <select class="adminPanel-wrapper__input"  *ngIf="input.type=='DROPDOWN_LIST'">
+            <select formControlName="{{input.name}}" class="adminPanel-wrapper__input"  *ngIf="input.type=='DROPDOWN_LIST'">
               <option value="null" disabled="true" [selected]="true">Select {{input.name}}</option>
               <option  *ngFor="let value of input.list" value="{{value}}">{{value}}</option>
             </select>
           </div>
-        </div>
+        </form>
         <form [formGroup]="addNewInputFormGroup" (submit)="submitAddInputForm()" class="new-input-form" *ngIf="addInputClicked">
           <h1 class="formHeader">Add input</h1>
           <div class="input-error-div">
             <input class="adminPanel-wrapper__input" formControlName="inputName" id="inputName" name="inputName"
-              required type="text" placeholder="Input name">
+               type="text" placeholder="Input name">
             <p class="input-error-div__paragraph"
               *ngIf="addNewInputFormGroup.get('inputName').touched && addNewInputFormGroup.get('inputName').errors?.required">
               This
@@ -165,6 +166,7 @@
           <button *ngIf="!addInputClicked && (type=='categories' || type=='subcategories')" class="adminPanel-wrapper__addInputBtn" (click)="showAddInputForm()" type="button"
             value="Add new input">+ Add new input</button>
         </div>
+      </div>
         <div class="input-error-div__btn">
           <input class="adminPanel-wrapper__addBtn" [disabled]="addNewElementFormGroup.invalid" type="submit"
             value="Add">

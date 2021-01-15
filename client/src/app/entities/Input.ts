@@ -1,8 +1,8 @@
 export class InputModel{
-    name: String;
-    value: String;
-    type: String;
-    list: Array<String>;
+    name: string;
+    value: string;
+    type: string;
+    list: Array<string>;
     required: boolean;
     searchable: boolean;
 

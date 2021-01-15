@@ -9,7 +9,7 @@ export class ProductsService {
 
   constructor(private apollo:Apollo) { }
   
-  createProduct(name: String,image: any[],description: String, price: any, discount: any, amount: any, additionalInfo: JSON, subcategory_id: String){
+  createProduct(name: String,image: any[],description: String, price: any, discount: any, amount: any, additionalInfo: any, subcategory_id: String){
     return this.apollo.mutate({
       mutation: mutation.CreateProductMutation,
       variables: {

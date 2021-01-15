@@ -16,7 +16,7 @@ import { Observable } from 'rxjs'
 import { User } from 'src/app/entities/User';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SimpleModalService } from "ngx-simple-modal";
 import { ModalComponentComponent } from '../modal-component/modal-component.component'
 import {InputTypes} from '../../../strings/enums'
@@ -30,6 +30,7 @@ export class AdminPanelComponent implements OnInit {
   
   addNewElementFormGroup: FormGroup;
   addNewInputFormGroup : FormGroup;
+  productInputsForm: FormGroup;
   files: File[] = [];
   type: String;
   cardType: String ="";
@@ -112,6 +113,21 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
+  createProductSubform(){
+    this.productInputsForm = this.formBuilder.group({});
+    this.productSubcategoryInputs.forEach(input => {  
+      if(input.type=="CHECKBOX_LIST"){
+        input.list.forEach(element => {
+          this.productInputsForm.addControl(element,new FormControl(null, input.required? [Validators.required]: []));
+        });
+      }else{
+        this.productInputsForm.addControl(input.name,new FormControl(input.type=="TEXT" ? '': null, input.required? [Validators.required]: []));
+      }
+    });
+    this.addNewElementFormGroup.removeControl('subform');
+    this.addNewElementFormGroup.addControl('subform',this.productInputsForm);
+  }
+
   loadCategories() {
     this.apollo
       .watchQuery({
@@ -188,67 +204,93 @@ export class AdminPanelComponent implements OnInit {
     }
     this.errorMessage = "";
     if (this.type == "categories") {
-      this.categoriesService.createCategory(this.addNewElementFormGroup.controls.name.value, this.files[0],JSON.stringify(this.inputs))
-        .subscribe(({ data }) => {
-          console.log('got data', data);
-          //@ts-ignore
-          let error = data.createCategory.errors;
-          if(error!=null){
-           Swal.fire({
-             title: 'Error',
-             text: error[0].message,
-              icon: 'warning'
-            })
-           }else{
-            this.addClicked = false;
-            this.inputs = [];
-            this.createForm();
-            this.files = [];
-            this.loadCategories();
-           } 
-        });
+      this.createCategory();
     } else if (this.type == "subcategories") {
-      this.subcategoriesService.createSubcategory(this.addNewElementFormGroup.controls.name.value, this.files[0], this.selectedCategory,JSON.stringify(this.inputs))
-        .subscribe(({ data }) => {
-          console.log('got data', data);
-          //@ts-ignore
-          let error = data.createSubcategory.errors;
-          if(error!=null){
-           Swal.fire({
-             title: 'Error',
-             text: error[0].message,
-              icon: 'warning'
-            })
-           }else{
-            this.addClicked = false;
-            this.inputs = [];
-            this.createForm();
-            this.files = [];
-            this.selectedCategory = this.categories[0]._id;
-            this.loadSubcategories();
-           } 
-        });
+      this.createSubcategory();
     } else {
-      this.productsService.createProduct(this.addNewElementFormGroup.controls.name.value, this.files, this.addNewElementFormGroup.controls.description.value, +this.addNewElementFormGroup.controls.price.value, +this.addNewElementFormGroup.controls.discount.value,+this.addNewElementFormGroup.controls.amount.value,null, this.selectedSubcategory)
-        .subscribe(({ data }) => {
-          console.log('got data', data);
-          //@ts-ignore
-          let error = data.createProduct.errors;
-          if(error!=null){
-           Swal.fire({
-             title: 'Error',
-             text: error[0].message,
-              icon: 'warning'
-            })
-           }else{
-            this.addClicked = false;
-            this.createForm();
-            this.files = [];
-            this.selectedSubcategory = this.subcategories[0]._id;
-            this.loadProducts();
-           } 
-        });
+       this.createProduct();
     }
+  }
+
+  createCategory(){
+    this.categoriesService.createCategory(this.addNewElementFormGroup.controls.name.value, this.files[0],JSON.stringify(this.inputs))
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      //@ts-ignore
+      let error = data.createCategory.errors;
+      if(error!=null){
+       Swal.fire({
+         title: 'Error',
+         text: error[0].message,
+          icon: 'warning'
+        })
+       }else{
+        this.addClicked = false;
+        this.inputs = [];
+        this.createForm();
+        this.files = [];
+        this.loadCategories();
+       } 
+    });
+  }
+
+  createSubcategory(){
+    this.subcategoriesService.createSubcategory(this.addNewElementFormGroup.controls.name.value, this.files[0], this.selectedCategory,JSON.stringify(this.inputs))
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      //@ts-ignore
+      let error = data.createSubcategory.errors;
+      if(error!=null){
+       Swal.fire({
+         title: 'Error',
+         text: error[0].message,
+          icon: 'warning'
+        })
+       }else{
+        this.addClicked = false;
+        this.inputs = [];
+        this.createForm();
+        this.files = [];
+        this.selectedCategory = this.categories[0]._id;
+        this.loadSubcategories();
+       } 
+    });
+  }
+
+  createProduct(){
+    let additionalInfo = {};
+    this.productSubcategoryInputs.forEach(input=>{
+      if(input.type=="CHECKBOX_LIST") {
+        let list= [];
+        input.list.forEach(element => {
+          if(this.productInputsForm.controls[element].value)
+            list.push(element);
+        });
+        additionalInfo[input.name] = list; 
+      }
+      else{
+        additionalInfo[input.name] = this.productInputsForm.controls[input.name].value; 
+      }
+    })
+    this.productsService.createProduct(this.addNewElementFormGroup.controls.name.value, this.files, this.addNewElementFormGroup.controls.description.value, +this.addNewElementFormGroup.controls.price.value, +this.addNewElementFormGroup.controls.discount.value,+this.addNewElementFormGroup.controls.amount.value,JSON.stringify(additionalInfo), this.selectedSubcategory)
+    .subscribe(({ data }) => {
+      console.log('got data', data);
+      //@ts-ignore
+      let error = data.createProduct.errors;
+      if(error!=null){
+       Swal.fire({
+         title: 'Error',
+         text: error[0].message,
+          icon: 'warning'
+        })
+       }else{
+        this.addClicked = false;
+        this.createForm();
+        this.files = [];
+        this.selectedSubcategory = this.subcategories[0]._id;
+        this.loadProducts();
+       } 
+    });
   }
 
   submitAddInputForm(){
@@ -357,6 +399,8 @@ export class AdminPanelComponent implements OnInit {
       }
      }
     this.productSubcategoryInputs = this.productSubcategoryInputs.concat(this.productCategoryInputs);
+
+    this.createProductSubform();
   }
 
   getSelectedInputType(event){
