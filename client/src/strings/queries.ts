@@ -25,13 +25,17 @@ export const SubcategoryQuery = gql`
       _id
       name
       image
-      category_id
       inputs
       products{
         name
-        image
         _id
-      }
+        image
+        price
+        description
+        amount
+        discount
+        additionalInfo
+    }
     }
   }
 }`;
@@ -61,6 +65,16 @@ query SubcategoriesQuery
     inputs
     category{
       _id
+    }
+    products{
+      name
+      _id
+      image
+      price
+      description
+      amount
+      discount
+      additionalInfo
     }
   }
 }`;
@@ -101,9 +115,11 @@ query ProductQuery ($_id: String!){
         _id
       }
       category{
+        _id
         name
       }
       subcategory{
+        _id
         name
       }
       questions{

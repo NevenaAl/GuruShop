@@ -1,1 +1,18 @@
-<p>product-details works!</p>
+<div class="product-details-wrapper">
+
+<div class="product-details-wrapper__left">
+    <h1 class="product-details-wrapper__name">{{product.name}}</h1>
+
+    <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+
+</div>
+<div class="product-details-wrapper__right">
+    <div class="product-details-wrapper__right__instock">
+        <i *ngIf="product.amount>0" class="fas fa-check"></i>
+        <span *ngIf="product.amount>0">In stock</span>
+        <i *ngIf="product.amount==0" class="fas fa-times"></i>
+        <span *ngIf="product.amount==0">Out of stock</span>
+    </div>
+</div>
+</div>
+

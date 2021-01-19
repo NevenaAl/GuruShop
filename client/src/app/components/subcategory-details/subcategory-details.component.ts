@@ -12,7 +12,7 @@ import * as query from '../../../strings/queries'
 export class SubcategoryDetailsComponent implements OnInit {
   
   subcategory: Subcategory;
-  subcategoryId : string;
+  subcategoryId : String;
   loading : boolean;
   error : any;
 
@@ -22,23 +22,25 @@ export class SubcategoryDetailsComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) =>{
         this.subcategoryId = params['subcategoryId'];
-        this.apollo
-        .watchQuery({
-         query: query.SubcategoryQuery,
-         variables:{
-          _id:this.subcategoryId,
-           },
-        })
-        .valueChanges.subscribe(result => {
-          //@ts-ignore
-          this.subcategory = result.data.subcategory.subcategoryPayload;
-          console.log(this.subcategory);
-          this.loading = result.loading;
-          this.error = result.error;
-        });
+        this.getSubcategory();
       }
     ); 
   }
   
+  getSubcategory(){
+    this.apollo
+    .watchQuery({
+     query: query.SubcategoryQuery,
+     variables:{
+      _id:this.subcategoryId,
+       },
+    })
+    .valueChanges.subscribe(result => {
+      //@ts-ignore
+      this.subcategory = result.data.subcategory.subcategoryPayload;
+      this.loading = result.loading;
+      this.error = result.error;
+    });
+  }
 
 }

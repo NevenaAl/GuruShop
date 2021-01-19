@@ -76,7 +76,8 @@ a:hover {
     display: flex;
     height: 100%; }
   .sidenav__categories {
-    padding-top: 1rem; }
+    padding-top: 1rem;
+    cursor: pointer; }
   .sidenav__link {
     font-size: 2.5rem;
     text-decoration: none;
@@ -316,6 +317,56 @@ a {
 
 .subcategory__header {
   font-size: 4rem; }
+
+.ngx-gallery {
+  display: inline-block;
+  margin-bottom: 20px; }
+
+.ngx-gallery-thumbnail.ngx-gallery-active {
+  border: 1px double black !important; }
+
+.ngx-gallery-thumbnail {
+  border: 1px double gray !important; }
+
+.fa-arrow-circle-right:before {
+  font-size: 2.5rem; }
+
+.fa-arrow-circle-left:before {
+  font-size: 2.5rem; }
+
+.fa-times-circle:before {
+  font-size: 3rem; }
+
+.ngx-gallery-icon .ngx-gallery-icon-content {
+  color: gray; }
+
+.ngx-gallery {
+  width: 400px !important;
+  height: 350px !important; }
+
+.fa-check {
+  font-size: 3rem;
+  margin-right: 1rem;
+  color: green; }
+
+.fa-times {
+  font-size: 3rem;
+  margin-right: 1rem;
+  color: red; }
+
+.product-details-wrapper {
+  margin-left: 10rem;
+  display: flex;
+  flex-direction: row; }
+  .product-details-wrapper__name {
+    font-size: 4rem;
+    margin-bottom: 3rem; }
+  .product-details-wrapper__right {
+    margin-top: 4rem;
+    margin-left: 3rem; }
+    .product-details-wrapper__right__instock {
+      margin-top: 3rem;
+      font-size: 3rem; }
 
 .productCard {
   background-color: rgba(21, 20, 24, 0.5);

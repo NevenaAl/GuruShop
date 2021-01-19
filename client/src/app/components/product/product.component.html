@@ -2,7 +2,7 @@
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <div class="productCard">
     <div class="productCard__row">
-        <a [routerLink]="[product._id]">
+        <a [routerLink]="['/productDetails/',product._id]">
             <img class="productCard__image" src="http://localhost:3000/images/{{product.image.split(',')[0]}}"
                 alt="Card image" style="height: 85px;width: 85px;">
             <h3 class="productCard__title">{{product.name}}</h3>

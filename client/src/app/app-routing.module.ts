@@ -8,6 +8,7 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { CategoryDetailsComponent } from './components/category-details/category-details.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogInComponent } from './components/log-in/log-in.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SubcategoriesComponent } from './components/subcategories/subcategories.component';
 import { SubcategoryDetailsComponent } from './components/subcategory-details/subcategory-details.component';
@@ -41,7 +42,10 @@ const routes: Routes = [
     component: UserDetailsComponent,
     canActivate: [AuthenticatedGuard]
   },
-  
+  {
+    path: "productDetails/:productId",
+    component: ProductDetailsComponent
+  },
   {
     path: "logIn",
     children:[

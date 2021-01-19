@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import * as query from '../../../strings/queries';
 
@@ -7,13 +7,29 @@ import * as query from '../../../strings/queries';
   templateUrl: './products.component.html'
 })
 export class ProductsComponent implements OnInit {
+  
+  @Input() productsInput: Array<any>;
 
   products: Array<any>;
 
   constructor(private apollo: Apollo) { }
 
   ngOnInit(): void {
-    this.loadProducts();
+    if(this.productsInput){
+      this.products = this.productsInput;
+      console.log(this.products);
+    }else{
+      this.loadProducts();
+    }
+  }
+
+  ngOnChanges(): void {
+    if(this.productsInput){
+      this.products = this.productsInput;
+      console.log(this.products);
+    }else{
+      this.loadProducts();
+    }
   }
 
   loadProducts() {

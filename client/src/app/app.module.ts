@@ -29,6 +29,7 @@ import { CategoriesService } from './services/categories.service';
 import { SimpleModalModule } from 'ngx-simple-modal';
 import { ModalComponentComponent } from './components/modal-component/modal-component.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +58,7 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
     HttpLinkModule,
     ReactiveFormsModule,
     NgxDropzoneModule,
+    NgxGalleryModule,
     SimpleModalModule.forRoot({container:document.body})
   ],
   entryComponents: [
