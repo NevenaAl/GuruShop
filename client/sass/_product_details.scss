@@ -3,7 +3,7 @@
 }
 
 .ngx-gallery-thumbnail.ngx-gallery-active {
-    border: 1px double black !important;
+    border: 1px double #372066 !important;
 }
 .ngx-gallery-thumbnail {
     border: 1px double gray !important;
@@ -25,34 +25,117 @@
     height: 350px !important;
 }
 .fa-check{
-    font-size: 3rem;
+    font-size: 2rem;
     margin-right: 1rem;
-    color: green;
+    color: #372066;
 }
+
+.fa-truck{
+    font-size: 2rem;
+    margin-right: 1rem;
+    color:#372066;
+    margin-left: 2rem;
+}
+
+.fa-shopping-cart{
+    font-size: 2rem;
+    color: white;
+}
+
 .fa-times{
     font-size: 3rem;
     margin-right: 1rem;
     color: red;
+}
+
+.fa-heart{
+    font-size: 2.5rem;
+    color: #5633A0;
+}
+.fa-heart:hover{
+    color: #372066;
 }
 .product-details-wrapper{
     margin-left: 10rem;
     display: flex;
     flex-direction: row;
     &__name{
-        font-size: 4rem;
+        font-size: 3.5rem;
         margin-bottom: 3rem;
-    }
-    &__left{
-
+        color: #372066;
     }
 
-    &__right{
+    &__info{
         margin-top: 4rem;
         margin-left: 3rem;
 
         &__instock{
             margin-top: 3rem;
-            font-size: 3rem;
+            font-size: 2rem;
+        }
+
+        &__price{
+            color: #372066;
+            font-size: 7rem;
+            font-weight: bold;
+            margin-top: 3rem;
+        }
+
+        &__discountprice{
+            color: black;
+            font-weight: normal;
+        }
+
+        &__discount{
+            color: red;
+            font-size: 2rem;
+            font-weight: normal;
+            margin-left: 2rem;
+        }
+
+        &__cart{
+            margin-top: 2rem;
+
+            &__btn{
+                border-radius: 0.5rem;
+                border: none;
+                width: 13rem;
+                height: 4rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+                background-color: #5633A0;
+                color: white;
+
+            }
+            &__btn:hover{
+                background-color: #372066;
+            }
+            &__amount{
+                width: 5rem;
+                height: 4rem;
+                margin-right: 3rem;
+                border: 1px solid #5633A0;
+                border-radius: 0.5rem;
+                background-color: #F5F5F5;
+                font-size: 1.5rem;
+                padding: 4px;
+            }
+        }
+
+        &__wishlist{
+            margin-top: 3rem;
+            &__btn{
+                border-radius: 0.5rem;
+                border: none;
+                width: 4rem;
+                height: 4rem;
+                font-size: 1.5rem;
+                cursor: pointer;
+                background-color: #F5F5F5;
+                border: 1px solid#5633A0;
+                color:  #48b6e9;
+            }
+           
         }
     }
 }

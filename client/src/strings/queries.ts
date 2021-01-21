@@ -111,6 +111,7 @@ query ProductQuery ($_id: String!){
       amount
       discount
       additionalInfo
+      price
       user{
         _id
       }

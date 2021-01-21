@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 13vw;
-  background-color: black;
-  opacity : 80%;
+  background-color: #F5F5F5;
+  // opacity : 80%;
   font-size: 1.5rem;
-  //height: 100vh;
   position: relative;
   transition: all 1s;
   overflow: hidden;
-  //width: 0px;
+  color: #372066;
 
   &__div{
     display: flex;
@@ -22,14 +21,15 @@
   }
 
   &__link{
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-decoration: none;
-    color: white;
+    color: #372066;
     padding: 1rem 2rem;
+    // font-weight: bold;
  }
 
  &__link:hover{
-   color: rgb(44, 39, 39);
+   color: #73C4DD ;
    cursor: pointer;
  }
  
@@ -39,11 +39,9 @@
   height: 4rem;
   cursor: pointer;
   border: none;
-  background-color: black;
-  opacity : 80%;
+  background-color:#F5F5F5;
   border-bottom-right-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
- // margin-left: -0.5rem;
   outline: none;
   position: absolute;
   z-index: 1;
@@ -51,5 +49,5 @@
 
 .fa-bars{
   font-size: 4rem;
-  color: rgb(49, 157, 207);
+  color: #372066;
 }

@@ -1,17 +1,35 @@
 <div class="product-details-wrapper">
 
-<div class="product-details-wrapper__left">
+<div>
     <h1 class="product-details-wrapper__name">{{product.name}}</h1>
 
     <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
 
 </div>
-<div class="product-details-wrapper__right">
-    <div class="product-details-wrapper__right__instock">
-        <i *ngIf="product.amount>0" class="fas fa-check"></i>
-        <span *ngIf="product.amount>0">In stock</span>
+<div class="product-details-wrapper__info">
+    <div class="product-details-wrapper__info__instock">
+        <div *ngIf="product.amount>0" class="product-details-wrapper__info__instock">
+            <i class="fas fa-check"></i>
+            <span> In stock</span>
+            <i *ngIf="discountPrice>6000" class="fas fa-truck"></i>
+            <span *ngIf="discountPrice>6000">Free delivery</span>
+        </div>
         <i *ngIf="product.amount==0" class="fas fa-times"></i>
         <span *ngIf="product.amount==0">Out of stock</span>
+    </div>
+    <div class="product-details-wrapper__info__price">
+        <p *ngIf="product.discount!=0" class="product-details-wrapper__info__dicountprice"><s class="product-details-wrapper__info__discountprice" *ngIf="product.discount!=0">{{product.price}}</s> 
+             <span class="product-details-wrapper__info__discount">{{product.discount}} % off </span>
+        </p>
+        <p *ngIf="product.discount==0">{{product.price}} RSD</p>
+        <p *ngIf="product.discount!=0">{{discountPrice}} RSD</p>
+    </div>
+    <div class="product-details-wrapper__info__cart">
+        <input class="product-details-wrapper__info__cart__amount" type="number">
+        <button class="product-details-wrapper__info__cart__btn" value="Add to cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
+    </div>
+    <div class="product-details-wrapper__info__wishlist">
+        <button class="product-details-wrapper__info__wishlist__btn"><i class="fas fa-heart"></i></button>
     </div>
 </div>
 </div>

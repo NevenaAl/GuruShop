@@ -8,12 +8,12 @@
     margin-top: auto;
     margin-bottom: auto;
     width: 30vw;
-    background-color: rgba(0,0,0,0.5) !important;
+    background-color:#F5F5F5 !important;
     border-radius: 4%;
 
     &__header{
         font-size: 6rem;
-        color: white;
+        color: #372066;
     }
     &__body{
         display: flex;
@@ -46,26 +46,26 @@
        font-size: 3rem;
        padding-right: 1rem;
        padding-bottom: 0.5rem;
+       
     }
     &__btn{
         color: white;
-        background-color: #2A2140;
+        background-color: #372066;
         width: 15rem;
         height: 4rem;
         border-radius: 10rem;
-        margin-top: 1rem;
-        margin: auto;
+        margin-top: 3rem;
         border: none;
         font-size: 2rem;
     }
     &__btn:disabled:hover{
         cursor: not-allowed;
-        background-color: #2A2140;
+        background-color: #372066;
      }
     &__btn:hover{
         cursor: pointer;
         color: white;
-        background-color: #673946;
+        background-color: #5633A0;
     }
 
     .passwords{

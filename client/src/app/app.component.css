@@ -11,14 +11,15 @@
     flex-direction: column;
     width: 100%;
     height: 100vh;
-    background-image: url("/assets/images/Wallpapers.jpg");
+    /* background-image: url("/assets/images/background.jpeg"); */
+    background: linear-gradient(90deg, #372066,#5633A0, #73C4DD);
     background-position:  center bottom;
     background-size: cover;
     background-attachment: fixed;
 }
 .main_container{
     background-color: white;
-    opacity: 90%;
+    /* opacity: 90%; */
     display: flex;
     /* width: 100%; */
     height: 100%;

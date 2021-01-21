@@ -10,9 +10,10 @@ body {
   font-size: 62.5%; }
 
 .header-nav {
-  line-height: 65px;
-  text-align: center;
-  transition: 0.2s; }
+  line-height: 45px;
+  text-align: left;
+  transition: 0.2s;
+  padding-left: 2rem; }
 
 .header-container {
   padding: 0.5rem;
@@ -25,6 +26,15 @@ body {
     font-size: 3rem;
     padding: 1rem;
     color: #fff; }
+  .header-container__logo__left {
+    text-decoration: none;
+    font-size: 3rem;
+    padding: 1rem;
+    color: #fff; }
+  .header-container__logo:hover {
+    color: #372066; }
+  .header-container__logo__left:hover {
+    color: #73C4DD; }
   .header-container__image {
     display: flex;
     align-items: center;
@@ -42,16 +52,16 @@ body {
 .dropdown-content {
   display: none;
   position: absolute;
-  width: 100%;
-  background-color: black;
-  opacity: 90%;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  width: 20rem;
+  background-color: #F5F5F5;
   z-index: 1; }
 
 .dropdown-content a {
-  padding: 0.5rem 1rem;
+  padding-left: 1rem;
   text-decoration: none;
-  display: block; }
+  display: block;
+  color: #372066;
+  font-size: 2rem; }
 
 .dropdown-content a:hover {
   background-color: darkgrey; }
@@ -59,19 +69,16 @@ body {
 .dropdown:hover .dropdown-content {
   display: block; }
 
-a:hover {
-  color: #2A2140; }
-
 .sidenav {
   display: flex;
   flex-direction: column;
   width: 13vw;
-  background-color: black;
-  opacity: 80%;
+  background-color: #F5F5F5;
   font-size: 1.5rem;
   position: relative;
   transition: all 1s;
-  overflow: hidden; }
+  overflow: hidden;
+  color: #372066; }
   .sidenav__div {
     display: flex;
     height: 100%; }
@@ -79,12 +86,12 @@ a:hover {
     padding-top: 1rem;
     cursor: pointer; }
   .sidenav__link {
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-decoration: none;
-    color: white;
+    color: #372066;
     padding: 1rem 2rem; }
   .sidenav__link:hover {
-    color: #2c2727;
+    color: #73C4DD;
     cursor: pointer; }
 
 .showSideBarBtn {
@@ -92,8 +99,7 @@ a:hover {
   height: 4rem;
   cursor: pointer;
   border: none;
-  background-color: black;
-  opacity: 80%;
+  background-color: #F5F5F5;
   border-bottom-right-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   outline: none;
@@ -102,7 +108,7 @@ a:hover {
 
 .fa-bars {
   font-size: 4rem;
-  color: #319dcf; }
+  color: #372066; }
 
 .cardContainer {
   display: flex;
@@ -127,11 +133,11 @@ a:hover {
   margin-top: auto;
   margin-bottom: auto;
   width: 30vw;
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: #F5F5F5 !important;
   border-radius: 4%; }
   .logIn-card__header {
     font-size: 6rem;
-    color: white; }
+    color: #372066; }
   .logIn-card__body {
     display: flex;
     flex-direction: column;
@@ -159,21 +165,20 @@ a:hover {
     padding-bottom: 0.5rem; }
   .logIn-card__btn {
     color: white;
-    background-color: #2A2140;
+    background-color: #372066;
     width: 15rem;
     height: 4rem;
     border-radius: 10rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     border: none;
-    font-size: 2rem;
-    transition: all .2s; }
+    font-size: 2rem; }
   .logIn-card__btn:disabled:hover {
     cursor: not-allowed;
-    background-color: #2A2140; }
+    background-color: #372066; }
   .logIn-card__btn:hover {
     cursor: pointer;
     color: white;
-    background-color: #673946; }
+    background-color: #5633A0; }
 
 .signUp-card {
   height: 30%;
@@ -185,11 +190,11 @@ a:hover {
   margin-top: auto;
   margin-bottom: auto;
   width: 30vw;
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: #F5F5F5 !important;
   border-radius: 4%; }
   .signUp-card__header {
     font-size: 6rem;
-    color: white; }
+    color: #372066; }
   .signUp-card__body {
     display: flex;
     flex-direction: column;
@@ -218,21 +223,20 @@ a:hover {
     padding-bottom: 0.5rem; }
   .signUp-card__btn {
     color: white;
-    background-color: #2A2140;
+    background-color: #372066;
     width: 15rem;
     height: 4rem;
     border-radius: 10rem;
-    margin-top: 1rem;
-    margin: auto;
+    margin-top: 3rem;
     border: none;
     font-size: 2rem; }
   .signUp-card__btn:disabled:hover {
     cursor: not-allowed;
-    background-color: #2A2140; }
+    background-color: #372066; }
   .signUp-card__btn:hover {
     cursor: pointer;
     color: white;
-    background-color: #673946; }
+    background-color: #5633A0; }
   .signUp-card .passwords {
     display: flex;
     flex-direction: column;
@@ -316,14 +320,16 @@ a {
   font-size: 4rem; }
 
 .subcategory__header {
-  font-size: 4rem; }
+  font-size: 3rem;
+  color: #372066;
+  margin-left: 6rem; }
 
 .ngx-gallery {
   display: inline-block;
   margin-bottom: 20px; }
 
 .ngx-gallery-thumbnail.ngx-gallery-active {
-  border: 1px double black !important; }
+  border: 1px double #372066 !important; }
 
 .ngx-gallery-thumbnail {
   border: 1px double gray !important; }
@@ -345,28 +351,93 @@ a {
   height: 350px !important; }
 
 .fa-check {
-  font-size: 3rem;
+  font-size: 2rem;
   margin-right: 1rem;
-  color: green; }
+  color: #372066; }
+
+.fa-truck {
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: #372066;
+  margin-left: 2rem; }
+
+.fa-shopping-cart {
+  font-size: 2rem;
+  color: white; }
 
 .fa-times {
   font-size: 3rem;
   margin-right: 1rem;
   color: red; }
 
+.fa-heart {
+  font-size: 2.5rem;
+  color: #5633A0; }
+
+.fa-heart:hover {
+  color: #372066; }
+
 .product-details-wrapper {
   margin-left: 10rem;
   display: flex;
   flex-direction: row; }
   .product-details-wrapper__name {
-    font-size: 4rem;
-    margin-bottom: 3rem; }
-  .product-details-wrapper__right {
+    font-size: 3.5rem;
+    margin-bottom: 3rem;
+    color: #372066; }
+  .product-details-wrapper__info {
     margin-top: 4rem;
     margin-left: 3rem; }
-    .product-details-wrapper__right__instock {
+    .product-details-wrapper__info__instock {
       margin-top: 3rem;
-      font-size: 3rem; }
+      font-size: 2rem; }
+    .product-details-wrapper__info__price {
+      color: #372066;
+      font-size: 7rem;
+      font-weight: bold;
+      margin-top: 3rem; }
+    .product-details-wrapper__info__discountprice {
+      color: black;
+      font-weight: normal; }
+    .product-details-wrapper__info__discount {
+      color: red;
+      font-size: 2rem;
+      font-weight: normal;
+      margin-left: 2rem; }
+    .product-details-wrapper__info__cart {
+      margin-top: 2rem; }
+      .product-details-wrapper__info__cart__btn {
+        border-radius: 0.5rem;
+        border: none;
+        width: 13rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        background-color: #5633A0;
+        color: white; }
+      .product-details-wrapper__info__cart__btn:hover {
+        background-color: #372066; }
+      .product-details-wrapper__info__cart__amount {
+        width: 5rem;
+        height: 4rem;
+        margin-right: 3rem;
+        border: 1px solid #5633A0;
+        border-radius: 0.5rem;
+        background-color: #F5F5F5;
+        font-size: 1.5rem;
+        padding: 4px; }
+    .product-details-wrapper__info__wishlist {
+      margin-top: 3rem; }
+      .product-details-wrapper__info__wishlist__btn {
+        border-radius: 0.5rem;
+        border: none;
+        width: 4rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        background-color: #F5F5F5;
+        border: 1px solid #5633A0;
+        color: #48b6e9; }
 
 .productCard {
   background-color: rgba(21, 20, 24, 0.5);
