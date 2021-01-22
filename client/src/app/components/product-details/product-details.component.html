@@ -1,4 +1,5 @@
-<div class="product-details-wrapper">
+<div *ngIf="!product">loading</div>
+<div *ngIf="product" class="product-details-wrapper">
 
 <div>
     <h1 class="product-details-wrapper__name">{{product.name}}</h1>
@@ -25,12 +26,55 @@
         <p *ngIf="product.discount!=0">{{discountPrice}} RSD</p>
     </div>
     <div class="product-details-wrapper__info__cart">
-        <input class="product-details-wrapper__info__cart__amount" type="number">
+        <input class="product-details-wrapper__info__cart__amount" min="1" type="number">
         <button class="product-details-wrapper__info__cart__btn" value="Add to cart"><i class="fas fa-shopping-cart"></i> Add to cart</button>
     </div>
     <div class="product-details-wrapper__info__wishlist">
         <button class="product-details-wrapper__info__wishlist__btn"><i class="fas fa-heart"></i></button>
     </div>
 </div>
+
+</div>
+<div *ngIf="product">
+    <table class="product-info-table">
+        <thead id="thead" class="thead">
+          <tr>
+            <th id="info" style="background-color: white;" scope="col"><a name="info"  (click)="tabClick($event.target.name)"><i class="fas fa-info table-icon"></i>Additional info</a></th>
+            <th id="reviews" scope="col"><a name="reviews"  (click)="tabClick($event.target.name)"><i class="fas fa-star table-icon"></i>Reviews</a></th>
+            <th id="questions"scope="col"><a name="questions"  (click)="tabClick($event.target.name)"><i class="fas fa-comments table-icon"></i>Questions and answers</a></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Code</td>
+                <td>{{product._id}}</td>
+                <td></td>
+            </tr>
+          <tr *ngFor="let info of additionalInfo | keyvalue">            
+            <td>{{info.key}}</td>
+            <td *ngIf="!isArray(info.value)">{{info.value}}</td>
+            <td *ngIf="isArray(info.value)">
+                <div  *ngFor="let i of info.value">{{i}}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let info of additionalInfo | keyvalue">            
+            <td>{{info.key}}</td>
+            <td *ngIf="!isArray(info.value)">{{info.value}}</td>
+            <td *ngIf="isArray(info.value)">
+                <div  *ngFor="let i of info.value">{{i}}</div>
+            </td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let info of additionalInfo | keyvalue">            
+            <td>{{info.key}}</td>
+            <td *ngIf="!isArray(info.value)">{{info.value}}</td>
+            <td *ngIf="isArray(info.value)">
+                <div  *ngFor="let i of info.value">{{i}}</div>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 </div>
 
